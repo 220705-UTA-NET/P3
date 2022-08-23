@@ -5,9 +5,6 @@ on:
       - master
   pull_request:
     types: [opened, synchronize, reopened]
-    
-env:
-  GITHUB_WORKSPACE: ./server
   
 jobs:
   build:
@@ -47,5 +44,5 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"220705-uta-net_P3_Client" /o:"220705-uta-net" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build
+          dotnet build .\server\server.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
