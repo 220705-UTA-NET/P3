@@ -1,4 +1,4 @@
-name: Sonar Front End
+name: Ping the front-end with Sonar
 on:
   push:
     branches:
