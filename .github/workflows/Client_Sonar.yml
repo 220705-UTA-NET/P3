@@ -6,8 +6,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     
-env:
-  GITHUB_WORKSPACE: ./client
+
   
 jobs:
   sonarcloud:
@@ -20,5 +19,6 @@ jobs:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
+          GITHUB_WORKSPACE: ./client
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_CLIENT }}
