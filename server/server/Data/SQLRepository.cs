@@ -48,7 +48,7 @@ namespace server.Data
 
             return result;
         }
-        public async Task<StatusCodeResult> UpdateCustomerAsync(int id, string firstname, string lastname, string email, int phonenumber, string password)
+        public async Task<StatusCodeResult> UpdateCustomerAsync(int id, string email, int phonenumber, string password)
         {
             string cmdText = "UPDATE Customers SET email = @email,phone = @phone,password = @password Where customer_id = @id";
             SqlConnection connection = new(_connectionString);
