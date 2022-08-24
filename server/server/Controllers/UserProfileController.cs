@@ -20,15 +20,16 @@ namespace server.Controllers
         }
 
         [HttpGet("/userprofile")]
-        public async Task<ActionResult<Customer>> GetUserProfile(int CustomerId)
+        public async Task<ActionResult<Customer>> GetUserProfile(int customerId)
         {
             try
             {
-                Customer customer = await _repository.GetAllCustomersAsync();
-                _logger.LogInformation($"Getting userprofile for Customer #{CustomerId}");
+                Customer customer = await _repository.GetCustomerAsync(customerId);
+                _logger.LogInformation($"Successfully executed GetCustomerAsync for Customer #{customerId}");
+                return customer;
             }catch(Exception e)
             {
-                _logger.LogError("An error occured in GetUserProfile ... ", e.Message);
+                _logger.LogError(e, "An error occured when executing GetCustomerAsync with Customer ID #{customerId} ...", e.Message);
                 return StatusCode(500);
             }
         }
@@ -38,15 +39,16 @@ namespace server.Controllers
         {
             try
             {
-                StreamReader reader = new StreamReader(Response.Body, true);
-                Customer customer = (Customer)JsonSerializer.Deserialize(reader.ReadToEnd(), typeof(Customer));
+                StreamReader reader = new StreamReader(Request.Body);
+                string result = await reader.ReadToEndAsync();
+                Customer customer = (Customer)JsonSerializer.Deserialize(result, typeof(Customer));
 
                 await _repository.UpdateCustomerAsync(customer.Id, customer.Email, customer.PhoneNumber, customer.Password);
-                _logger.LogInformation($"Updated Customer #{customer.Id} profile ... ");
+                _logger.LogInformation($"Scucessfully executed UpdateCustomerAsync for customer #{customer.Id}");
                 return StatusCode(201);
             }catch(Exception e)
             {
-                _logger.LogError($"An error occurred when modifying a customer's profile", e.Message);
+                _logger.LogError(e, "An error occurred when executing UpdateCustomerAsync ...", e.Message);
                 return StatusCode(500);
             }
         }

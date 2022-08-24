@@ -14,17 +14,17 @@ namespace server.Data
             _logger = logger;
         }
 
-        public async Task<Customer> GetCustomerAsync(int Id)
+        public async Task<Customer> GetCustomerAsync(int id)
         {
 
             using SqlConnection connection = new(_connectionString);
             await connection.OpenAsync();
 
-            string cmdText = "SELECT * FROM Customers WHERE customer_id=@CustomerId;";
+            string cmdText = "SELECT * FROM Customer WHERE customer_id=@CustomerId;";
 
             using SqlCommand cmd = new(cmdText, connection);
 
-            cmd.Parameters.AddWithValue("@CustomerId", Id);
+            cmd.Parameters.AddWithValue("@CustomerId", id);
 
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
@@ -45,7 +45,7 @@ namespace server.Data
 
             return result;
         }
-        public async Task<StatusCodeResult> UpdateCustomerAsync(int id, string email, int phonenumber, string password)
+        public async Task UpdateCustomerAsync(int id, string email, int phoneNumber, string password)
         {
             string cmdText = "UPDATE Customer SET email = @email,phone = @phone,password = @password Where customer_id = @id";
             SqlConnection connection = new(_connectionString);
@@ -54,28 +54,12 @@ namespace server.Data
             using SqlCommand cmd = new(cmdText, connection);
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Parameters.AddWithValue("@email", email);
-            cmd.Parameters.AddWithValue("@phone", phonenumber);
+            cmd.Parameters.AddWithValue("@phone", phoneNumber);
             cmd.Parameters.AddWithValue("@password", password);
 
-
-
-            try
-            {
-                await connection.OpenAsync();
-                await cmd.ExecuteNonQueryAsync();
-            }
-            catch (Exception e)
-            {
-
-                _logger.LogError("Error in UpdateCustomer while trying to open a connection or execute non query");
-                _logger.LogInformation(e.Message);
-                return new StatusCodeResult(500);
-            }
-
+            await connection.OpenAsync();
+            await cmd.ExecuteNonQueryAsync();
             await connection.CloseAsync();
-            _logger.LogInformation("Executed UpdateCustomerAsync");
-            return new StatusCodeResult(200);
-
         }
     }
 }
