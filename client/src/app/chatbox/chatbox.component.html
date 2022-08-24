@@ -1,1 +1,6 @@
-<p>chatbox works!</p>
+<!-- routing: /chatbox -->
+
+<!-- below is simply to test functionality, feel free to replace. Just be sure to include the submit function -->
+<h1>Testing chatbox functionality</h1>
+<input type="text" placeholder="Type your message here..." [formControl]="messageInput">
+<button type="button" (click)="submitMessage()">Send</button>

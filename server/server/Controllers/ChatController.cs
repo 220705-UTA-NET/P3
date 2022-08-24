@@ -22,6 +22,10 @@ namespace server.Controllers
         [HttpPost]
         public IActionResult SendRequest([FromBody] MessageDto msg)
         {
+            Console.WriteLine("start of sendrequest");
+            Console.WriteLine(msg.message);
+            Console.WriteLine("received");
+
             _hubContext.Clients.All.SendAsync("ReceiveOne", msg.user, msg.message);
             return Ok();
         }
