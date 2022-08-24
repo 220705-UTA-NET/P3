@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 export interface Customer {
@@ -12,30 +12,16 @@ export interface Customer {
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
-  template: `
-    <input #customerID
-      (keyup.enter)="getCustomer(customerID.value)"
-      (blur)="getCustomer(customerID.value); customerID.value='' ">
-
-    <button type="button" (click)="getCustomer(customerID.value)">Submit</button>
-
-    <p>{{name}}</p>
-    <p>{{email}}</p>
-    <p>{{phone}}</p>
-   `
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {
-  }
-
-  name = '';
-  email = '';
-  phone = '';
-  getCustomer(value: number) {
-    /* this.http.get(`https://localhost:4000/customer/${value}`, {
+  name = 'name';
+  email = 'email';
+  phone = 'phone';
+  getCustomer(value: any) {
+    /* this.http.get(`localhost:4000/customer/${value}`, {
          observe: "response",
          responseType: "json"
        }).subscribe((result) => {
@@ -45,8 +31,7 @@ export class UserProfileComponent implements OnInit {
          this.phone = resultBody.phone;
        })
     */
-  });
-    
+    console.log("In getCustomer: " + value);
   }
-
+    
 }

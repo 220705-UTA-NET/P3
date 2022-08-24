@@ -1,3 +1,10 @@
-<div class="user-profile">
+<h1>User Profile</h1>
+<input #customerID type="number"
+       (keyup.enter)="getCustomer(customerID.value)"
+       (blur)="getCustomer(customerID.value); customerID.value='' ">
 
-</div>
+<button type="button" (click)="getCustomer(customerID.value)">Submit</button>
+
+<p>{{name}}</p>
+<p>{{email}}</p>
+<p>{{phone}}</p>
