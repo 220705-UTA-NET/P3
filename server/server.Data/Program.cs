@@ -3,8 +3,9 @@
 namespace server.Data{
     public class Program {
         public static void Main()
-        { 
+        {
             Console.WriteLine("Hello, World!");
+            Console.WriteLine("I am happy!");
         }
     }
 }
