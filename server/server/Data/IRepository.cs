@@ -5,7 +5,7 @@ namespace server.Data
 {
     public interface IRepository
     {
-        Task<IEnumerable<Customer>> GetAllCustomersAsync();
+        Task<Customer> GetCustomerAsync(int id);
         Task<StatusCodeResult> UpdateCustomerAsync(int id, string email, int phonenumber, string password);
     }
 }

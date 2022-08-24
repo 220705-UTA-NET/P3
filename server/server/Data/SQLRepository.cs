@@ -1,6 +1,6 @@
 ﻿using server.Models;
-using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 namespace server.Data
 {
@@ -14,37 +14,34 @@ namespace server.Data
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Customer>> GetAllCustomersAsync()
+        public async Task<Customer> GetCustomerAsync(int Id)
         {
-            List<Customer> result = new();
 
             using SqlConnection connection = new(_connectionString);
             await connection.OpenAsync();
 
-            string cmdText = "SELECT customer_id, first_name, last_name, email, phone, password FROM Customers;";
+            string cmdText = "SELECT * FROM Customers WHERE customer_id=@CustomerId;";
 
             using SqlCommand cmd = new(cmdText, connection);
 
+            cmd.Parameters.AddWithValue("@CustomerId", Id);
+
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
-            while (await reader.ReadAsync())
-            {
+            await reader.ReadAsync();
 
-                int customerid = reader.GetInt32(0);
-                string firstname = reader.GetString(1);
-                string lastname = reader.GetString(2);
-                string email = reader.GetString(3);
-                int phonenumber = reader.GetInt32(4);
-                string password =  reader.GetString(5);
+            int customerid = reader.GetInt32(0);
+            string firstname = reader.GetString(1);
+            string lastname = reader.GetString(2);
+            string email = reader.GetString(3);
+            int phonenumber = reader.GetInt32(4);
+            string password = reader.GetString(5);
 
-                Customer tmpCustomer = new(customerid, firstname ,lastname, email, phonenumber,password);
-                result.Add(tmpCustomer);
-
-            }
+            Customer result = new(customerid, firstname, lastname, email, phonenumber, password);
 
             await connection.CloseAsync();
 
-            _logger.LogInformation("Executed GetAllCustomersAsync, returned {0} results", result.Count);
+            _logger.LogInformation("Executed GetCustomerAsync, returned {0}.", result.Id);
 
             return result;
         }

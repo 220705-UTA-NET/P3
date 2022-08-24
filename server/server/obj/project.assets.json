@@ -651,19 +651,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\danie\\.nuget\\packages\\": {}
+    "C:\\Users\\Feihcetile\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Revature\\220705\\P3\\P3\\server\\server\\server.csproj",
+      "projectUniqueName": "C:\\Users\\Feihcetile\\Desktop\\Revature\\220705-UTA-NET\\Project 3\\P3\\server\\server\\server.csproj",
       "projectName": "server",
-      "projectPath": "C:\\Revature\\220705\\P3\\P3\\server\\server\\server.csproj",
-      "packagesPath": "C:\\Users\\danie\\.nuget\\packages\\",
-      "outputPath": "C:\\Revature\\220705\\P3\\P3\\server\\server\\obj\\",
+      "projectPath": "C:\\Users\\Feihcetile\\Desktop\\Revature\\220705-UTA-NET\\Project 3\\P3\\server\\server\\server.csproj",
+      "packagesPath": "C:\\Users\\Feihcetile\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Feihcetile\\Desktop\\Revature\\220705-UTA-NET\\Project 3\\P3\\server\\server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\danie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Feihcetile\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
