@@ -16,14 +16,10 @@
       "Microsoft.OpenApi/1.2.3": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {}
         }
       },
       "Swashbuckle.AspNetCore/6.2.3": {
@@ -44,14 +40,10 @@
           "Microsoft.OpenApi": "1.2.3"
         },
         "compile": {
-          "lib/net6.0/Swashbuckle.AspNetCore.Swagger.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net6.0/Swashbuckle.AspNetCore.Swagger.dll": {}
         },
         "runtime": {
-          "lib/net6.0/Swashbuckle.AspNetCore.Swagger.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net6.0/Swashbuckle.AspNetCore.Swagger.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
@@ -63,31 +55,46 @@
           "Swashbuckle.AspNetCore.Swagger": "6.2.3"
         },
         "compile": {
-          "lib/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {}
         },
         "runtime": {
-          "lib/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll": {}
         }
       },
       "Swashbuckle.AspNetCore.SwaggerUI/6.2.3": {
         "type": "package",
         "compile": {
-          "lib/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
         },
         "runtime": {
-          "lib/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {
-            "related": ".pdb;.xml"
-          }
+          "lib/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "server.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "server.Model": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/server.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/server.Data.dll": {}
+        }
+      },
+      "server.Model/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/server.Model.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/server.Model.dll": {}
+        }
       }
     }
   },
@@ -216,27 +223,43 @@
         "swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "server.Data/1.0.0": {
+      "type": "project",
+      "path": "../server.Data/server.Data.csproj",
+      "msbuildProject": "../server.Data/server.Data.csproj"
+    },
+    "server.Model/1.0.0": {
+      "type": "project",
+      "path": "../server.Model/server.Model.csproj",
+      "msbuildProject": "../server.Model/server.Model.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Swashbuckle.AspNetCore >= 6.2.3"
+      "Swashbuckle.AspNetCore >= 6.2.3",
+      "server.Data >= 1.0.0",
+      "server.Model >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\campb\\.nuget\\packages\\": {}
+    "C:\\Users\\Lance Gong\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\campb\\Desktop\\p3\\server\\server\\server.csproj",
+      "projectUniqueName": "C:\\Revature\\P3\\server\\server\\server.csproj",
       "projectName": "server",
-      "projectPath": "C:\\Users\\campb\\Desktop\\p3\\server\\server\\server.csproj",
-      "packagesPath": "C:\\Users\\campb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\campb\\Desktop\\p3\\server\\server\\obj\\",
+      "projectPath": "C:\\Revature\\P3\\server\\server\\server.csproj",
+      "packagesPath": "C:\\Users\\Lance Gong\\.nuget\\packages\\",
+      "outputPath": "C:\\Revature\\P3\\server\\server\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\campb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Lance Gong\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -249,7 +272,14 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Revature\\P3\\server\\server.Data\\server.Data.csproj": {
+              "projectPath": "C:\\Revature\\P3\\server\\server.Data\\server.Data.csproj"
+            },
+            "C:\\Revature\\P3\\server\\server.Model\\server.Model.csproj": {
+              "projectPath": "C:\\Revature\\P3\\server\\server.Model\\server.Model.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -273,8 +303,7 @@
           "net47",
           "net471",
           "net472",
-          "net48",
-          "net481"
+          "net48"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -286,7 +315,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
