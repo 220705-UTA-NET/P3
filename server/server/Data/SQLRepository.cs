@@ -50,14 +50,12 @@ namespace server.Data
         }
         public async Task<StatusCodeResult> UpdateCustomerAsync(int id, string firstname, string lastname, string email, int phonenumber, string password)
         {
-            string cmdText = "UPDATE MonsterHunter.Monsters SET first_name = @firstname,last_name = @lastname,email = @email,phone = @phone,password = @password Where customer_id = @id";
+            string cmdText = "UPDATE Customers SET email = @email,phone = @phone,password = @password Where customer_id = @id";
             SqlConnection connection = new(_connectionString);
 
 
             using SqlCommand cmd = new(cmdText, connection);
             cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@firstname", firstname);
-            cmd.Parameters.AddWithValue("@lastname", lastname);
             cmd.Parameters.AddWithValue("@email", email);
             cmd.Parameters.AddWithValue("@phone", phonenumber);
             cmd.Parameters.AddWithValue("@password", password);
