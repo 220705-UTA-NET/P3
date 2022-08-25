@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 export interface Customer {
   id: number,
@@ -19,18 +19,21 @@ export class UserProfileComponent {
 
   name = 'name';
   email = 'email';
-  phone = 'phone';
+  phone = 0;
+
   getCustomer(value: any) {
-    /* this.http.get(`localhost:4000/customer/${value}`, {
+    this.http.get(`https://localhost:7249/userprofile`, {
+         params: new HttpParams().set('customerId', value),
          observe: "response",
          responseType: "json"
-       }).subscribe((result) => {
+    }).subscribe((result) => {
+         console.log(result);
          const resultBody: any = result.body;
-         this.name = resultBody.name;
+         this.name = resultBody.firstname + " " + resultBody.lastname;
          this.email = resultBody.email;
-         this.phone = resultBody.phone;
+         this.phone = resultBody.phoneNumber;
        })
-    */
+    
     console.log("In getCustomer: " + value);
   }
     
