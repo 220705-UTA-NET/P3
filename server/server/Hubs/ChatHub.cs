@@ -14,26 +14,29 @@ namespace server.Hubs
             Console.WriteLine("JoinSupportChat");
             string clientId = Context.ConnectionId;
             Groups.AddToGroupAsync(clientId, "techSupport");
-            return Clients.Group("techSupport").SendAsync("Joined tech support chat...");
+            return Clients.Group("techSupport").SendAsync("joinTech", "Joined tech support chat...");
         }
 
-        // place open ticket into pool of techSupport
+        // place user into their private room & inform techSupport
         public Task OpenTicket(int privateRoomKey)
         {
-            Console.WriteLine("open ticket");
             string clientId = Context.ConnectionId;
-            Console.WriteLine(clientId);
             Groups.AddToGroupAsync(clientId, privateRoomKey.ToString());
 
-            return Clients.Group("techSupport").SendAsync("OpenTicket", "new ticket opened", privateRoomKey);
+            return Clients.Group("techSupport").SendAsync("OpenTicket", privateRoomKey);
         }
 
-        // will be used to connect a user's ticket with an indiviudal tech support staff
-        // also need to remove user from techSupport first and foremost
-        // public Task ConversationStartup()
-        // {
+        // TECH SUPPORT ONLY 
+        // will be used to connect an indiviudal tech support staff to a user ticket
+        public Task TechSupportJoinsConversation(int privateRoomKey)
+        { 
+            // Id of the tech support
+            string connectionId = Context.ConnectionId;
+            // add tech support to private room
+            Groups.AddToGroupAsync(connectionId, privateRoomKey.ToString());
 
-        // }
+            return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", "Tech support has joined the chat");
+        }
 
         public Task SendChat(string user, string message, int privateRoomKey)
         {
@@ -43,7 +46,7 @@ namespace server.Hubs
             Console.WriteLine(clientId, user, message);
 
             // message will need to go to the client's group, should pass it from frontend
-            return Clients.Group(privateRoomKey.ToString()).SendAsync("ReceiveOne", user, message, "in the hub!");
+            return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", user, message, "in the hub!");
         }
 
         // other methods we will need: 

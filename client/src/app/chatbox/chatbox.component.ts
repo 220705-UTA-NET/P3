@@ -12,7 +12,7 @@ import { ChatMessage } from '../models/ChatDTO';
 
 export class ChatboxComponent implements OnInit {
 
-  constructor(private chatService: ChatService) { }
+  constructor(public chatService: ChatService) { }
 
   ngOnInit(): void {
     this.chatService.connect()
@@ -31,11 +31,18 @@ export class ChatboxComponent implements OnInit {
   }
 
   public initiateTicket() {
-    this.chatService.initializeSupportConnection();
+    this.chatService.initiateTicket();
   }
 
   public joinTechSupport() {
     this.chatService.joinTechSupport();
+  }
+
+  // for tech support users ONLY
+  // will need to save the privateRoomKey variable saved in the web socket to the ticket, and transfer it on click
+  public initializeSupportConnection(event: any) {
+    const privateRoomKey: number = event.target.id
+    this.chatService.initializeSupportConnection(privateRoomKey);
   }
 
 }

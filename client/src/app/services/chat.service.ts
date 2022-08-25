@@ -12,38 +12,47 @@ export class ChatService {
 
   constructor() {}
 
+  // for USERS only, establishes their private room to be connected to
   private privateRoomKey: number = 0;
 
-    // a method that should only be available for tech support users, allows them to hear new tickets being created
-    public joinTechSupport()
-    {
-      console.log("joining tech support");
-      this._hubConnection.invoke("JoinSupportChat");
-    }  
+  // for TECH only. testing user's privateRoomKey, will need to be an array later on to hold all users.
+  public testRoomKey: number = 0;
 
-  // we may need different send functions; 
-  // one for submitting a ticket/firing first message
-  // and another for submitting messages after the group has been established
-  public initializeSupportConnection() {
+  // a method that should only be available for tech support users, allows them to hear new tickets being created
+  public joinTechSupport()
+  {
+    console.log("joining tech support");
+    this._hubConnection.invoke("JoinSupportChat");
+  }  
+
+  // for USERS only; puts user in a private connection room & informs tech support
+  public initiateTicket() {
     console.log("initializing support convo")
     // need to generate a privateRoomKey. should do it via the customer_id in production, but will generate a random one for testing
     this.privateRoomKey = Math.floor(Math.random() * 10000);
 
-    console.log(this.privateRoomKey);
+    // for testing a tech support making a chat room only
+    this.testRoomKey = this.privateRoomKey
 
     this._hubConnection.invoke("OpenTicket", this.privateRoomKey)
   }
 
-  public sendChat(message: string) {
-    // params for send : hub method & message
-    console.log("sending...", this._hubConnection.connectionId)
-
-    this._hubConnection.invoke("SendChat", "kadin", message, this.privateRoomKey);
+  // for TECH only; on click of a ticket, matches a tech support with a customer
+  public initializeSupportConnection(privateRoomKey: number) {
+    console.log("connecting tech support with user", privateRoomKey);
+    this._hubConnection.invoke("TechSupportJoinsConversation", privateRoomKey)
   }
 
   // holds message conversations
-  // to be accessed in all other components
   public messages: ChatMessage[] = []
+  // will be utilized by both USERS & TECH, once in a connected room
+  public sendChat(message: string) {
+  // params for send : hub method & message
+  console.log("sending...", this._hubConnection.connectionId)
+
+  this._hubConnection.invoke("SendChat", "kadin", message, this.privateRoomKey);
+  }
+
   public connect() {
     // connect to hub in backend
     this._hubConnection = new signalR.HubConnectionBuilder()
@@ -55,16 +64,17 @@ export class ChatService {
       })
       .build()
 
-    this._hubConnection.on("ReceiveOne", (message: ChatMessage) => {
+    // listening for messages in private chat room
+    this._hubConnection.on("messaging", (message: ChatMessage) => {
       // can render response messages from here
       this.messages.push(message);
       console.log("all messages, on receive", this.messages)
     });
 
-    // other endpoints a user will need
-    // listening to group response (how the user will connect to a tech support)
-    this._hubConnection.on("OpenTicket", (privateRoomKey: string) => {
+    // listening for when a user opens a ticket, need the privateRoomKey id that will be attached
+    this._hubConnection.on("OpenTicket", (privateRoomKey: number) => {
       console.log("OpenTicket", privateRoomKey)
+      this.testRoomKey = privateRoomKey;
     })
 
     // starts listening for hub coorespondance
@@ -72,9 +82,4 @@ export class ChatService {
       .then(() => console.log("connection started"))
       .catch((err) => console.log("error receiving connection", err))
   }
-
-  // for support accounts, will need its own unique listeners
-  // automatically subscribe to techSupport group messages
-  // ability to hear when a new ticket is created
-  // ability to respond to a ticket being opened
 }
