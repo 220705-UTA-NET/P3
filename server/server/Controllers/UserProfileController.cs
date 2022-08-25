@@ -40,7 +40,7 @@ namespace server.Controllers
             try
             {
                 await _repository.UpdateCustomerAsync(customer.Id, customer.Email, customer.PhoneNumber, customer.Password);
-                _logger.LogInformation($"Scucessfully executed UpdateCustomerAsync for customer #{customer.Id}");
+                _logger.LogInformation($"Successfully executed UpdateCustomerAsync for customer #{customer.Id}");
                 return StatusCode(201);
             }catch(Exception e)
             {

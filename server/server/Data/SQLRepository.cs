@@ -41,8 +41,6 @@ namespace server.Data
 
             await connection.CloseAsync();
 
-            _logger.LogInformation("Executed GetCustomerAsync, returned {0}.", result.Id);
-
             return result;
         }
         public async Task UpdateCustomerAsync(int id, string email, int phoneNumber, string password)
