@@ -32,10 +32,9 @@ export class ChatService {
       }),
     };
     
-    console.log("request preparing to fire")
     this.http.post("https://localhost:7249/api/chat/send", message, httpOptions)
       .subscribe((result) => {
-        console.log(result)
+        console.log("http send message", result)
       })
     console.log("request fired")
   }
@@ -53,19 +52,14 @@ export class ChatService {
       })
       .build()
 
-    // params for receiving: hub method & callback
-    this._hubConnection.on("receive", (message: ChatMessage) => {
-      console.log(message)
+    this._hubConnection.on("ReceiveOne", (message: ChatMessage) => {
+      // can render response messages from here
+      console.log("on receiveOne", message)
     });
-
-    // params for sending notifications: hub method & callback
-    // this._hubConnection.send("ReceiveOne", "testUser", "testMessage")
 
     // starts listening for hub coorespondance
     this._hubConnection.start()
       .then(() => console.log("connection started"))
       .catch((err) => console.log("error receiving connection", err))
-
-    console.log("starting connection")
   }
 }

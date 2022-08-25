@@ -24,9 +24,9 @@ namespace server.Controllers
         {
             Console.WriteLine("start of sendrequest");
             Console.WriteLine(msg.message);
-            Console.WriteLine("received");
 
-            _hubContext.Clients.All.SendAsync("ReceiveOne", msg.user, msg.message);
+            // I think we need to decide which client to send this message to? Should this be returned to sender, and/or be sent to the receiver?
+            _hubContext.Clients.All.SendAsync("ReceiveOne", msg.user, msg.message, "in the controller");
             return Ok();
         }
     }
