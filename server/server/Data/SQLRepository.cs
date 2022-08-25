@@ -35,7 +35,7 @@ namespace server.Data
             string firstname = reader.GetString(1);
             string lastname = reader.GetString(2);
             string email = reader.GetString(3);
-            int phonenumber = reader.GetInt32(4);
+            string phonenumber = reader.GetString(4);
             string password = reader.GetString(5);
 
             Customer result = new(customerid, firstname, lastname, email, phonenumber, password);
@@ -44,7 +44,7 @@ namespace server.Data
 
             return result;
         }
-        public async Task UpdateCustomerAsync(int id, string email, int phoneNumber, string password)
+        public async Task UpdateCustomerAsync(int id, string email, string phoneNumber, string password)
         {
             string cmdText = "UPDATE Customer SET email = @email,phone = @phone,password = @password Where customer_id = @id";
             SqlConnection connection = new(_connectionString);
