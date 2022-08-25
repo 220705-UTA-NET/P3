@@ -34,4 +34,8 @@ export class ChatboxComponent implements OnInit {
     this.chatService.initializeSupportConnection();
   }
 
+  public joinTechSupport() {
+    this.chatService.joinTechSupport();
+  }
+
 }

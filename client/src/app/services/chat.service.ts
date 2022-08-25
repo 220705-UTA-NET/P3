@@ -12,21 +12,35 @@ export class ChatService {
 
   constructor() {}
 
+  private privateRoomKey: number = 0;
+
+    // a method that should only be available for tech support users, allows them to hear new tickets being created
+    public joinTechSupport()
+    {
+      console.log("joining tech support");
+      this._hubConnection.invoke("JoinSupportChat");
+    }  
+
   // we may need different send functions; 
   // one for submitting a ticket/firing first message
   // and another for submitting messages after the group has been established
   public initializeSupportConnection() {
     console.log("initializing support convo")
-    this._hubConnection.invoke("ConversationStartup", "testing techSupport startup")
+    // need to generate a privateRoomKey. should do it via the customer_id in production, but will generate a random one for testing
+    this.privateRoomKey = Math.floor(Math.random() * 10000);
+
+    console.log(this.privateRoomKey);
+
+    this._hubConnection.invoke("OpenTicket", this.privateRoomKey)
   }
 
   public sendChat(message: string) {
     // params for send : hub method & message
     console.log("sending...", this._hubConnection.connectionId)
 
-    this._hubConnection.invoke("SendChat", "kadin", message);
+    this._hubConnection.invoke("SendChat", "kadin", message, this.privateRoomKey);
   }
-  
+
   // holds message conversations
   // to be accessed in all other components
   public messages: ChatMessage[] = []
@@ -43,12 +57,15 @@ export class ChatService {
 
     this._hubConnection.on("ReceiveOne", (message: ChatMessage) => {
       // can render response messages from here
-      console.log("on receiveOne", message)
+      this.messages.push(message);
+      console.log("all messages, on receive", this.messages)
     });
 
     // other endpoints a user will need
     // listening to group response (how the user will connect to a tech support)
-
+    this._hubConnection.on("OpenTicket", (privateRoomKey: string) => {
+      console.log("OpenTicket", privateRoomKey)
+    })
 
     // starts listening for hub coorespondance
     this._hubConnection.start()

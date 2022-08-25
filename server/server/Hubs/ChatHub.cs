@@ -7,22 +7,43 @@ namespace server.Hubs
         // if a user submits a ticket, broadcast it to all support?
         // from there, we can remove all support EXCEPT for the person who picks up the ticket
         // once users are in same group, each time someone sends a message, it should go to both (and can thus render in their chat box)
-        public Task ConversationStartup(string message)
+
+        // will only be joined by support staff
+        public Task JoinSupportChat()
         {
+            Console.WriteLine("JoinSupportChat");
             string clientId = Context.ConnectionId;
-            Console.WriteLine(clientId);
             Groups.AddToGroupAsync(clientId, "techSupport");
-            return Clients.Group("techSupport").SendAsync(message);
+            return Clients.Group("techSupport").SendAsync("Joined tech support chat...");
         }
 
-
-        public Task SendChat(string user, string message)
+        // place open ticket into pool of techSupport
+        public Task OpenTicket(int privateRoomKey)
         {
+            Console.WriteLine("open ticket");
+            string clientId = Context.ConnectionId;
+            Console.WriteLine(clientId);
+            Groups.AddToGroupAsync(clientId, privateRoomKey.ToString());
+
+            return Clients.Group("techSupport").SendAsync("OpenTicket", "new ticket opened", privateRoomKey);
+        }
+
+        // will be used to connect a user's ticket with an indiviudal tech support staff
+        // also need to remove user from techSupport first and foremost
+        // public Task ConversationStartup()
+        // {
+
+        // }
+
+        public Task SendChat(string user, string message, int privateRoomKey)
+        {
+            Console.WriteLine("send chat");
             string clientId = Context.ConnectionId;
 
             Console.WriteLine(clientId, user, message);
-            // return Clients.Client(clientId).SendAsync("ReceiveOne", user, message, "in the hub!");
-            return Clients.Group("techSupport").SendAsync("ReceiveOne", user, message, "in the hub!");
+
+            // message will need to go to the client's group, should pass it from frontend
+            return Clients.Group(privateRoomKey.ToString()).SendAsync("ReceiveOne", user, message, "in the hub!");
         }
 
         // other methods we will need: 
