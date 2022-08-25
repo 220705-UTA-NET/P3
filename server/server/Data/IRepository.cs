@@ -6,6 +6,6 @@ namespace server.Data
     public interface IRepository
     {
         Task<Customer> GetCustomerAsync(int id);
-        Task UpdateCustomerAsync(int id, string email, int phonenumber, string password);
+        Task UpdateCustomerAsync(int id, string email, string phonenumber, string password);
     }
 }
