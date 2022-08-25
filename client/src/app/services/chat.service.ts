@@ -2,11 +2,6 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr'; 
 import {ChatMessage} from "../models/ChatDTO";
 
-// may not need to use either of the two below
-// import { HttpClient } from '@microsoft/signalr';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +10,7 @@ export class ChatService {
 
   private _hubConnection!: signalR.HubConnection;
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.connect()
@@ -23,20 +18,9 @@ export class ChatService {
 
   send(message: string) {
     // params for send : hub method & message
-    console.log("sending...")
+    console.log("sending...", this._hubConnection.connectionId)
 
-    this._hubConnection.send("send", message)
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    };
-    
-    this.http.post("https://localhost:7249/api/chat/send", message, httpOptions)
-      .subscribe((result) => {
-        console.log("http send message", result)
-      })
-    console.log("request fired")
+    this._hubConnection.invoke("SendMessage1", "kadin", message);
   }
   
   // holds message conversations
@@ -47,7 +31,7 @@ export class ChatService {
     this._hubConnection = new signalR.HubConnectionBuilder()
     // withUrl requires hub connection url
       .withUrl("https://localhost:7249/chatsocket", {
-        skipNegotiation: true,
+        skipNegotiation: false,
         transport: signalR.HttpTransportType.WebSockets
       })
       .build()

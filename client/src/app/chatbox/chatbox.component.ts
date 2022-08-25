@@ -19,7 +19,6 @@ export class ChatboxComponent implements OnInit {
   }
   messageInput = new FormControl('');
   submitMessage() {
-    // this.chatService.send(this.messageInput.value as string)
     const message: ChatMessage = {
       user: "kadin",
       message: this.messageInput.value as string

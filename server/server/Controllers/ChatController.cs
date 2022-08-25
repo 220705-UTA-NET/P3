@@ -27,6 +27,8 @@ namespace server.Controllers
 
             // I think we need to decide which client to send this message to? Should this be returned to sender, and/or be sent to the receiver?
             _hubContext.Clients.All.SendAsync("ReceiveOne", msg.user, msg.message, "in the controller");
+            ChatHub chatHub = new ChatHub();
+            chatHub.SendMessage1(msg.user, msg.message);
             return Ok();
         }
     }
