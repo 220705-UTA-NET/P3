@@ -41,8 +41,9 @@ export class ChatboxComponent implements OnInit {
   // for tech support users ONLY
   // will need to save the privateRoomKey variable saved in the web socket to the ticket, and transfer it on click
   public initializeSupportConnection(event: any) {
-    const privateRoomKey: number = event.target.id
-    this.chatService.initializeSupportConnection(privateRoomKey);
+    const privateRoomKey: string = event.target.id
+
+    this.chatService.initializeSupportConnection(parseInt(privateRoomKey));
   }
 
 }

@@ -28,8 +28,11 @@ namespace server.Hubs
 
         // TECH SUPPORT ONLY 
         // will be used to connect an indiviudal tech support staff to a user ticket
+
+        // CURRENTLY FAILING, BUT UNKNOWN REASON
         public Task TechSupportJoinsConversation(int privateRoomKey)
         { 
+            Console.WriteLine("connectionIDNext");
             // Id of the tech support
             string connectionId = Context.ConnectionId;
             // add tech support to private room

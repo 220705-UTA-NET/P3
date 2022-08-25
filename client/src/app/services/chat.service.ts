@@ -38,9 +38,9 @@ export class ChatService {
   }
 
   // for TECH only; on click of a ticket, matches a tech support with a customer
-  public initializeSupportConnection(privateRoomKey: number) {
-    console.log("connecting tech support with user", privateRoomKey);
-    this._hubConnection.invoke("TechSupportJoinsConversation", privateRoomKey)
+  public initializeSupportConnection(roomKey: number) {
+    console.log("connecting tech support with user", roomKey);
+    this._hubConnection.invoke("TechSupportJoinsConversation", roomKey)
   }
 
   // holds message conversations
