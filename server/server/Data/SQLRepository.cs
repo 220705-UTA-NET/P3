@@ -79,12 +79,12 @@ namespace server.Data
             {
 
                 int accountid = reader.GetInt32(0);
-                string type = reader.GetString(1);
-                float balance = reader.GetFloat(2);
+                int type = reader.GetInt32(1);
+                double balance = reader.GetDouble(2);
                 int customerid = reader.GetInt32(3);
             
 
-                Account tempAccount = new(accountid,type,balance,customerid);
+                Account tempAccount = new(accountid,type, balance, customerid);
                 result.Add(tempAccount);
             }
             
