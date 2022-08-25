@@ -1,8 +1,5 @@
 <h1>User Profile</h1>
-<input #customerID type="number"
-       (keyup.enter)="getCustomer(customerID.value)"
-       (blur)="getCustomer(customerID.value); customerID.value='' ">
-
+<input #customerID type="number">
 <button type="button" (click)="getCustomer(customerID.value)">Submit</button>
 
 <p>{{name}}</p>
