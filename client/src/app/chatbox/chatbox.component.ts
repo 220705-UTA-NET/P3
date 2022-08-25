@@ -9,6 +9,7 @@ import { ChatMessage } from '../models/ChatDTO';
   styleUrls: ['./chatbox.component.css'],
   providers: [ChatService]
 })
+
 export class ChatboxComponent implements OnInit {
 
   constructor(private chatService: ChatService) { }
@@ -18,7 +19,7 @@ export class ChatboxComponent implements OnInit {
   }
 
   messageInput = new FormControl('');
-  submitMessage() {
+  public submitMessage() {
     // user will need to be changed when the user logs in
     const message: ChatMessage = {
       user: "submitted user",
@@ -26,7 +27,11 @@ export class ChatboxComponent implements OnInit {
     }
 
     const json = JSON.stringify(message)
-    this.chatService.send(json)
+    this.chatService.sendChat(json)
+  }
+
+  public initiateTicket() {
+    this.chatService.initializeSupportConnection();
   }
 
 }

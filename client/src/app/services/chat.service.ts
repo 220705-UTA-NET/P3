@@ -12,25 +12,30 @@ export class ChatService {
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.connect()
+  // we may need different send functions; 
+  // one for submitting a ticket/firing first message
+  // and another for submitting messages after the group has been established
+  public initializeSupportConnection() {
+    console.log("initializing support convo")
+    this._hubConnection.invoke("ConversationStartup", "testing techSupport startup")
   }
 
-  send(message: string) {
+  public sendChat(message: string) {
     // params for send : hub method & message
     console.log("sending...", this._hubConnection.connectionId)
 
-    this._hubConnection.invoke("SendMessage1", "kadin", message);
+    this._hubConnection.invoke("SendChat", "kadin", message);
   }
   
   // holds message conversations
   // to be accessed in all other components
   public messages: ChatMessage[] = []
-  connect() {
+  public connect() {
     // connect to hub in backend
     this._hubConnection = new signalR.HubConnectionBuilder()
     // withUrl requires hub connection url
       .withUrl("https://localhost:7249/chatsocket", {
+        // cannot access the connectionId in the backend if skipNegation: true
         skipNegotiation: false,
         transport: signalR.HttpTransportType.WebSockets
       })
@@ -52,7 +57,7 @@ export class ChatService {
   }
 
   // for support accounts, will need its own unique listeners
+  // automatically subscribe to techSupport group messages
   // ability to hear when a new ticket is created
   // ability to respond to a ticket being opened
-  // ability to hear messages with user that is being supported (will be in the same group)
 }
