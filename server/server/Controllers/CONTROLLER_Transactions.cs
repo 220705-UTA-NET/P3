@@ -22,9 +22,9 @@ namespace server.Controllers
         }
 
         // FIELDS
-        [HttpGet]
+        [HttpPost]
         [Route("GetTransactionHistory")]
-        public async Task<DTO_TransactionHistory> GetTransactionHistoryAsync([FromBody] int INPUT_AuthToken, [FromBody] int INPUT_AccountNumber)
+        public async Task<DTO_TransactionHistory> GetTransactionHistoryAsync(int INPUT_AuthToken, [FromBody] int INPUT_AccountNumber)
         {
             // Authenticate User
             //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE

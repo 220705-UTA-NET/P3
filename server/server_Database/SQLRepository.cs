@@ -53,7 +53,7 @@ namespace server_Database
                     int TEMP_transaction_id = DB_reader.GetInt32(0);
                     int TEMP_account_id = DB_reader.GetInt32(1);
                     DateTime TEMP_time = DB_reader.GetDateTime(2);
-                    float TEMP_amount = DB_reader.GetFloat(3);
+                    double TEMP_amount = DB_reader.GetDouble(3);
                     bool TEMP_type = DB_reader.GetBoolean(4);
                     bool TEMP_completion_status = DB_reader.GetBoolean(5);
 
