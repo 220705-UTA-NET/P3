@@ -17,15 +17,11 @@ namespace server.Controllers
             _hubContext = hubContext;
         }
 
-
         [Route("send")]
         [HttpPost]
         public IActionResult SendRequest([FromBody] MessageDto msg)
         {
-            Console.WriteLine("start of sendrequest");
-            Console.WriteLine(msg.message);
-
-            // I think we need to decide which client to send this message to? Should this be returned to sender, and/or be sent to the receiver?
+            // the below may not be necessary at all, since we can now directly access the hub
             _hubContext.Clients.All.SendAsync("ReceiveOne", msg.user, msg.message, "in the controller");
             ChatHub chatHub = new ChatHub();
             chatHub.SendMessage1(msg.user, msg.message);

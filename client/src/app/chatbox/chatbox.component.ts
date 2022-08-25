@@ -15,12 +15,13 @@ export class ChatboxComponent implements OnInit {
 
   ngOnInit(): void {
     this.chatService.connect()
-    console.log("running connection")
   }
+
   messageInput = new FormControl('');
   submitMessage() {
+    // user will need to be changed when the user logs in
     const message: ChatMessage = {
-      user: "kadin",
+      user: "submitted user",
       message: this.messageInput.value as string
     }
 

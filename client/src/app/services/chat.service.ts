@@ -41,9 +41,18 @@ export class ChatService {
       console.log("on receiveOne", message)
     });
 
+    // other endpoints a user will need
+    // listening to group response (how the user will connect to a tech support)
+
+
     // starts listening for hub coorespondance
     this._hubConnection.start()
       .then(() => console.log("connection started"))
       .catch((err) => console.log("error receiving connection", err))
   }
+
+  // for support accounts, will need its own unique listeners
+  // ability to hear when a new ticket is created
+  // ability to respond to a ticket being opened
+  // ability to hear messages with user that is being supported (will be in the same group)
 }
