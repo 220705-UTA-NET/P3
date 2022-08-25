@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using server.Model;
+using server.Data;
 
 namespace server.Controllers
 {

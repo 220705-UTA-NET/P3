@@ -35,14 +35,10 @@ namespace server.Controllers
         }
 
         [HttpPut("/userprofile")]
-        public async Task<ActionResult> ModifyUserProfile()
+        public async Task<ActionResult> ModifyUserProfile([FromBody]Customer customer)
         {
             try
             {
-                StreamReader reader = new StreamReader(Request.Body);
-                string result = await reader.ReadToEndAsync();
-                Customer customer = (Customer)JsonSerializer.Deserialize(result, typeof(Customer));
-
                 await _repository.UpdateCustomerAsync(customer.Id, customer.Email, customer.PhoneNumber, customer.Password);
                 _logger.LogInformation($"Scucessfully executed UpdateCustomerAsync for customer #{customer.Id}");
                 return StatusCode(201);
