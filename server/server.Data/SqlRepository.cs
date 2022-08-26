@@ -14,11 +14,6 @@ namespace server.Data {
             _connectionString = connectionString;
         }
 
-        public Task DeleteBudgetAsync(int budgetId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<Transaction>> GetAllTransactionsAsync()
         {
             List<Transaction> transactions = new List<Transaction>();
@@ -78,7 +73,7 @@ namespace server.Data {
             return sum;
         }
 
-        public Task<Budget> InsertBudgetAsync(Budget budget)
+        public async Task<ActionResult> InsertBudgetAsync(Budget budget)
         {
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -87,7 +82,7 @@ namespace server.Data {
                 connection.Open();
 
                 // query string
-                string queryString = "INSERT INTO Budget(budget_id, customer_id, account_id, monthly_id, warning_amount, date) VALUES(@budget, @customer, @account, @monthly, @warning, @date);";
+                string queryString = "INSERT INTO Budget(budget_id, customer_id, account_id, monthly_amount, warning_amount) VALUES(@budget, @customer, @account, @monthly, @warning);";
 
                 // create the sql command
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -96,20 +91,30 @@ namespace server.Data {
                 command.Parameters.AddWithValue("@account", budget.AccountId);
                 command.Parameters.AddWithValue("@monthly", budget.MonthlyAmount);
                 command.Parameters.AddWithValue("@warning", budget.WarningAmount);
-                command.Parameters.AddWithValue("@date", budget.Date);
 
-                // get amount
-                var result = command.ExecuteScalar();
 
-                // convert to string then int
-                Int32.TryParse(result.ToString(), out );
+                try
+                {
+                    await command.ExecuteNonQueryAsync();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new StatusCodeResult(400);// is this the correct error code?
+                }
 
             }
 
-
+            return new StatusCodeResult(200);// maybe change this
         }
 
-        public Task<Budget> UpdateBudgetAsync(Budget budget)
+        public async Task<Budget> UpdateBudgetAsync(Budget budget)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteBudgetAsync(int budgetId)
         {
             throw new NotImplementedException();
         }

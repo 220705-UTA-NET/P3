@@ -1,6 +1,6 @@
 using server.Data;
 
-//string connection = File.ReadAllText(@"C:\Users\brand\connection.txt");
+string connection = File.ReadAllText(@"C:\Users\brand\connection.txt");
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

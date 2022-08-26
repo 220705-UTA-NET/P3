@@ -56,6 +56,13 @@ public class TransactionController : ControllerBase
 
     }
 
+    [HttpPost("InsertBudget")]
+    public async Task<ActionResult> InsertBudget([FromBody] Budget budget)
+    {
+        ActionResult s = await _repo.InsertBudgetAsync(budget);
+        return s;
+    }
+
 
 
 }

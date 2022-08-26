@@ -8,21 +8,21 @@
         public int AccountId { get; set; }
         public double MonthlyAmount { get; set; }
         public double WarningAmount { get; set; }
-        public DateTime Date { get; set; }
+  
 
         public Budget()
         {
 
         }
 
-        public Budget(int budgetId, int customerId, int accountId, double monthlyAmount, double warningAmount, DateTime date)
+        public Budget(int budgetId, int customerId, int accountId, double monthlyAmount, double warningAmount)
         {
             BudgetId = budgetId;
             CustomerId = customerId;
             AccountId = accountId;
             MonthlyAmount = monthlyAmount;
             WarningAmount = warningAmount;
-            Date = date;
+            
         }
 
     }
