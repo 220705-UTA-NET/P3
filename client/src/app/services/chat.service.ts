@@ -24,8 +24,10 @@ export class ChatService {
     // temporary measure until we have seperate profiles
     if (this.privateRoomKey == 0) {
       // TECH KEY
+      // CURRENTLY FAILING TO SEND MESSAGE FROM TECH, THOUGH KEY VALUE SHOULD BE CORRECT
+      // DUE TO IT BEING A STRING INSTEAD OF AN INT?
       console.log("testRoomKEY FOR TECH", this.testRoomKey)
-      this._hubConnection.invoke("SendChat", "TECH", message, this.testRoomKey);
+      this._hubConnection.invoke("SendChat", "TECH", message, parseInt(this.testRoomKey.toString()));
     } else {
       // USER KEY
       console.log("PRIVATEROOM KEY FOR USER", this.privateRoomKey)
@@ -45,14 +47,14 @@ export class ChatService {
     this.privateRoomKey = Math.floor(Math.random() * 10000);
 
     // for testing a tech support making a chat room only
-    this.testRoomKey = this.privateRoomKey
+    // this.testRoomKey.push(this.privateRoomKey)
 
     this._hubConnection.invoke("OpenTicket", this.privateRoomKey)
   }
 
   // TECH ONLY -----------------------------------------------------------------
   // testing user's privateRoomKey, will need to be an array later on to hold all users currently with tickets.
-  public testRoomKey: number = 0;
+  public testRoomKey: number[] = [];
 
   // enables tech support to be notified when a new ticket is made.
   public joinTechSupport()
@@ -96,7 +98,7 @@ export class ChatService {
     // TECH: listening for when a user opens a ticket, need the privateRoomKey id that will be attached
     this._hubConnection.on("OpenTicket", (privateRoomKey: number) => {
       console.log("OpenTicket", privateRoomKey)
-      this.testRoomKey = privateRoomKey;
+      this.testRoomKey.push(privateRoomKey);
     })
 
     // BOTH: starts listening for hub coorespondance

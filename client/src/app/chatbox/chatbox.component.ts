@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {ChatService} from "../services/chat.service";
 import { ChatMessage } from '../models/ChatDTO';
@@ -17,6 +17,9 @@ export class ChatboxComponent implements OnInit {
   ngOnInit(): void {
     this.chatService.connect()
   }
+
+  // grab values from chat.services
+  tickets = this.chatService.testRoomKey;
 
   messageInput = new FormControl('');
   public submitMessage() {
