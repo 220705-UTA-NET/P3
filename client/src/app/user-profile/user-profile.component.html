@@ -2,6 +2,16 @@
 <input #customerID type="number">
 <button type="button" (click)="getCustomer(customerID.value)">Submit</button>
 
-<p>{{name}}</p>
-<p>{{email}}</p>
-<p>{{phone}}</p>
+<div *ngIf="customer">
+  <p>{{customer.id}}</p>
+  <input value="{{customer.firstname}}" (change)="editFirstName($event)"/>
+  <input value="{{customer.lastname}}" (change)="editLastName($event)"/>
+  <input value="{{customer.email}}" (change)="editEmail($event)"/>
+  <input value="{{customer.phoneNumber}}" (change)="editPhoneNumber($event)"/>
+  <input value="{{customer.password}}" (change)="editPassword($event)"/>
+</div>
+
+
+<div *ngIf="customerSet">
+  <button type="button" (click)="submitChanges()">Submit Changes</button>
+</div>
