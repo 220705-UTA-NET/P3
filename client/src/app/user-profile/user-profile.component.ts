@@ -1,3 +1,4 @@
+import { Checking } from './../checking-account/checking-account.component';
 import { Component } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
@@ -17,6 +18,7 @@ export interface Customer {
 })
 export class UserProfileComponent {
 
+  checking: Checking[] = [];
   constructor(private http: HttpClient) { }
 
   customer: Customer = {
