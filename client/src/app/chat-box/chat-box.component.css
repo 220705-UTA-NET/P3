@@ -1,0 +1,105 @@
+.chat-box {
+    display: none;
+    background: #efefef;
+    position: fixed;
+    right: 30px;
+    bottom: 50px;
+    width: 300px;
+    max-width: 85vw;
+    max-height: 100vh;
+    border-radius: 5px;
+    /* box-shadow: 0px 5px 35px 9px #464a92; */
+    box-shadow: 0px 5px 35px 9px #ccc;
+}
+.chat-box-header {
+    font-family: 'Arial';
+    font-weight: bold;
+    background: rgb(242, 105, 38);
+    height: 35px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    color: white;
+    text-align: center;
+    font-size: 17px;
+    padding-top: 15px;
+}
+
+.room-name {
+    width: 250px;
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.chat-box-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+}
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+}
+.chat-box-body {
+    position: relative;
+    height: 300px;
+    height: auto;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+.chat-contents {
+    padding: 15px;
+    height: 300px;
+    overflow-y: scroll;
+}
+#chat-input {
+    background: #f4f7f9;
+    width: 100%;
+    position: relative;
+    height: 40px;
+    padding-top: 10px;
+    padding-right: 50px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    border: none;
+    resize: none;
+    outline: none;
+    border: 1px solid #ccc;
+    color: rgb(72, 76, 86);
+    border-top: none;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    overflow: hidden;
+}
+.chat-submit {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    border-radius: 50%;
+    color: rgb(72, 76, 86); 
+    width: 35px;
+    height: 35px;
+}
+
+.minimize {
+    display: hidden;
+}

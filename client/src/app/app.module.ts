@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule  } from '@angular/forms';
+import { ChatBoxComponent } from './chat-box/chat-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatboxComponent
+    ChatboxComponent,
+    ChatBoxComponent
   ],
   imports: [
     BrowserModule,
