@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {ChatService} from "../services/chat.service";
 import { ChatMessage } from '../models/ChatDTO';
@@ -19,18 +19,25 @@ export class ChatboxComponent implements OnInit {
   }
 
   // grab values from chat.services
-  tickets = this.chatService.testRoomKey;
+  tickets = this.chatService.userTickets;
+
+  // will need to actively listen for changes to this?
+  currentActiveTicket: number = this.chatService.currentActiveTicket;
 
   messageInput = new FormControl('');
   public submitMessage() {
     // user field of message will need to be changed when the user logs in
+    const ticketId: number = this.chatService.currentActiveTicket;
+    console.log(event)
+
     const message: ChatMessage = {
       user: "submitted user",
       message: this.messageInput.value as string
     }
-
+    
+    console.log(ticketId);
     const json = JSON.stringify(message)
-    this.chatService.sendChat(json)
+    this.chatService.sendChat(json, ticketId)
   }
 
   // creates a new ticket for USER only

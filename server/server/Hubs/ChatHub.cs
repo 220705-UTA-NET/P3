@@ -36,16 +36,9 @@ namespace server.Hubs
         }
 
         // BOTH TECH & USER: exchanges messages with both parties in private room
-
-        // USER IS CURRENTLY NOT GETTING MESSAGE SENT BY TECH, BUT TECH IS GETTING MESSAGE SENT BY USER **
-        // REASON IS THAT THE ROOM KEY IS NOT AVAILABLE TO THE TECH SUPPORT
-        // SAVE IT TO THE SEND BUTTON
         public Task SendChat(string user, string message, int privateRoomKey)
         {
             string clientId = Context.ConnectionId;
-            Console.WriteLine("SEND CHAT");
-            Console.WriteLine(privateRoomKey);
-
             // message will need to go to the client's group, should pass it from frontend
             return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", user, message, "in the hub!");
         }
