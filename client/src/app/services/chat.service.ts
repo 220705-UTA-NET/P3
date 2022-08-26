@@ -8,26 +8,30 @@ import {ChatMessage} from "../models/ChatDTO";
 
 export class ChatService {
 
-  private _hubConnection!: signalR.HubConnection;
-
   constructor() {}
 
-  // for USERS only, establishes their private room to be connected to
+  // BOTH USER and TECH --------------------------------------------------------
+  private _hubConnection!: signalR.HubConnection;
+
+  // holds message conversations
+  public messages: ChatMessage[] = []
+
+  // how messages are exchanged between tech & user once in a private room
+  public sendChat(message: string) {
+    // params for send : hub method & message
+    console.log("sending...", this._hubConnection.connectionId)
+
+    this._hubConnection.invoke("SendChat", "kadin", message, this.privateRoomKey);
+  }
+
+  // USER ONLY -----------------------------------------------------------------
+  // establishes their private room to be connected to
   private privateRoomKey: number = 0;
-
-  // for TECH only. testing user's privateRoomKey, will need to be an array later on to hold all users.
-  public testRoomKey: number = 0;
-
-  // a method that should only be available for tech support users, allows them to hear new tickets being created
-  public joinTechSupport()
-  {
-    console.log("joining tech support");
-    this._hubConnection.invoke("JoinSupportChat");
-  }  
 
   // for USERS only; puts user in a private connection room & informs tech support
   public initiateTicket() {
     console.log("initializing support convo")
+    
     // need to generate a privateRoomKey. should do it via the customer_id in production, but will generate a random one for testing
     this.privateRoomKey = Math.floor(Math.random() * 10000);
 
@@ -37,24 +41,27 @@ export class ChatService {
     this._hubConnection.invoke("OpenTicket", this.privateRoomKey)
   }
 
-  // for TECH only; on click of a ticket, matches a tech support with a customer
+  // TECH ONLY -----------------------------------------------------------------
+  // testing user's privateRoomKey, will need to be an array later on to hold all users currently with tickets.
+  public testRoomKey: number = 0;
+
+  // enables tech support to be notified when a new ticket is made.
+  public joinTechSupport()
+  {
+    console.log("joining tech support");
+    this._hubConnection.invoke("JoinSupportChat");
+  }  
+
+  // on click of a ticket, matches a tech support with a customer
   public initializeSupportConnection(roomKey: number) {
     console.log("connecting tech support with user", roomKey);
     this._hubConnection.invoke("TechSupportJoinsConversation", roomKey)
   }
 
-  // holds message conversations
-  public messages: ChatMessage[] = []
-  // will be utilized by both USERS & TECH, once in a connected room
-  public sendChat(message: string) {
-  // params for send : hub method & message
-  console.log("sending...", this._hubConnection.connectionId)
-
-  this._hubConnection.invoke("SendChat", "kadin", message, this.privateRoomKey);
-  }
-
+  // connection ----------------------------------------------------------------
+  // establishes connection to websocket / hub, and establishes event listeners
+  // the events that should be listened to will depend on USER vs. TECH
   public connect() {
-    // connect to hub in backend
     this._hubConnection = new signalR.HubConnectionBuilder()
     // withUrl requires hub connection url
       .withUrl("https://localhost:7249/chatsocket", {
@@ -64,20 +71,20 @@ export class ChatService {
       })
       .build()
 
-    // listening for messages in private chat room
+    // BOTH: listening for messages in private chat room
     this._hubConnection.on("messaging", (message: ChatMessage) => {
       // can render response messages from here
       this.messages.push(message);
       console.log("all messages, on receive", this.messages)
     });
 
-    // listening for when a user opens a ticket, need the privateRoomKey id that will be attached
+    // TECH: listening for when a user opens a ticket, need the privateRoomKey id that will be attached
     this._hubConnection.on("OpenTicket", (privateRoomKey: number) => {
       console.log("OpenTicket", privateRoomKey)
       this.testRoomKey = privateRoomKey;
     })
 
-    // starts listening for hub coorespondance
+    // BOTH: starts listening for hub coorespondance
     this._hubConnection.start()
       .then(() => console.log("connection started"))
       .catch((err) => console.log("error receiving connection", err))

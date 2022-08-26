@@ -20,7 +20,7 @@ export class ChatboxComponent implements OnInit {
 
   messageInput = new FormControl('');
   public submitMessage() {
-    // user will need to be changed when the user logs in
+    // user field of message will need to be changed when the user logs in
     const message: ChatMessage = {
       user: "submitted user",
       message: this.messageInput.value as string
@@ -30,20 +30,21 @@ export class ChatboxComponent implements OnInit {
     this.chatService.sendChat(json)
   }
 
+  // creates a new ticket for USER only
   public initiateTicket() {
     this.chatService.initiateTicket();
   }
 
+  // should be called in init for TECH only; connects them to techSupport channel
   public joinTechSupport() {
     this.chatService.joinTechSupport();
   }
 
-  // for tech support users ONLY
+  // should be called by TECH only on click of a ticket to join a particular chat channel
   // will need to save the privateRoomKey variable saved in the web socket to the ticket, and transfer it on click
   public initializeSupportConnection(event: any) {
     const privateRoomKey: string = event.target.id
 
     this.chatService.initializeSupportConnection(parseInt(privateRoomKey));
   }
-
 }
