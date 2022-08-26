@@ -21,7 +21,16 @@ export class ChatService {
     // params for send : hub method & message
     console.log("sending...", this._hubConnection.connectionId)
 
-    this._hubConnection.invoke("SendChat", "kadin", message, this.privateRoomKey);
+    // temporary measure until we have seperate profiles
+    if (this.privateRoomKey == 0) {
+      // TECH KEY
+      console.log("testRoomKEY FOR TECH", this.testRoomKey)
+      this._hubConnection.invoke("SendChat", "TECH", message, this.testRoomKey);
+    } else {
+      // USER KEY
+      console.log("PRIVATEROOM KEY FOR USER", this.privateRoomKey)
+      this._hubConnection.invoke("SendChat", "USER", message, this.privateRoomKey);
+    }
   }
 
   // USER ONLY -----------------------------------------------------------------
@@ -30,7 +39,7 @@ export class ChatService {
 
   // for USERS only; puts user in a private connection room & informs tech support
   public initiateTicket() {
-    console.log("initializing support convo")
+    console.log("initializing ticket")
     
     // need to generate a privateRoomKey. should do it via the customer_id in production, but will generate a random one for testing
     this.privateRoomKey = Math.floor(Math.random() * 10000);
@@ -61,6 +70,7 @@ export class ChatService {
   // connection ----------------------------------------------------------------
   // establishes connection to websocket / hub, and establishes event listeners
   // the events that should be listened to will depend on USER vs. TECH
+  // can check for user status & create different connection methods for each
   public connect() {
     this._hubConnection = new signalR.HubConnectionBuilder()
     // withUrl requires hub connection url
@@ -77,6 +87,11 @@ export class ChatService {
       this.messages.push(message);
       console.log("all messages, on receive", this.messages)
     });
+
+    // BOTH: tech joins private room & notifies both parties
+    this._hubConnection.on("conversationStarted", (message: ChatMessage) => {
+      console.log("conversation started:", message);
+    })
 
     // TECH: listening for when a user opens a ticket, need the privateRoomKey id that will be attached
     this._hubConnection.on("OpenTicket", (privateRoomKey: number) => {

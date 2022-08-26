@@ -14,31 +14,37 @@ namespace server.Hubs
         // TECH: will be used to connect an indiviudal tech support staff to a user ticket
         public Task TechSupportJoinsConversation(int privateRoomKey)
         { 
-            Console.WriteLine("connectionIDNext");
+            Console.WriteLine("privateRoomKey IN TECHSUPPORTJOIN");
+            Console.WriteLine(privateRoomKey);
             // Id of the tech support
             string connectionId = Context.ConnectionId;
             // add tech support to private room
             Groups.AddToGroupAsync(connectionId, privateRoomKey.ToString());
 
-            return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", "Tech support has joined the chat");
+            return Clients.Group(privateRoomKey.ToString()).SendAsync("conversationStarted", "Tech support has joined the chat", privateRoomKey.ToString());
         }
 
         // USER: create a ticket, open a private room, notify tech
         public Task OpenTicket(int privateRoomKey)
         {
-            string clientId = Context.ConnectionId;
-            Groups.AddToGroupAsync(clientId, privateRoomKey.ToString());
+            Console.WriteLine("privateRoomKey IN OPEN TICKET");
+            Console.WriteLine(privateRoomKey);
+            string connectionId = Context.ConnectionId;
+            Groups.AddToGroupAsync(connectionId, privateRoomKey.ToString());
 
-            return Clients.Group("techSupport").SendAsync("OpenTicket", privateRoomKey);
+            return Clients.Group("techSupport").SendAsync("OpenTicket", privateRoomKey.ToString());
         }
 
         // BOTH TECH & USER: exchanges messages with both parties in private room
+
+        // USER IS CURRENTLY NOT GETTING MESSAGE SENT BY TECH, BUT TECH IS GETTING MESSAGE SENT BY USER **
+        // REASON IS THAT THE ROOM KEY IS NOT AVAILABLE TO THE TECH SUPPORT
+        // SAVE IT TO THE SEND BUTTON
         public Task SendChat(string user, string message, int privateRoomKey)
         {
-            Console.WriteLine("send chat");
             string clientId = Context.ConnectionId;
-
-            Console.WriteLine(clientId, user, message);
+            Console.WriteLine("SEND CHAT");
+            Console.WriteLine(privateRoomKey);
 
             // message will need to go to the client's group, should pass it from frontend
             return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", user, message, "in the hub!");
