@@ -15,6 +15,6 @@ RUN npm run build --omit=dev
 # Stage 2
 FROM nginx:latest
 
-COPY --from=build-step /app/dist/* /usr/share/nginx/html
+COPY --from=build-step /app/dist/client /usr/share/nginx/html
 
 EXPOSE 80
