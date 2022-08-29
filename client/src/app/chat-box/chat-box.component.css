@@ -70,7 +70,7 @@
 }
 #chat-input {
     background: #f4f7f9;
-    width: 100%;
+    width: 78%;
     position: relative;
     height: 40px;
     padding-top: 10px;
@@ -102,4 +102,31 @@
 
 .minimize {
     display: hidden;
+}
+
+.listStyle {
+    display: inline;
+}
+
+.allMessage {
+    display: block;
+    border: 1px solid lightgrey;
+    border-radius: 30px;
+}
+
+.myMessage {
+    background-color: rgb(235, 142, 94);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 15px;
+    text-align: right;
+    color: white;
+}
+
+.otherMessage {
+    background-color: rgb(94, 99, 112);
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    color: white;
 }
