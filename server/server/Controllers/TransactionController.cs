@@ -10,7 +10,6 @@ namespace server.Controllers;
 public class TransactionController : ControllerBase
 {
     private readonly IRepository _repo;
-    // GET
 
     public TransactionController(IRepository repo)
     {
@@ -37,46 +36,30 @@ public class TransactionController : ControllerBase
         
     }
 
-    [HttpGet("transactionsaccount")]
-    public async Task<ActionResult<int>> GetAllAccountTransactions()
+
+
+
+    // don't know if needed
+    [HttpPost("transactionsaccount")]
+    public async Task<ActionResult<int>> GetAllAccountTransactions([FromBody] MinusRemainder min)
     {
         int sum = 0;
 
         try
         {
-            sum = await _repo.GetTransactionsSumAsync();
+            sum = await _repo.GetTransactionsSumAsync(min);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
 
-        return sum;
-
-    }
-
-    [HttpPost("InsertBudget")]
-    public async Task<ActionResult> InsertBudget([FromBody] Budget budget)
-    {
-        ActionResult s = await _repo.InsertBudgetAsync(budget);
-        return s;
+        return sum == -1 ? -1 : sum;
     }
 
 
-    [HttpPut("UpdateBudget")]
-    public async Task<ActionResult> UpdateBudget(Budget budget)
-    {
-        ActionResult s = await _repo.UpdateBudgetAsync(budget);
-        return s;
-    }
 
 
-    [HttpDelete("DeleteBudget/{budgetId}")]
-    public async Task<ActionResult> DeleteBudget(int budgetId)
-    {
-        ActionResult s = await _repo.DeleteBudgetAsync(budgetId);
-        return s;
-    }
 
 
 
