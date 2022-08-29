@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using server.Model;
 namespace server.Hubs
 {
     public class ChatHub: Hub
@@ -36,11 +37,11 @@ namespace server.Hubs
         }
 
         // BOTH TECH & USER: exchanges messages with both parties in private room
-        public Task SendChat(string user, string message, int privateRoomKey)
+        public Task SendChat(MessageDto newMessage, int privateRoomKey)
         {
             string clientId = Context.ConnectionId;
             // message will need to go to the client's group, should pass it from frontend
-            return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", user, message, "in the hub!");
+            return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", newMessage);
         }
     }
 }

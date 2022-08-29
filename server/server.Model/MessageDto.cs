@@ -12,5 +12,9 @@ namespace server.Model
         public string user { get; set; }
         public string message { get; set; }
         //public DateTime date { get; set; }
+        public MessageDto(string user, string message) { 
+            this.user = user;
+            this.message = message;
+        }
     }
 }

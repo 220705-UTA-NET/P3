@@ -17,14 +17,14 @@ export class ChatService {
   public messages: ChatMessage[] = []
 
   // how messages are exchanged between tech & user once in a private room
-  public sendChat(message: string, ticketId: number) {
+  public sendChat(chat: ChatMessage, ticketId: number) {
     // temporary measure until we have seperate profiles
 
     // ticketId should be equivalent to the privateRoomKey of a user account
     if (this.privateRoomKey == 0) {
-      this._hubConnection.invoke("SendChat", "TECH", message, ticketId);
+      this._hubConnection.invoke("SendChat", chat, ticketId);
     } else {
-      this._hubConnection.invoke("SendChat", "USER", message, this.privateRoomKey);
+      this._hubConnection.invoke("SendChat", chat, this.privateRoomKey);
     }
   }
 
@@ -79,6 +79,8 @@ export class ChatService {
       // can render response messages from here
       this.messages.push(message);
       console.log("all messages", this.messages)
+
+      //activateNewMessage
     });
 
     // BOTH: tech joins private room & notifies both parties
@@ -97,4 +99,6 @@ export class ChatService {
       .then(() => console.log("connection started"))
       .catch((err) => console.log("error receiving connection", err))
   }
+
+  
 }
