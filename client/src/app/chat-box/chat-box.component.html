@@ -6,10 +6,13 @@
 
     <div class="chat-box-body">
         <div class="chat-contents" #scroll [scrollTop]="scroll.scrollHeight">
-            <div class="listStyle" *ngFor = "let msg of messages">
+            <div class="listStyle" *ngFor = "let msg of messages; let i = index;">
+                <div [ngClass]="msg.user == user ? 'myUser allUser' : 'otherUser allUser'"> <!--ngClass checks if message is from client user or other user, sets style to match-->
+                    <div *ngIf = "i == 0">{{msg.user}}</div>
+                    <div *ngIf = "i >= 1"><div *ngIf = "msg.user != messages[i-1].user">{{msg.user}}</div></div>
+                </div>
                 <div [ngClass]="msg.user == user ? 'myMessage allMessage' : 'otherMessage allMessage'"> <!--ngClass checks if message is from client user or other user, sets style to match-->
-                    {{msg.user}}:
-                    <br>{{msg.message}}
+                    {{msg.message}}
                 </div>
                 <br>
             </div>

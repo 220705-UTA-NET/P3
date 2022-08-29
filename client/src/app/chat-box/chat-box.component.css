@@ -105,28 +105,48 @@
 }
 
 .listStyle {
-    display: inline;
+    display: block;
+    font: 15px Arial, sans-serif;
 }
 
 .allMessage {
     display: block;
     border: 1px solid lightgrey;
-    border-radius: 30px;
+    border-radius: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+    color: white;
+}
+
+.allUser {
+    display: block;
+    color:rgb(72, 76, 86);
+    position: relative;
+    width: 100%;
+    font: 11.25px Calibri, sans-serif;
+    letter-spacing: 0.25px;
+}
+
+.myUser {
+    float: right;
+    text-align: right;
+    padding-right: 8px;
+}
+.otherUser {
+    float: left;
+    text-align: left;
+    padding-left: 8px;
 }
 
 .myMessage {
     background-color: rgb(235, 142, 94);
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-right: 15px;
-    text-align: right;
-    color: white;
+    float: right;
 }
 
 .otherMessage {
     background-color: rgb(94, 99, 112);
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 15px;
-    color: white;
+    float: left;
 }
