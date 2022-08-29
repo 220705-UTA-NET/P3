@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ChatMessage } from '../models/ChatDTO';
 
 @Component({
@@ -13,7 +14,11 @@ export class ChatBoxComponent implements OnInit {
   user : string = 'Lance';
   messages : ChatMessage[] = [];
   sendContents : string = '';
-  constructor() { }
+  constructor(private cdref: ChangeDetectorRef) { }
+  
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+  }
 
   ngOnInit(): void {
 
@@ -61,12 +66,13 @@ export class ChatBoxComponent implements OnInit {
     });
   }
 
-  submitMessage(){
+  submitMessage(form: NgForm){
     let newMessage: ChatMessage = {
       user: this.user,
       message: this.sendContents
     }
     console.log(this.user + ": " + this.sendContents);
-    this.messages.push(newMessage); 
+    this.messages.push(newMessage);
+    form.reset();
   }
 }
