@@ -5,7 +5,7 @@ WORKDIR /src
 
 COPY . .
 
-RUN dotnet publish -c Release -o /published ./Project2_Server.API.sln
+RUN dotnet publish -c Release -o /published ./server.sln
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 as runtime
 
@@ -16,4 +16,4 @@ WORKDIR /app
 
 COPY --from=build /published .
 
-ENTRYPOINT [ "dotnet", "Project2_Server.API.dll" ]
+ENTRYPOINT [ "dotnet", "server.dll" ]
