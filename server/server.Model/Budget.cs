@@ -8,7 +8,6 @@
         public int AccountId { get; set; }
         public double MonthlyAmount { get; set; }
         public double WarningAmount { get; set; }
-  
 
         public Budget()
         {

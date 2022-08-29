@@ -109,14 +109,78 @@ namespace server.Data {
             return new StatusCodeResult(200);// maybe change this
         }
 
-        public async Task<Budget> UpdateBudgetAsync(Budget budget)
+        public async Task<ActionResult> UpdateBudgetAsync(Budget budget)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                // open a connection
+                connection.Open();
+
+
+                // query string
+                string queryString = "UPDATE Budget SET @budget=budget_id, @customer=customer_id, @account=account_id, @monthly=monthly_amount, @warning=warning_amount WHERE @budget=budget_id AND @account=account_id;";
+               
+
+                // create the sql command
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@budget", budget.BudgetId);
+                command.Parameters.AddWithValue("@customer", budget.CustomerId);
+                command.Parameters.AddWithValue("@account", budget.AccountId);
+                command.Parameters.AddWithValue("@monthly", budget.MonthlyAmount);
+                command.Parameters.AddWithValue("@warning", budget.WarningAmount);
+
+
+                try
+                {
+                    await command.ExecuteNonQueryAsync();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new StatusCodeResult(500);// is this the correct error code?
+                }
+
+            }
+
+            return new StatusCodeResult(200);// maybe change this
         }
 
-        public async Task DeleteBudgetAsync(int budgetId)
+        public async Task<ActionResult> DeleteBudgetAsync(int budgetId)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                // open a connection
+                connection.Open();
+
+
+                // query string
+                string queryString = "DELETE FROM Budget WHERE @budget=budget_id;";
+                //, @customer=customer_id, @account=account_id, @monthly=monthly_amount, @warning=warning_amount;";
+
+                // create the sql command
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@budget", budgetId);
+                //command.Parameters.AddWithValue("@customer", budget.CustomerId);
+                //command.Parameters.AddWithValue("@account", budget.AccountId);
+                //command.Parameters.AddWithValue("@monthly", budget.MonthlyAmount);
+                //command.Parameters.AddWithValue("@warning", budget.WarningAmount);
+
+
+                try
+                {
+                    await command.ExecuteNonQueryAsync();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new StatusCodeResult(500);// is this the correct error code?
+                }
+
+            }
+
+            return new StatusCodeResult(200);// maybe change this
         }
     }
 }

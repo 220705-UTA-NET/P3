@@ -8,6 +8,6 @@ public interface IRepository
     Task<IEnumerable<Transaction>> GetAllTransactionsAsync();
     Task<int> GetTransactionsSumAsync();
     Task<ActionResult> InsertBudgetAsync(Budget budget);
-    Task<Budget> UpdateBudgetAsync(Budget budget);
-    Task DeleteBudgetAsync(int budgetId);
+    Task<ActionResult> UpdateBudgetAsync(Budget budget);
+    Task<ActionResult> DeleteBudgetAsync(int budgetId);
 }

@@ -49,7 +49,6 @@ public class TransactionController : ControllerBase
         catch (Exception e)
         {
             Console.WriteLine(e);
-
         }
 
         return sum;
@@ -60,6 +59,22 @@ public class TransactionController : ControllerBase
     public async Task<ActionResult> InsertBudget([FromBody] Budget budget)
     {
         ActionResult s = await _repo.InsertBudgetAsync(budget);
+        return s;
+    }
+
+
+    [HttpPut("UpdateBudget")]
+    public async Task<ActionResult> UpdateBudget(Budget budget)
+    {
+        ActionResult s = await _repo.UpdateBudgetAsync(budget);
+        return s;
+    }
+
+
+    [HttpDelete("DeleteBudget/{budgetId}")]
+    public async Task<ActionResult> DeleteBudget(int budgetId)
+    {
+        ActionResult s = await _repo.DeleteBudgetAsync(budgetId);
         return s;
     }
 
