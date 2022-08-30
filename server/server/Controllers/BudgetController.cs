@@ -32,7 +32,8 @@ namespace server.Controllers
 
             }
 
-            if (budgets == null) return NoContent();
+            if (budgets == null||!budgets.Any()) return NoContent();
+           
             foreach (var bud in budgets)
             {
                 try

@@ -47,7 +47,7 @@ public class TransactionController : ControllerBase
 
         try
         {
-            sum = await _repo.GetTransactionsSumAsync(min);
+            //sum = await _repo.GetTransactionsSumAsync(min);
         }
         catch (Exception e)
         {
