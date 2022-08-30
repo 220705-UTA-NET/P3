@@ -7,5 +7,6 @@ namespace server.Data
     {
         Task<Customer> GetCustomerAsync(int id);
         Task UpdateCustomerAsync(int id, string email, string phonenumber, string password);
+        Task<IEnumerable<Account>> GetCustomerAccountsAsync(int id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using server.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace server.Data
 {
@@ -58,6 +59,38 @@ namespace server.Data
             await connection.OpenAsync();
             await cmd.ExecuteNonQueryAsync();
             await connection.CloseAsync();
+        }
+
+        public async Task<IEnumerable<Account>> GetCustomerAccountsAsync(int id)
+        {
+            List<Account> result = new();
+            using SqlConnection connection = new(_connectionString);
+            await connection.OpenAsync();
+
+            string cmdText = "SELECT * FROM Account WHERE customer_id=@CustomerId;";
+
+            using SqlCommand cmd = new(cmdText, connection);
+
+            cmd.Parameters.AddWithValue("@CustomerId", id);
+
+            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+
+                int accountid = reader.GetInt32(0);
+                int type = reader.GetInt32(1);
+                double balance = reader.GetDouble(2);
+                int customerid = reader.GetInt32(3);
+            
+
+                Account tempAccount = new(accountid,type, balance, customerid);
+                result.Add(tempAccount);
+            }
+            
+            await connection.CloseAsync();
+
+            return result;
         }
     }
 }

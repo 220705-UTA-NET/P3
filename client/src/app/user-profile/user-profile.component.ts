@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 export interface Customer {
-  id: number,
-  firstname: string,
-  lastname: string,
+  customer_id: number,
+  first_name: string,
+  last_name: string,
   email: string,
-  phoneNumber: string,
+  phone: string,
   password: string
 }
 
@@ -22,11 +22,11 @@ export class UserProfileComponent {
   constructor(private http: HttpClient) { }
 
   customer: Customer = {
-    id: 0,
-    firstname: "",
-    lastname: "",
+    customer_id: 0,
+    first_name: "",
+    last_name: "",
     email: "",
-    phoneNumber: "",
+    phone: "",
     password: ""
   };
   customerSet: Boolean = false;
@@ -46,11 +46,11 @@ export class UserProfileComponent {
   }
 
   editFirstName(event: any) {
-    this.customer.firstname = event.target.value
+    this.customer.first_name = event.target.value
   }
 
   editLastName(event: any) {
-    this.customer.lastname = event.target.value
+    this.customer.last_name = event.target.value
   }
 
   editEmail(event: any) {
@@ -58,7 +58,7 @@ export class UserProfileComponent {
   }
 
   editPhoneNumber(event: any) {
-    this.customer.phoneNumber = event.target.value
+    this.customer.phone = event.target.value
   }
 
   editPassword(event: any) {
@@ -69,5 +69,4 @@ export class UserProfileComponent {
     console.log(this.customer);
     this.http.put('https://localhost:7249/userprofile', this.customer).subscribe()
   }
-    
 }
