@@ -2,6 +2,22 @@
 <input #customerID type="number">
 <button type="button" (click)="getCustomer(customerID.value)">Submit</button>
 
+<<<<<<< Updated upstream
 <p>{{name}}</p>
 <p>{{email}}</p>
 <p>{{phone}}</p>
+=======
+<div *ngIf="customer">
+  <p>{{customer.customer_id}}</p>
+  <input value="{{customer.first_name}}" (change)="editFirstName($event)"/>
+  <input value="{{customer.last_name}}" (change)="editLastName($event)"/>
+  <input value="{{customer.email}}" (change)="editEmail($event)"/>
+  <input value="{{customer.phone}}" (change)="editPhoneNumber($event)"/>
+  <input value="{{customer.password}}" (change)="editPassword($event)"/>
+</div>
+
+
+<div *ngIf="customerSet">
+  <button type="button" (click)="submitChanges()">Submit Changes</button>
+</div>
+>>>>>>> Stashed changes
