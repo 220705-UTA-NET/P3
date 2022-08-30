@@ -66,12 +66,19 @@ export class ChatService {
 
   // once a ticket has been fulfilled, close the ticket connection
   // do not need to anything in signalR, as connection automatically closes once both users disconnect
-  public closeTicket(chatRoomId: string) {
+  public closeTicket(chatRoomId: string, user: string) {
     this.openTickets.forEach((ticket) => {
       if (ticket.chatRoomId === chatRoomId) {
         ticket.open = false;
       }
     })
+
+    const finalMessage: ChatMessage = {
+      user: user,
+      message: "This ticket has been marked as resolved!"
+    }
+
+    this._hubConnection.invoke("CloseTicket", chatRoomId, finalMessage);
   }
 
   // connection ----------------------------------------------------------------
@@ -116,6 +123,11 @@ export class ChatService {
         open: true
       }
       this.openTickets.push(newTicket);
+    })
+
+    // notify all participants that the ticket has been resolved
+    this._hubConnection.on("CloseTicket", (notification: ChatMessage) => {
+      this.messages.push(notification);
     })
 
     // BOTH: starts listening for hub coorespondance

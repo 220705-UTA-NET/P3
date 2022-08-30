@@ -79,8 +79,8 @@ export class ChatboxComponent implements OnInit {
     this.chatService.initializeSupportConnection(parseInt(privateRoomKey), initialMessage);
   }
 
-  closeTicket(chatRoomId: string) {
-    this.chatService.closeTicket(chatRoomId);
+  closeTicket(chatRoomId: string, user: string) {
+    this.chatService.closeTicket(chatRoomId, user);
   }
 
   public minimizerClick(){

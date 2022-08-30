@@ -5,7 +5,7 @@
 
 <div *ngFor="let ticket of tickets">
     <button *ngIf="ticket.open" type="button" (click)="initializeSupportConnection($event)" id="{{ticket.chatRoomId}}" [attr.data-user]="ticket.initialMessage.user">{{ticket.initialMessage.message}}</button>
-    <button *ngIf="ticket.open" (click)="closeTicket(ticket.chatRoomId)">Close ticket</button>
+    <button *ngIf="ticket.open" (click)="closeTicket(ticket.chatRoomId, ticket.initialMessage.user)">Close ticket</button>
 </div>
 
 <!-- CODE STARTS: chat box insert-->

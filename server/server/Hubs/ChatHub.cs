@@ -39,5 +39,10 @@ namespace server.Hubs
             // message will need to go to the client's group, should pass it from frontend
             return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", newMessage);
         }
+
+        public Task CloseTicket(string chatRoomId, MessageDto finalMessage)
+        {
+            return Clients.Group(chatRoomId).SendAsync("CloseTicket", finalMessage);
+        }
     }
 }
