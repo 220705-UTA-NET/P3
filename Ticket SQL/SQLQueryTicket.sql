@@ -10,7 +10,7 @@ DROP TABLE Tickets;
 CREATE TABLE Tickets
 (
     Ticket_ID INT IDENTITY NOT NULL UNIQUE,
-    UserName NVARCHAR(30) NOT NULL UNIQUE,
+    UserName NVARCHAR(30) NOT NULL ,
     PRIMARY KEY(Ticket_ID));
     
 
