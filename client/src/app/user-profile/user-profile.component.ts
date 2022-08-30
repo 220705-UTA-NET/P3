@@ -1,20 +1,14 @@
+import { Checking } from './../checking-account/checking-account.component';
 import { Component } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 export interface Customer {
-<<<<<<< Updated upstream
-  id: number,
-  name: string,
-  email: string,
-  phone: number
-=======
   customer_id: number,
   first_name: string,
   last_name: string,
   email: string,
   phone: string,
   password: string
->>>>>>> Stashed changes
 }
 
 @Component({
@@ -24,13 +18,9 @@ export interface Customer {
 })
 export class UserProfileComponent {
 
+  checking: Checking[] = [];
   constructor(private http: HttpClient) { }
 
-<<<<<<< Updated upstream
-  name = 'name';
-  email = 'email';
-  phone = 0;
-=======
   customer: Customer = {
     customer_id: 0,
     first_name: "",
@@ -40,25 +30,20 @@ export class UserProfileComponent {
     password: ""
   };
   customerSet: Boolean = false;
->>>>>>> Stashed changes
 
   getCustomer(value: any) {
     this.http.get(`https://localhost:7249/userprofile`, {
          params: new HttpParams().set('customerId', value),
          observe: "response",
          responseType: "json"
-    }).subscribe((result) => {
-         console.log(result);
-         const resultBody: any = result.body;
-         this.name = resultBody.firstname + " " + resultBody.lastname;
-         this.email = resultBody.email;
-         this.phone = resultBody.phoneNumber;
+    }).subscribe((result: any) => {
+      console.log(result);
+      this.customer = result.body;
+      this.customerSet = true;
        })
     
     console.log("In getCustomer: " + value);
   }
-<<<<<<< Updated upstream
-=======
 
   editFirstName(event: any) {
     this.customer.first_name = event.target.value
@@ -84,6 +69,4 @@ export class UserProfileComponent {
     console.log(this.customer);
     this.http.put('https://localhost:7249/userprofile', this.customer).subscribe()
   }
->>>>>>> Stashed changes
-    
 }
