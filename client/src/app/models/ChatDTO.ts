@@ -3,3 +3,8 @@ export interface ChatMessage {
     user: string,
     message: string
 }
+
+export interface OpenTicket {
+    chatRoomId: string,
+    initialMessage: ChatMessage
+}

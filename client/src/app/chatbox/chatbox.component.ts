@@ -25,74 +25,17 @@ export class ChatboxComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.testUsernames[Math.floor(Math.random() * this.testUsernames.length)];
     console.log(this.user);
-    //start of code test
-    let testMessages: ChatMessage[] = [
-      {
-        user: 'Lance',
-        message: 'hello'
-      },
-      {
-        user: 'Kadin',
-        message: 'hello to you too'
-      },
-      {
-        user: 'Lance',
-        message: 'cool'
-      },
-      {
-        user: 'Lance',
-        message: 'overflow'
-      },
-      {
-        user: 'Onandi',
-        message: 'overflow?'
-      },      
-      {
-        user: 'Lance',
-        message: 'overflow.'
-      },
-      {
-        user: 'Lance',
-        message: 'overflow'
-      },
-      {
-        user: 'Onandi',
-        message: 'overflow?'
-      },      
-      {
-        user: 'Lance',
-        message: 'overflow.'
-      }
-    ];
-
-    testMessages.forEach((msg: ChatMessage) => {
-      this.messages.push(msg);
-    }); //End of code test
-
     this.chatService.connect()
   }
 
   // grab values from chat.services
-  tickets = this.chatService.userTickets;
+  // tickets = this.chatService.userTickets;
+  tickets = this.chatService.openTickets;
 
   // will need to actively listen for changes to this?
   currentActiveTicket: number = this.chatService.currentActiveTicket;
 
   messageInput = new FormControl('');
-  // public submitMessageKadin() {
-  //   // user field of message will need to be changed when the user logs in
-  //   const ticketId: number = this.chatService.currentActiveTicket;
-  //   console.log(event)
-
-  //   const message: ChatMessage = {
-  //     user: "submitted user",
-  //     message: this.messageInput.value as string
-  //   }
-    
-  //   console.log(ticketId);
-  //   const json = JSON.stringify(message)
-  //   this.chatService.sendChat(json, ticketId)
-  // }
 
   submitMessage(form: NgForm){
     const ticketId: number = this.chatService.currentActiveTicket;
@@ -101,13 +44,20 @@ export class ChatboxComponent implements OnInit {
       message: this.sendContents
     }
     console.log(this.user + ": " + this.sendContents);
+
+    // for first message, automatically submit a ticket?
+    if (this.messages.length === 0) {
+      console.log("first message!")
+      this.initiateTicket(newMessage)
+    }
+
     this.chatService.sendChat(newMessage, ticketId)
     form.reset();
   }
 
   // creates a new ticket for USER only
-  public initiateTicket() {
-    this.chatService.initiateTicket();
+  public initiateTicket(initialMessage: ChatMessage) {
+    this.chatService.initiateTicket(initialMessage);
   }
 
   // should be called in init for TECH only; connects them to techSupport channel
@@ -120,6 +70,13 @@ export class ChatboxComponent implements OnInit {
   public initializeSupportConnection(event: any) {
     const privateRoomKey: string = event.target.id
 
-    this.chatService.initializeSupportConnection(parseInt(privateRoomKey));
+    // should contain the initial message that will be pushed into TECH messages
+    const initialMessage: ChatMessage = {
+      user: event.target.dataset.user,
+      message: event.target.innerText
+    };
+    console.log("initialMessage!", initialMessage)
+
+    this.chatService.initializeSupportConnection(parseInt(privateRoomKey), initialMessage);
   }
 }

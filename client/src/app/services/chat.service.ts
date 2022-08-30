@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr'; 
-import {ChatMessage} from "../models/ChatDTO";
+import {ChatMessage, OpenTicket} from "../models/ChatDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,9 @@ export class ChatService {
 
   // holds message conversations
   public messages: ChatMessage[] = []
+
+  // holds the chatRoomId & initial message for TECH ONLY
+  public openTickets: OpenTicket[] = [];
 
   // how messages are exchanged between tech & user once in a private room
   public sendChat(chat: ChatMessage, ticketId: number) {
@@ -33,13 +36,13 @@ export class ChatService {
   private privateRoomKey: number = 0;
 
   // for USERS only; puts user in a private connection room & informs tech support
-  public initiateTicket() {
+  public initiateTicket(initialMessage: ChatMessage) {
     console.log("initializing ticket")
     
     // need to generate a privateRoomKey. should do it via the customer_id in production, but will generate a random one for testing
     this.privateRoomKey = Math.floor(Math.random() * 10000);
 
-    this._hubConnection.invoke("OpenTicket", this.privateRoomKey)
+    this._hubConnection.invoke("OpenTicket", this.privateRoomKey, initialMessage)
   }
 
   // TECH ONLY -----------------------------------------------------------------
@@ -55,9 +58,12 @@ export class ChatService {
   }  
 
   // on click of a ticket, matches a tech support with a customer
-  public initializeSupportConnection(roomKey: number) {
+  public initializeSupportConnection(roomKey: number, initialMessage: ChatMessage) {
     this.currentActiveTicket = roomKey;
-    this._hubConnection.invoke("TechSupportJoinsConversation", roomKey)
+    this._hubConnection.invoke("TechSupportJoinsConversation", roomKey);
+
+    this.messages.push(initialMessage)
+    console.log("MESSAGES", this.messages)
   }
 
   // connection ----------------------------------------------------------------
@@ -86,12 +92,31 @@ export class ChatService {
     // BOTH: tech joins private room & notifies both parties
     this._hubConnection.on("conversationStarted", (message: ChatMessage) => {
       console.log("conversation started:", message);
+
+      // should announce to user that tech support has joined the chat session
+      const joinAnnouncement: ChatMessage =  {
+        user: "Announcement",
+        message: "Tech support has joined the chat"
+      };
+
+      this.messages.push(joinAnnouncement);
     })
 
     // TECH: listening for when a user opens a ticket, need the privateRoomKey id that will be attached
-    this._hubConnection.on("OpenTicket", (privateRoomKey: number) => {
+    this._hubConnection.on("OpenTicket", (privateRoomKey: number, initialMessage: ChatMessage) => {
       console.log("OpenTicket", privateRoomKey)
+
       this.userTickets.push(privateRoomKey);
+
+      // testing an openTicket for TECH support to use
+      // GOAL: not only does clicking the ticket link chat room, but also show initial message
+      const newTicket: OpenTicket = {
+        chatRoomId: privateRoomKey.toString(),
+        initialMessage: initialMessage
+      }
+      this.openTickets.push(newTicket);
+
+      // include the user's message in the return value to append to tech support's chat
     })
 
     // BOTH: starts listening for hub coorespondance

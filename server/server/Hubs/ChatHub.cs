@@ -26,14 +26,12 @@ namespace server.Hubs
         }
 
         // USER: create a ticket, open a private room, notify tech
-        public Task OpenTicket(int privateRoomKey)
+        public Task OpenTicket(int privateRoomKey, MessageDto initialMessage)
         {
-            Console.WriteLine("privateRoomKey IN OPEN TICKET");
-            Console.WriteLine(privateRoomKey);
             string connectionId = Context.ConnectionId;
             Groups.AddToGroupAsync(connectionId, privateRoomKey.ToString());
 
-            return Clients.Group("techSupport").SendAsync("OpenTicket", privateRoomKey.ToString());
+            return Clients.Group("techSupport").SendAsync("OpenTicket", privateRoomKey.ToString(), initialMessage);
         }
 
         // BOTH TECH & USER: exchanges messages with both parties in private room
