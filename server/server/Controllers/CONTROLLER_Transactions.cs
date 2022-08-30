@@ -26,7 +26,7 @@ namespace server.Controllers
         // ===================================== METHODS ====================================================================================================
         [HttpGet]
         [Route("TransactionHistory")]
-        public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AuthToken, [FromBody] int INPUT_AccountNumber)
+        public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AuthToken, int INPUT_AccountNumber)
         {
             // Authenticate User
             //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
@@ -105,6 +105,8 @@ namespace server.Controllers
             // Initial Verification
             double VERIFICATION_INITIAL_SenderAccountBalance;
             double VERIFICATION_INITIAL_RecieverAccountBalance;
+            double VERIFICATION_POST_SenderAccountBalance;
+            double VERIFICATION_POST_RecieverAccountBalance;
             try
             {
                     // Setting up Initial Verification Variables to proper format
@@ -117,30 +119,26 @@ namespace server.Controllers
                     // Initial Verification - AccountID Validity (Error Codes: -2 / -3 for Account Not Exists for Sender / Reciever Account)
                 if (VERIFICATION_INITIAL_SenderAccountBalance == -1)
                 {
-                    API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer: (INPUT_SenderAccount {0}) --> " +
-                                                "OUTPUT: !FAILURE = Sender account {0} does not exist", INPUT_SenderAccount);
+                    API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer: (INPUT_SenderAccount {0}) --> OUTPUT: !FAILURE = Sender account {1} does not exist", INPUT_SenderAccount, INPUT_SenderAccount);
                     return -2;
                 }
                 else if (VERIFICATION_INITIAL_RecieverAccountBalance == -1)
                 {
-                    API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer: (INPUT_RecieverAccount {0}) --> " +
-                                                "OUTPUT: !FAILURE = Reciever account {0} does not exist", INPUT_RecieverAccount);
+                    API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer: (INPUT_RecieverAccount {0}) --> OUTPUT: !FAILURE = Reciever account {2} does not exist", INPUT_RecieverAccount, INPUT_RecieverAccount);
                     return -3;
                 }
 
                     // Initial Verification (Error Codes: -4 for Sender insufficent funds)
                 if (VERIFICATION_INITIAL_SenderAccountBalance < INPUT_ChangeAmount)
                 {
-                    API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer: (INPUT_SenderAccount {0}, INPUT_ChangeAmount {1} --> " +
-                                                "OUTPUT: !FAILURE = Sender account has insufficent funds)", INPUT_SenderAccount, INPUT_ChangeAmount);
+                    API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer: (INPUT_SenderAccount {0}, INPUT_ChangeAmount {1} --> OUTPUT: !FAILURE = Sender account has insufficent funds)", INPUT_SenderAccount, INPUT_ChangeAmount);
                     return -4;
 
                 }
             }
             catch (Exception ERROR_IntialAccountVerification)
             {
-                API_PROP_Logger.LogError("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer ({0} , {1} , {2}) --> " +
-                                            "OUTPUT: !ERROR = Issue with initial account verification", INPUT_SenderAccount, INPUT_RecieverAccount, INPUT_ChangeAmount);
+                API_PROP_Logger.LogError("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer ({0} , {1} , {2}) --> OUTPUT: !ERROR = Issue with initial account verification", INPUT_SenderAccount, INPUT_RecieverAccount, INPUT_ChangeAmount);
                 API_PROP_Logger.LogError(ERROR_IntialAccountVerification.Message, ERROR_IntialAccountVerification);
                 return -1;
             }
@@ -166,9 +164,6 @@ namespace server.Controllers
                 }
 
                     // Manual RE-Calculate Verification
-                double VERIFICATION_POST_SenderAccountBalance;
-                double VERIFICATION_POST_RecieverAccountBalance;
-
                 VERIFICATION_POST_SenderAccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_SenderAccount);
                 VERIFICATION_POST_RecieverAccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_RecieverAccount);
 
@@ -186,8 +181,7 @@ namespace server.Controllers
             }
             catch (Exception ERROR_PostAccountVerification)
             {
-                API_PROP_Logger.LogError("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer ({0} , {1} , {2}) --> " +
-                                            "OUTPUT: !ERROR = Issue with post account verification, !!Reverting to Inital Verification State!!", INPUT_SenderAccount, INPUT_RecieverAccount, INPUT_ChangeAmount);
+                API_PROP_Logger.LogError("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer ({0} , {1} , {2}) --> OUTPUT: !ERROR = Issue with post account verification, !!Reverting to Inital Verification State!!", INPUT_SenderAccount, INPUT_RecieverAccount, INPUT_ChangeAmount);
                 API_PROP_Logger.LogError(ERROR_PostAccountVerification.Message, ERROR_PostAccountVerification);
 
                     // Tries to revert the transaction 3 time in case of tragic error
@@ -214,13 +208,11 @@ namespace server.Controllers
                     // Runs if all else fails
                 if (STATUS_REVERTED_SenderAccount == false || STATUS_REVERTED_RecieverAccount == false)
                 {
-                    API_PROP_Logger.LogError("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer !!REVERT!! ({0} , {1} , {2}) --> " +
-                                            "OUTPUT: !ERROR = UNABLE TO REVERT ORIGINAL STATE", INPUT_SenderAccount, INPUT_RecieverAccount, INPUT_ChangeAmount);
+                    API_PROP_Logger.LogError("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer !!REVERT!! ({0} , {1} , {2}) --> OUTPUT: !ERROR = UNABLE TO REVERT ORIGINAL STATE", INPUT_SenderAccount, INPUT_RecieverAccount, INPUT_ChangeAmount);
                 }
                 else
                 {
-                    API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer !!REVERT!! ({0} , {1} , {2}) --> " +
-                                           "OUTPUT: SUCCESSFULLY REVERT ORIGINAL STATE", INPUT_SenderAccount, INPUT_RecieverAccount, INPUT_ChangeAmount);
+                    API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_LOGIC_ASYNC_MoneyTransfer !!REVERT!! ({0} , {1} , {2}) --> OUTPUT: SUCCESSFULLY REVERT ORIGINAL STATE", INPUT_SenderAccount, INPUT_RecieverAccount, INPUT_ChangeAmount);
                 }
 
                 return -1;

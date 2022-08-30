@@ -40,8 +40,7 @@ namespace server_Database
 
                 OUTPUT_BlankHistory.Add(OUTPUT_DummyTransaction);
 
-                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> " +
-                                            "OUTPUT: !FAILURE = Unable to find transaction history for account id {0}, returning blank list", INPUT_AccountNumber);
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> OUTPUT: !FAILURE = Unable to find transaction history for account id, returning blank list", INPUT_AccountNumber);
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return OUTPUT_BlankHistory;
@@ -65,8 +64,7 @@ namespace server_Database
                     OUTPUT_TransactionHistory.Add(TEMP_Transaction);
                 }
 
-                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> " +
-                                            "OUTPUT: Found transaction history for account id {0}, returning list", INPUT_AccountNumber);
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> OUTPUT: Found transaction history for account id {0}, returning list", INPUT_AccountNumber);
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return OUTPUT_TransactionHistory;
@@ -95,14 +93,12 @@ namespace server_Database
 
                 await DB_command.ExecuteNonQueryAsync();
 
-                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewTransaction ({0}, {1}) --> " +
-                                            "OUTPUT: Successfully inserted new transaction", INPUT_AccountNumber);
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewTransaction ({0}) --> OUTPUT: Successfully inserted new transaction for account {1}", INPUT_AccountNumber, INPUT_AccountNumber);
                 return true;
             }
             catch (Exception ERROR_UnableInsertIntoTransactionTable)
             {
-                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewTransaction ({0}, {1}) --> " +
-                                            "OUTPUT: !FAILED = Unable to insert new transaction", INPUT_AccountNumber);
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewTransaction ({0}) --> OUTPUT: !FAILED = Unable to insert new transaction for account {1}", INPUT_AccountNumber, INPUT_AccountNumber);
                 API_PROP_Logger.LogWarning(ERROR_UnableInsertIntoTransactionTable.Message, ERROR_UnableInsertIntoTransactionTable);
                 return false;
             }
@@ -128,8 +124,7 @@ namespace server_Database
             // Outcome if no account balence can be found
             if (DB_reader.HasRows == false)
             {
-                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getAccountBalance ({0}) --> " +
-                                            "OUTPUT: !FAILURE = Unable to find balence for account id {0}, returning -1", INPUT_AccountNumber);
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getAccountBalance ({0}) --> OUTPUT: !FAILURE = Unable to find balence for account id {1}, returning -1", INPUT_AccountNumber, INPUT_AccountNumber);
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return -1;
@@ -141,8 +136,7 @@ namespace server_Database
                
                 double OUTPUT_Balence = DB_reader.GetDouble(0);
 
-                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> " +
-                                            "OUTPUT: Found transaction history for account id {0}, returning list", INPUT_AccountNumber);
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> OUTPUT: Found transaction history for account id {1}, returning list", INPUT_AccountNumber, INPUT_AccountNumber);
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return OUTPUT_Balence;
@@ -169,15 +163,13 @@ namespace server_Database
 
                 await DB_command.ExecuteNonQueryAsync();
 
-                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_updateAccountBalence ({0}, {1}) --> " +
-                                            "OUTPUT: Updated balence to {1} for account {0}, returning true", INPUT_AccountNumber, INPUT_NewBalance, INPUT_NewBalance, INPUT_AccountNumber);
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_updateAccountBalence ({0}, {1}) --> OUTPUT: Updated balence to {2} for account {3}, returning true", INPUT_AccountNumber, INPUT_NewBalance, INPUT_NewBalance, INPUT_AccountNumber);
                 await DB_connection.CloseAsync();
                 return true;
             }
             catch (Exception ERROR_TRANSACTION_updateBalence)
             {
-                API_PROP_Logger.LogError("EXECUTED: TRANSACTION_ASYNC_updateAccountBalence ({0}, {1}) --> " +
-                                            "OUTPUT: !FAILURE = Unable to update account {0} balence", INPUT_AccountNumber, INPUT_NewBalance, INPUT_AccountNumber);
+                API_PROP_Logger.LogError("EXECUTED: TRANSACTION_ASYNC_updateAccountBalence ({0}, {1}) --> OUTPUT: !FAILURE = Unable to update account {2} balence", INPUT_AccountNumber, INPUT_NewBalance, INPUT_AccountNumber);
                 API_PROP_Logger.LogError(ERROR_TRANSACTION_updateBalence.Message, ERROR_TRANSACTION_updateBalence);
                 return false;
             }
