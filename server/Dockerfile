@@ -17,3 +17,5 @@ WORKDIR /app
 COPY --from=build /published .
 
 ENTRYPOINT [ "dotnet", "server.dll" ]
+
+EXPOSE 80
