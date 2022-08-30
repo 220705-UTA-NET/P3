@@ -15,6 +15,7 @@ export class ChatboxComponent implements OnInit {
   user : string = ''; //Client username goes here
   messages : ChatMessage[] = this.chatService.messages;
   sendContents : string = ''; //Don't touch this
+  minimized : boolean = true;
 
   constructor(public chatService: ChatService, private cdref: ChangeDetectorRef) { }
   
@@ -42,13 +43,14 @@ export class ChatboxComponent implements OnInit {
       user: this.user,
       message: this.sendContents
     }
+    if(this.sendContents == null)
+      return;
     console.log(this.user + ": " + this.sendContents);
 
     // for first message, automatically submit a ticket
     if (this.messages.length === 0) {
       this.initiateTicket(newMessage)
     }
-
     this.chatService.sendChat(newMessage, ticketId)
     form.reset();
   }
@@ -79,5 +81,12 @@ export class ChatboxComponent implements OnInit {
 
   closeTicket(chatRoomId: string) {
     this.chatService.closeTicket(chatRoomId);
+  }
+
+  public minimizerClick(){
+    if(this.minimized)
+      this.minimized = false;
+    else
+      this.minimized = true;
   }
 }

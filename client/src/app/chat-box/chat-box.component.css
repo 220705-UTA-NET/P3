@@ -1,3 +1,22 @@
+.chat-opener {
+    display: none;
+    position: fixed;
+    right: 30px;
+    width: 300px;
+    height: 35px;
+    max-width: 85vw;
+    border-radius: 5px;
+    box-shadow: 0px 5px 35px 9px #ccc;
+    font-family: 'Arial';
+    font-weight: bold;
+    background: rgb(242, 105, 38);
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    color: white;
+    text-align: center;
+    font-size: 17px;
+    padding-top: 15px;
+}
 .chat-box {
     display: none;
     background: #efefef;
@@ -31,7 +50,7 @@
     overflow: hidden;
 }
 
-.chat-box-close {
+.chat-box-top {
     position: absolute;
     top: 10px;
     right: 10px;
