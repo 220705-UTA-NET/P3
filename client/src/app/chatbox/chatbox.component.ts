@@ -13,7 +13,6 @@ import { ChatMessage } from '../models/ChatDTO';
 export class ChatboxComponent implements OnInit {
   testUsernames : string[] = [ 'Lance', 'Kadin', 'Joseph', 'Onandi', 'Rich', 'Ian', 'Jonathan'];
   user : string = ''; //Client username goes here
-  //messages : ChatMessage[] = []; //Message history/log (needs subscribe)
   messages : ChatMessage[] = this.chatService.messages;
   sendContents : string = ''; //Don't touch this
 
@@ -45,9 +44,8 @@ export class ChatboxComponent implements OnInit {
     }
     console.log(this.user + ": " + this.sendContents);
 
-    // for first message, automatically submit a ticket?
+    // for first message, automatically submit a ticket
     if (this.messages.length === 0) {
-      console.log("first message!")
       this.initiateTicket(newMessage)
     }
 
@@ -75,8 +73,11 @@ export class ChatboxComponent implements OnInit {
       user: event.target.dataset.user,
       message: event.target.innerText
     };
-    console.log("initialMessage!", initialMessage)
 
     this.chatService.initializeSupportConnection(parseInt(privateRoomKey), initialMessage);
+  }
+
+  closeTicket(chatRoomId: string) {
+    this.chatService.closeTicket(chatRoomId);
   }
 }

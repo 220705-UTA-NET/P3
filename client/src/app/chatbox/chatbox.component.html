@@ -1,16 +1,11 @@
-<!-- routing: /chatbox -->
-
-<!-- below is simply to test functionality, feel free to replace. Just be sure to include the submit function -->
+<!-- testing only, TECH will automatically fire joinTechSupport on init -->
 <h1>Testing chatbox functionality</h1>
-<input type="text" placeholder="Type your message here..." [formControl]="messageInput">
-<!-- <button type="button" (click)="submitMessageKadin()">Send</button> -->
-<!-- <button type="button" (click)="initiateTicket()">Test ticket startup signalR connection</button> -->
 <button type="button" (click)="joinTechSupport()">Join tech support channel</button>
-
-<!-- initializeSupportConnection() in the future will have the user's privateRoomkey saved to the element id, and can be passed by event-->
+<!-- above is testing only -->
 
 <div *ngFor="let ticket of tickets">
-    <button type="button" (click)="initializeSupportConnection($event)" id="{{ticket.chatRoomId}}" [attr.data-user]="ticket.initialMessage.user">{{ticket.initialMessage.message}}</button>
+    <button *ngIf="ticket.open" type="button" (click)="initializeSupportConnection($event)" id="{{ticket.chatRoomId}}" [attr.data-user]="ticket.initialMessage.user">{{ticket.initialMessage.message}}</button>
+    <button *ngIf="ticket.open" (click)="closeTicket(ticket.chatRoomId)">Close ticket</button>
 </div>
 
 <!-- CODE STARTS: chat box insert-->

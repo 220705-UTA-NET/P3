@@ -15,8 +15,6 @@ namespace server.Hubs
         // TECH: will be used to connect an indiviudal tech support staff to a user ticket
         public Task TechSupportJoinsConversation(int privateRoomKey)
         { 
-            Console.WriteLine("privateRoomKey IN TECHSUPPORTJOIN");
-            Console.WriteLine(privateRoomKey);
             // Id of the tech support
             string connectionId = Context.ConnectionId;
             // add tech support to private room

@@ -22,7 +22,6 @@ export class ChatService {
   // how messages are exchanged between tech & user once in a private room
   public sendChat(chat: ChatMessage, ticketId: number) {
     // temporary measure until we have seperate profiles
-
     // ticketId should be equivalent to the privateRoomKey of a user account
     if (this.privateRoomKey == 0) {
       this._hubConnection.invoke("SendChat", chat, ticketId);
@@ -36,9 +35,7 @@ export class ChatService {
   private privateRoomKey: number = 0;
 
   // for USERS only; puts user in a private connection room & informs tech support
-  public initiateTicket(initialMessage: ChatMessage) {
-    console.log("initializing ticket")
-    
+  public initiateTicket(initialMessage: ChatMessage) {    
     // need to generate a privateRoomKey. should do it via the customer_id in production, but will generate a random one for testing
     this.privateRoomKey = Math.floor(Math.random() * 10000);
 
@@ -48,22 +45,33 @@ export class ChatService {
   // TECH ONLY -----------------------------------------------------------------
   // holds all user tickets
   public userTickets: number[] = [];
+  // value of active ticket is assigned to the send message btn; how messages are routed correctly
   public currentActiveTicket: number = 0;
 
   // enables tech support to be notified when a new ticket is made.
   public joinTechSupport()
   {
-    console.log("joining tech support");
     this._hubConnection.invoke("JoinSupportChat");
   }  
 
   // on click of a ticket, matches a tech support with a customer
   public initializeSupportConnection(roomKey: number, initialMessage: ChatMessage) {
+    // sets currentActiveTicket to the user's roomKey; how we change who the TECH is speaking to
     this.currentActiveTicket = roomKey;
     this._hubConnection.invoke("TechSupportJoinsConversation", roomKey);
 
+    // move initial message into TECH's chat
     this.messages.push(initialMessage)
-    console.log("MESSAGES", this.messages)
+  }
+
+  // once a ticket has been fulfilled, close the ticket connection
+  // do not need to anything in signalR, as connection automatically closes once both users disconnect
+  public closeTicket(chatRoomId: string) {
+    this.openTickets.forEach((ticket) => {
+      if (ticket.chatRoomId === chatRoomId) {
+        ticket.open = false;
+      }
+    })
   }
 
   // connection ----------------------------------------------------------------
@@ -84,15 +92,10 @@ export class ChatService {
     this._hubConnection.on("messaging", (message: ChatMessage) => {
       // can render response messages from here
       this.messages.push(message);
-      console.log("all messages", this.messages)
-
-      //activateNewMessage
     });
 
     // BOTH: tech joins private room & notifies both parties
     this._hubConnection.on("conversationStarted", (message: ChatMessage) => {
-      console.log("conversation started:", message);
-
       // should announce to user that tech support has joined the chat session
       const joinAnnouncement: ChatMessage =  {
         user: "Announcement",
@@ -103,20 +106,16 @@ export class ChatService {
     })
 
     // TECH: listening for when a user opens a ticket, need the privateRoomKey id that will be attached
+    // Ticket also carries the user's name & their initial message that began the chat
     this._hubConnection.on("OpenTicket", (privateRoomKey: number, initialMessage: ChatMessage) => {
-      console.log("OpenTicket", privateRoomKey)
-
       this.userTickets.push(privateRoomKey);
 
-      // testing an openTicket for TECH support to use
-      // GOAL: not only does clicking the ticket link chat room, but also show initial message
       const newTicket: OpenTicket = {
         chatRoomId: privateRoomKey.toString(),
-        initialMessage: initialMessage
+        initialMessage: initialMessage,
+        open: true
       }
       this.openTickets.push(newTicket);
-
-      // include the user's message in the return value to append to tech support's chat
     })
 
     // BOTH: starts listening for hub coorespondance
@@ -124,6 +123,4 @@ export class ChatService {
       .then(() => console.log("connection started"))
       .catch((err) => console.log("error receiving connection", err))
   }
-
-  
 }
