@@ -85,18 +85,18 @@ namespace server.Controllers
 
             // Transfer Money from Account to Implicit Bank Reserve 
 
-            int STATUS_Deposit;
-            STATUS_Deposit = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_Withdraw.AccountID, BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount);
+            int STATUS_Withdraw;
+            STATUS_Withdraw = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_Withdraw.AccountID, BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount);
 
             //Successfuy Deposit
-            if (STATUS_Deposit == 1)
+            if (STATUS_Withdraw == 1)
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT", true);
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Withdraw.AccountID, false);
-                return STATUS_Deposit;
+                return STATUS_Withdraw;
             }
 
-            return STATUS_Deposit;
+            return STATUS_Withdraw;
         }
 
         //====================================== PRIVATE METHODS ============================================================================================
