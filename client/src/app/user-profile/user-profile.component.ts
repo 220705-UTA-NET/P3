@@ -1,13 +1,12 @@
-import { Checking } from './../checking-account/checking-account.component';
 import { Component } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 export interface Customer {
-  customer_id: number,
-  first_name: string,
-  last_name: string,
+  id: number,
+  firstname: string,
+  lastname: string,
   email: string,
-  phone: string,
+  phoneNumber: string,
   password: string
 }
 
@@ -18,15 +17,14 @@ export interface Customer {
 })
 export class UserProfileComponent {
 
-  checking: Checking[] = [];
   constructor(private http: HttpClient) { }
 
   customer: Customer = {
-    customer_id: 0,
-    first_name: "",
-    last_name: "",
+    id: 0,
+    firstname: "",
+    lastname: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     password: ""
   };
   customerSet: Boolean = false;
@@ -46,11 +44,11 @@ export class UserProfileComponent {
   }
 
   editFirstName(event: any) {
-    this.customer.first_name = event.target.value
+    this.customer.firstname = event.target.value
   }
 
   editLastName(event: any) {
-    this.customer.last_name = event.target.value
+    this.customer.lastname = event.target.value
   }
 
   editEmail(event: any) {
@@ -58,7 +56,7 @@ export class UserProfileComponent {
   }
 
   editPhoneNumber(event: any) {
-    this.customer.phone = event.target.value
+    this.customer.phoneNumber = event.target.value
   }
 
   editPassword(event: any) {

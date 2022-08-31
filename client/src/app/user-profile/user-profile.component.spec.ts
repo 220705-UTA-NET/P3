@@ -26,11 +26,11 @@ describe('UserProfileComponent', () => {
 
   it('should set and edit customer', () => {
     const customer = {
-      customer_id: 1,
-      first_name: "John",
-      last_name: "Doe",
+      id: 1,
+      firstname: "John",
+      lastname: "Doe",
       email: "email@example.com",
-      phone: "12345678910",
+      phoneNumber: "12345678910",
       password: "pass"
     }
 
@@ -44,11 +44,11 @@ describe('UserProfileComponent', () => {
     }
 
     component.editFirstName(obj);
-    expect(component.customer.first_name).toBe("Jake");
+    expect(component.customer.firstname).toBe("Jake");
 
     obj.target.value = "Smith";
     component.editLastName(obj);
-    expect(component.customer.last_name).toBe("Smith");
+    expect(component.customer.lastname).toBe("Smith");
 
     obj.target.value = "newemail@example.com";
     component.editEmail(obj);
@@ -56,7 +56,7 @@ describe('UserProfileComponent', () => {
 
     obj.target.value = "99999999999";
     component.editPhoneNumber(obj);
-    expect(component.customer.phone).toBe("99999999999");
+    expect(component.customer.phoneNumber).toBe("99999999999");
 
     obj.target.value = "newpass";
     component.editPassword(obj);
@@ -69,11 +69,11 @@ describe('UserProfileComponent', () => {
     const request = controller.expectOne("https://localhost:7249/userprofile?customerId=1");
 
     const customer = {
-      customer_id: 1,
-      first_name: "Derick",
-      last_name: "Xie",
+      id: 1,
+      firstname: "Derick",
+      lastname: "Xie",
       email: "newemail@gmail.com",
-      phone: "99999999999",
+      phoneNumber: "99999999999",
       password: "changed"
     }
     request.flush({ "id": 1, "firstname": "Derick", "lastname": "Xie", "email": "newemail@gmail.com", "phoneNumber": "99999999999", "password": "changed" })
