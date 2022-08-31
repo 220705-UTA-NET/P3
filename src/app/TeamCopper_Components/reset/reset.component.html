@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col s8 offset-s2">
+    <div class="card">
+      <div class="sm-jumbotron center-align">
+        <h3> <strong>Misty Mountain Financial</strong> </h3>
+        <h5><strong>Reset Password</strong></h5>
+      </div>
+
+      <form class="col s12 white" #UserRegistrationForm="ngForm" autocomplete="off">        
+      
+        <div class="container">
+          <input type="text" class="validate" name="email" required>
+          <!-- #email="ngModel" [(ngModel)]="user.email" -->
+          <label data-error="Required Field">Old Password</label>
+
+          <input type="password" class="validate" name="password" required minlength="4">
+          
+          <label>New Password</label>
+          <input type="password" class="validate" name="password" required minlength="4">
+          
+          <label>Confirm Password</label>
+        </div>
+        <!-- <div class="input-field col s6">
+          <input type="password" class="validate" name="password" required minlength="4">
+          
+          <label >Password</label>
+        </div> -->
+        <!-- #password="ngModel" [(ngModel)]="user.password" -->
+        <div class ="buttons">
+          <div class="action_btn">
+            <button name="submit" class="action_btn-submit1" type="submit" value="Login">Change Password</button>
+            <!-- <button name="submit" class="action_btn-submit" type="submit" value="reset">Forgot Password?</button> -->
+
+          </div>
+        </div>
+      <a style="color: rgb(255, 98, 0); margin-left: 620px; font-size: 15px;" routerLink="/login"><strong>Login</strong> </a>
+      </form>
+      
+      <a style="color: rgb(255, 98, 0); margin-left:610px; padding-left: 20px; font-size: 15px;" routerLink="/register"><strong>Register</strong> </a>
+        
+
+    </div>
+  </div>
+</div>
+
