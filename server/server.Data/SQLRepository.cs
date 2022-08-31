@@ -1,4 +1,6 @@
-﻿/*using Microsoft.Extensions.Logging;
+﻿/* 
+
+using Microsoft.Extensions.Logging;
 using server.Model;
 using System.Data.SqlClient;
 
@@ -53,11 +55,21 @@ namespace server.Data{
             VALUES
             (@customer_id , @ticket_status)";
 
+            int status ;
+
+            if (ticket.open)
+            {
+                status = 1;
+            }
+            else
+            {
+                status = 0;
+            }
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
             
-            cmd.Parameters.AddWithValue("@customer_id", ticket.customer_id);
-            cmd.Parameters.AddWithValue("@ticket_status", ticket.ticket_status);
+            cmd.Parameters.AddWithValue("@customer_id", ticket.);
+            cmd.Parameters.AddWithValue("@ticket_status", status);
             
 
             await cmd.ExecuteNonQueryAsync();
@@ -73,17 +85,18 @@ namespace server.Data{
             await connection.OpenAsync();
 
             string cmdText =
-            @"INSERT INTO Ticket (ticket_id, message_content, message_DateTime, message_user,)
+            @"INSERT INTO Message (message_content, message_DateTime, message_user,)
             VALUES
-            ( @ticket_id, @message_content, @message_DateTime, @message_user)";
+            (@message_content, @message_DateTime, @message_user)";
+
+           
 
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
 
-            cmd.Parameters.AddWithValue("@ticket_id", message.ticket_id);
-            cmd.Parameters.AddWithValue("@message_content", message.message_content);
+            cmd.Parameters.AddWithValue("@message_content", message.message);
             cmd.Parameters.AddWithValue("@message_DateTime", DateTime.Now);
-            cmd.Parameters.AddWithValue("@message_user", message.message_user);
+            cmd.Parameters.AddWithValue("@message_user", message.user);
 
 
             await cmd.ExecuteNonQueryAsync();
