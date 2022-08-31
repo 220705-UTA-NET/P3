@@ -39,7 +39,7 @@ namespace server.Controllers
             // Checks if returned list is a dummy list
             if (TEMP_LIST_TransactionHistory[0].transaction_id == -1)
             {
-                OUTPUT_DTO.NumberOfTransactions = -1;
+                OUTPUT_DTO.NumberOfTransactions = 0;
                 OUTPUT_DTO.LIST_DMODEL_Transactions = new List<DMODEL_Transaction>();
             }
             else
@@ -99,7 +99,91 @@ namespace server.Controllers
             return STATUS_Withdraw;
         }
 
-        //====================================== PRIVATE METHODS ============================================================================================
+        // =================================================================================================================================================
+        [HttpPost]
+        [Route("RequestCreate")]
+        public async Task<int> TRANSACTION_MAIN_ASYNC_MakeNewRequest(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_RequestCreate INPUT_DTO_RequestCreate)
+        {
+            // Authenticate User
+            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
+
+            // Transfer Money from Account to Implicit Bank Reserve 
+
+            bool STATUS_RequetCreate;
+
+            STATUS_RequetCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(INPUT_DTO_RequestCreate.request_from, INPUT_DTO_RequestCreate.org_account, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, INPUT_DTO_RequestCreate.request_note);
+
+            // Basic Returns Until Error Codes Can Be Designated
+            if (STATUS_RequetCreate == true)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        // =================================================================================================================================================
+        [HttpGet]
+        [Route("RequestOutstanding")]
+        public async Task<DTO_TRANSACTION_RequestOutstanding> TRANSACTION_MAIN_ASYNC_GetOutstandingRequest(int INPUT_AuthToken, int INPUT_CustomerID)
+        {
+            // Authenticate User
+            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
+
+            DTO_TRANSACTION_RequestOutstanding OUTPUT_DTO = new DTO_TRANSACTION_RequestOutstanding();
+
+            List<DMODEL_Request> TEMP_LIST_OutstandingRequest = new List<DMODEL_Request>();
+            TEMP_LIST_OutstandingRequest = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetOutstandingRequest(INPUT_CustomerID);
+
+            // Checks if returned list is a dummy list
+            if (TEMP_LIST_OutstandingRequest[0].request_id == -1)
+            {
+                OUTPUT_DTO.NumberOfRequests = 0;
+                OUTPUT_DTO.LIST_DMODEL_Request = new List<DMODEL_Request>();
+            }
+            else
+            {
+                OUTPUT_DTO.NumberOfRequests = TEMP_LIST_OutstandingRequest.Count;
+                OUTPUT_DTO.LIST_DMODEL_Request = TEMP_LIST_OutstandingRequest;
+            }
+
+            return OUTPUT_DTO;
+        }
+
+        // =================================================================================================================================================
+        [HttpPost]
+        [Route("RequestResponse")]
+        public async Task<int> TRANSACTION_MAIN_ASYNC_UseRequestResponse(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_RequestResponse INPUT_DTO_RequestResponse)
+        {
+            // Authenticate User
+            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
+
+            // If User Choices to Decline Transfer
+            if (INPUT_DTO_RequestResponse.ApprovedTransaction == false)
+            {
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);
+                return -1;
+            }
+
+            // IF User Approved Transfer
+            // NOTE: request_type (true = send money, false = request money)
+            int STATUS_Request;
+            if (INPUT_DTO_RequestResponse.RequestData.request_type == true)
+            {
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
+            }
+            else
+            {
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.RequestData.amount);
+            }
+
+            await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);
+            return STATUS_Request;
+        }
+
+        // ===================================== PRIVATE METHODS ===========================================================================================
         private async Task<int> TRANSACTION_LOGIC_ASYNC_MoneyTransfer(int INPUT_SenderAccount, int INPUT_RecieverAccount, double INPUT_ChangeAmount)
         {
             // Initial Verification
