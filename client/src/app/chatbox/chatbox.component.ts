@@ -71,7 +71,7 @@ export class ChatboxComponent implements OnInit {
 
     // if a user has sent 6+ messages within 5000 miliseconds
     if (this.spamFilterTracker.messageCount > 5) {
-      this.spamFilterTracker.isSpam = true;
+      this.spamFilterTracker.isSpam = true; 
       console.log("Please wait a moment before trying to send another message")
       return;
     }

@@ -60,6 +60,9 @@ export class ChatService {
     this.currentActiveTicket = roomKey;
     this._hubConnection.invoke("TechSupportJoinsConversation", roomKey);
 
+    // clear previous message history with other clients
+    this.messages.length = 0;
+
     // move initial message into TECH's chat
     this.messages.push(initialMessage)
   }
