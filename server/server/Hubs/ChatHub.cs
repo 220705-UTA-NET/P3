@@ -24,7 +24,7 @@ namespace server.Hubs
         }
 
         // USER: create a ticket, open a private room, notify tech
-        public Task OpenTicket(int privateRoomKey, MessageDto initialMessage)
+        public Task OpenTicket(int privateRoomKey, MessageDTO initialMessage)
         {
             string connectionId = Context.ConnectionId;
             Groups.AddToGroupAsync(connectionId, privateRoomKey.ToString());
@@ -33,14 +33,14 @@ namespace server.Hubs
         }
 
         // BOTH TECH & USER: exchanges messages with both parties in private room
-        public Task SendChat(MessageDto newMessage, int privateRoomKey)
+        public Task SendChat(MessageDTO newMessage, int privateRoomKey)
         {
             string clientId = Context.ConnectionId;
             // message will need to go to the client's group, should pass it from frontend
             return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", newMessage);
         }
 
-        public Task CloseTicket(string chatRoomId, MessageDto finalMessage)
+        public Task CloseTicket(string chatRoomId, MessageDTO finalMessage)
         {
             return Clients.Group(chatRoomId).SendAsync("CloseTicket", finalMessage);
         }

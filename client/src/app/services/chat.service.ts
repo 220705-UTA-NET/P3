@@ -122,7 +122,8 @@ export class ChatService {
 
       const newTicket: OpenTicket = {
         chatRoomId: privateRoomKey.toString(),
-        initialMessage: initialMessage,
+        user: initialMessage.user,
+        message: initialMessage.message,
         open: true
       }
       this.openTickets.push(newTicket);

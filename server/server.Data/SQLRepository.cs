@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿/*using Microsoft.Extensions.Logging;
 using server.Model;
 
 namespace server.Data{
@@ -15,4 +15,4 @@ namespace server.Data{
             _logger = logger;
         }
     }
-}
+}*/
