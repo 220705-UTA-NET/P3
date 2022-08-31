@@ -15,8 +15,6 @@ namespace server.Hubs
         // TECH: will be used to connect an indiviudal tech support staff to a user ticket
         public Task TechSupportJoinsConversation(int privateRoomKey)
         { 
-            Console.WriteLine("privateRoomKey IN TECHSUPPORTJOIN");
-            Console.WriteLine(privateRoomKey);
             // Id of the tech support
             string connectionId = Context.ConnectionId;
             // add tech support to private room
@@ -40,6 +38,11 @@ namespace server.Hubs
             string clientId = Context.ConnectionId;
             // message will need to go to the client's group, should pass it from frontend
             return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", newMessage);
+        }
+
+        public Task CloseTicket(string chatRoomId, MessageDto finalMessage)
+        {
+            return Clients.Group(chatRoomId).SendAsync("CloseTicket", finalMessage);
         }
     }
 }

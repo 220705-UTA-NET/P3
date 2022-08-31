@@ -6,5 +6,6 @@ export interface ChatMessage {
 
 export interface OpenTicket {
     chatRoomId: string,
-    initialMessage: ChatMessage
+    initialMessage: ChatMessage,
+    open: boolean
 }
