@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿/*using Microsoft.Extensions.Logging;
 using server.Model;
 using System.Data.SqlClient;
 
@@ -93,4 +93,4 @@ namespace server.Data{
             _logger.LogInformation("Executed AddMessage");
         }
     }
-}
+}*/

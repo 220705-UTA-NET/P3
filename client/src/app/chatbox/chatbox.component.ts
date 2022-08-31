@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import {ChatService} from "../services/chat.service";
-import { ChatMessage } from '../models/ChatDTO';
+import { ChatMessage, OpenTicket } from '../models/ChatDTO';
 
 @Component({
   selector: 'app-chatbox',
@@ -11,11 +11,17 @@ import { ChatMessage } from '../models/ChatDTO';
 })
 
 export class ChatboxComponent implements OnInit {
-  testUsernames : string[] = [ 'Lance', 'Kadin', 'Joseph', 'Onandi', 'Rich', 'Ian', 'Jonathan'];
+  testUsernames : string[] = [ "Jonathan De_La_Cruz", "Kadin Campbell", "Annie Arayon-Calosa", "Hau Nguyen", "German Diaz",
+  "Brandon Figueredo", "Alejandro Hernandez", "James Beitz", "Abanob Sadek", "Ian Seki", "Iqbal Ahmed", "Brandon Sassano",
+  "Daniel Beidelschies", "Derick Xie", "Eunice Decena", "Aurel Npounengnong", "Samuel Jackson", "Ellery De_Jesus", "Rogers Ssozi",
+  "Lance Gong", "Arthur Gao", "Jared Green", "Jake Nguyen", "Joseph Boye", "Onandi Stewart", "Andrew Grozdanov", "Richard Hawkins" ];
   user : string = ''; //Client username goes here
   messages : ChatMessage[] = this.chatService.messages;
   sendContents : string = ''; //Don't touch this
   minimized : boolean = true;
+  ticketMinimized : boolean = true;
+  isSupport : boolean = false;
+
 
   constructor(public chatService: ChatService, private cdref: ChangeDetectorRef) { }
   
@@ -87,13 +93,13 @@ export class ChatboxComponent implements OnInit {
   // should be called in init for TECH only; connects them to techSupport channel
   public joinTechSupport() {
     this.chatService.joinTechSupport();
+    this.isSupport = true;
   }
 
   // should be called by TECH only on click of a ticket to join a particular chat channel
   // will need to save the privateRoomKey variable saved in the web socket to the ticket, and transfer it on click
   public initializeSupportConnection(event: any) {
     const privateRoomKey: string = event.target.id
-
     // should contain the initial message that will be pushed into TECH messages
     const initialMessage: ChatMessage = {
       user: event.target.dataset.user,
@@ -103,14 +109,26 @@ export class ChatboxComponent implements OnInit {
     this.chatService.initializeSupportConnection(parseInt(privateRoomKey), initialMessage);
   }
 
-  closeTicket(chatRoomId: string, user: string) {
-    this.chatService.closeTicket(chatRoomId, user);
+  //closes ticket
+  closeTicket(chatRoom: OpenTicket, user: string) {
+    if(chatRoom.open)
+      this.chatService.closeTicket(chatRoom.chatRoomId, user);
   }
 
+  //Button click function to minimize chat
   public minimizerClick(){
     if(this.minimized)
       this.minimized = false;
     else
       this.minimized = true;
+  }
+
+  
+  //Button click function to minimize support tickets
+  public ticketMinimizerClick(){
+    if(this.ticketMinimized)
+      this.ticketMinimized = false;
+    else
+      this.ticketMinimized = true;
   }
 }

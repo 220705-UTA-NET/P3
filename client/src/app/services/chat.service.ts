@@ -76,8 +76,8 @@ export class ChatService {
     })
 
     const finalMessage: ChatMessage = {
-      user: user,
-      message: "This ticket has been marked as resolved!"
+      user: "Announcement",
+      message: "This ticket has been marked as resolved"
     }
 
     // CloseTicket method simply informs group members that the ticket has been closed
@@ -122,7 +122,8 @@ export class ChatService {
 
       const newTicket: OpenTicket = {
         chatRoomId: privateRoomKey.toString(),
-        initialMessage: initialMessage,
+        user: initialMessage.user,
+        message: initialMessage.message,
         open: true
       }
       this.openTickets.push(newTicket);
