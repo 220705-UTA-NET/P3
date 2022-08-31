@@ -120,6 +120,7 @@ export class ChatService {
     this._hubConnection.on("OpenTicket", (privateRoomKey: number, initialMessage: ChatMessage) => {
       this.userTickets.push(privateRoomKey);
 
+      console.log(initialMessage.user + ": test " + initialMessage.message)
       const newTicket: OpenTicket = {
         chatRoomId: privateRoomKey.toString(),
         user: initialMessage.user,
