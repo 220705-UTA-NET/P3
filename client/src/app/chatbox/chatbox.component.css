@@ -186,3 +186,8 @@ button:active {
     background-color: rgb(94, 99, 112);
     float: left;
 }
+
+.spam-notice {
+    text-align: center;
+    color: red;
+}

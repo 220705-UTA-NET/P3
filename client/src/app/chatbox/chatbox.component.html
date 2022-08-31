@@ -41,6 +41,7 @@
             <input type="text" id="chat-input" [(ngModel)]="sendContents" name="first" (keyup.enter)="submitMessage(inputForm)" autocomplete="off" placeholder="Send a message..."/>
             <button type="button" class="chat-submit material-icons" (click)="submitMessage(inputForm)">send</button>
         </form>
+        <p *ngIf="spamFilterTracker.isSpam" class="spam-notice">Please wait a few moments before sending another message</p>
         </div>
     </div>
 </div>
