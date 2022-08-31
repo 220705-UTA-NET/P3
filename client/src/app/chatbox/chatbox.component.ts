@@ -48,27 +48,32 @@ export class ChatboxComponent implements OnInit {
   }
   
   submitMessage(form: NgForm){
-    this.checkIfSpam();
-
     const ticketId: number = this.chatService.currentActiveTicket;
-    let newMessage: ChatMessage = {
-      user: this.user,
-      message: this.sendContents
-    }
-    if(this.sendContents == null)
-      return;
-    console.log(this.user + ": " + this.sendContents);
 
-    // for first message, automatically submit a ticket
-    if (this.messages.length === 0) {
-      this.initiateTicket(newMessage)
+    const isSpam: boolean = this.checkIfSpam(ticketId);
+
+    if (!isSpam) {
+      let newMessage: ChatMessage = {
+        user: this.user,
+        message: this.sendContents
+      }
+      if(this.sendContents == null)
+        return;
+      console.log(this.user + ": " + this.sendContents);
+  
+      // for first message, automatically submit a ticket
+      if (this.messages.length === 0) {
+        this.initiateTicket(newMessage)
+      }
+      this.chatService.sendChat(newMessage, ticketId)
+      form.reset();
     }
-    this.chatService.sendChat(newMessage, ticketId)
-    form.reset();
   }
 
-  checkIfSpam() {
+  checkIfSpam(ticketId: number): boolean {
     // if it has been at least 5 seconds since initial message, reset counter
+    let isSpam: boolean = false;
+
     if (Math.abs(this.spamFilterTracker.initialTime - Date.now()) > 5000) {
       this.spamFilterTracker.initialTime = Date.now();
       this.spamFilterTracker.messageCount = 0;
@@ -77,12 +82,19 @@ export class ChatboxComponent implements OnInit {
 
     // if a user has sent 6+ messages within 5000 miliseconds
     if (this.spamFilterTracker.messageCount > 5) {
-      this.spamFilterTracker.isSpam = true; 
+      const announcement = {
+        user: "Announcement",
+        message: "Please wait a moment before sending another message"
+      }
+
+      this.chatService.sendChat(announcement, ticketId);
       console.log("Please wait a moment before trying to send another message")
-      return;
+      
+      isSpam = true;
     }
     
     this.spamFilterTracker.messageCount++;
+    return isSpam;
   }
 
   // creates a new ticket for USER only
