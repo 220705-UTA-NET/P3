@@ -8,19 +8,23 @@ namespace server.Model
 {
     public class TicketDTO
     {
-        //public string ticketID { get; set; }
-        public int id { get; set; }
+        //public int id { get; set; }
+        public string chatRoomId { get; set; }
 
-        // Customer ID
-        public int customer_id { get; set; }
-        
+        // Customer Username
+        public string user { get; set; }
+        public string message { get; set; }
+
         // ticket status
-        public int ticket_status { get; set; }
-        
-        public TicketDTO(int id, int customer_id, int ticket_status) { 
-            this.id = id;
-            this.customer_id = customer_id;
-            this.ticket_status = ticket_status;
+        public bool open { get; set; }
+
+        //public TicketDTO(int id, string chatRoomId, string username, string message, bool open) { 
+        public TicketDTO(string chatRoomId, string username, string message, bool open)
+        {
+            this.chatRoomId = chatRoomId;
+            this.user = username;
+            this.message = message;
+            this.open = open;
         }
     }
 }

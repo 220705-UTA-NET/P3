@@ -10,28 +10,29 @@ namespace server.Model
     public class MessageDTO
     {
         //message ID
-        public int id { get; set; }
+        //public int id { get; set; }
 
         //ticket ID
-        public int ticket_id { get; set; }
-
-        //the message itself
-        public string? message_content { get; set; }
-
-        //time of message
-        public DateTime message_date { get; set; }
+        //public int chatRoomId { get; set; }
 
         // the user who sent the message client or tech support
-        public string message_user { get; set; }
+        public string user { get; set; }
 
-        
-        public MessageDTO(int id, int ticket_id, string? message_content, DateTime message_date, string message_user)
+        //the message itself
+        public string message { get; set; }
+
+        //time of message
+        //public DateTime date { get; set; }
+
+
+        //public MessageDTO(int id, int ticket_id, string? message_content, DateTime message_date, string message_user)
+        public MessageDTO(string user, string message)
         {
-            this.id = id;
-            this.ticket_id = ticket_id;
-            this.message_content = message_content;
-            this.message_date = message_date;
-            this.message_user = message_user;
+            //this.id = id;
+            //this.chatRoomId = ticket_id;
+            this.user = user;
+            this.message = message;
+            //this.date = message_date;
         }
     }
 }
