@@ -60,12 +60,14 @@ export class ChatService {
     this.currentActiveTicket = roomKey;
     this._hubConnection.invoke("TechSupportJoinsConversation", roomKey);
 
+    // clear previous message history with other clients
+    this.messages.length = 0;
+
     // move initial message into TECH's chat
     this.messages.push(initialMessage)
   }
 
   // once a ticket has been fulfilled, close the ticket connection
-  // do not need to anything in signalR, as connection automatically closes once both users disconnect
   public closeTicket(chatRoomId: string, user: string) {
     this.openTickets.forEach((ticket) => {
       if (ticket.chatRoomId === chatRoomId) {
@@ -78,6 +80,7 @@ export class ChatService {
       message: "This ticket has been marked as resolved!"
     }
 
+    // CloseTicket method simply informs group members that the ticket has been closed
     this._hubConnection.invoke("CloseTicket", chatRoomId, finalMessage);
   }
 

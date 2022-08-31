@@ -29,15 +29,21 @@ export class ChatboxComponent implements OnInit {
   }
 
   // grab values from chat.services
-  // tickets = this.chatService.userTickets;
   tickets = this.chatService.openTickets;
-
-  // will need to actively listen for changes to this?
   currentActiveTicket: number = this.chatService.currentActiveTicket;
 
   messageInput = new FormControl('');
 
+  // for tracking how many messages have been sent in a short time period, to help prevent bombarding our server
+  spamFilterTracker = {
+    initialTime: Date.now(),
+    messageCount: 0,
+    isSpam: false
+  }
+  
   submitMessage(form: NgForm){
+    this.checkIfSpam();
+
     const ticketId: number = this.chatService.currentActiveTicket;
     let newMessage: ChatMessage = {
       user: this.user,
@@ -53,6 +59,24 @@ export class ChatboxComponent implements OnInit {
     }
     this.chatService.sendChat(newMessage, ticketId)
     form.reset();
+  }
+
+  checkIfSpam() {
+    // if it has been at least 5 seconds since initial message, reset counter
+    if (Math.abs(this.spamFilterTracker.initialTime - Date.now()) > 5000) {
+      this.spamFilterTracker.initialTime = Date.now();
+      this.spamFilterTracker.messageCount = 0;
+      this.spamFilterTracker.isSpam = false;
+    }
+
+    // if a user has sent 6+ messages within 5000 miliseconds
+    if (this.spamFilterTracker.messageCount > 5) {
+      this.spamFilterTracker.isSpam = true; 
+      console.log("Please wait a moment before trying to send another message")
+      return;
+    }
+    
+    this.spamFilterTracker.messageCount++;
   }
 
   // creates a new ticket for USER only
