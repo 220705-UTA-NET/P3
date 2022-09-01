@@ -38,7 +38,10 @@ DELETE
     return this.http.get<Budget[]>(this.apiUrl+customerId);
   }
   deleteBudget(budget:Budget){
-    return this.http.delete(this.apiUrl+'/'+budget.budgetId,{observe:'response'});
+    return this.http.delete(this.apiURL1+'DeleteBudget/'+budget.budgetId,{observe:'response'});
+  }
+  updateBudget(budget:Budget){
+    return this.http.put(this.apiURL1+'UpdateBudget',budget,{observe:'response'});
   }
   addNewBudget(budget:Budget){
     return this.http.post(this.apiURL1+"InsertBudget", budget,{observe:'response'});

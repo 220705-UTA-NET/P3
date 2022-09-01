@@ -25,7 +25,12 @@ export class BudgetListComponent implements OnInit {
   }
   onEmitChanges(budget:Budget){
     console.log(budget);
-    
+    this.budgetService.updateBudget(budget).subscribe((res) =>{
+      console.log(res);
+      if(res.status == 200){
+        alert("successfully updated bugdet");
+      }
+    })
   }
   onEmitDelete(budget:Budget){
     this.budgetService.deleteBudget(budget).subscribe((res)=>{
