@@ -49,13 +49,25 @@ export class ChatboxComponent implements OnInit {
   
   submitMessage(form: NgForm){
     const ticketId: number = this.chatService.currentActiveTicket;
+    const now = new Date();
+    let newMessage: ChatMessage = {
+      ticketId: this.user,
+      user: this.user,
+      message: this.sendContents,
+      date: now
+    }
+    if(this.sendContents == null)
+      return;
+    console.log(this.user + ": " + this.sendContents);
 
     const isSpam: boolean = this.checkIfSpam(ticketId);
 
     if (!isSpam) {
       let newMessage: ChatMessage = {
+        ticketId: this.user,
         user: this.user,
-        message: this.sendContents
+        message: this.sendContents,
+        date: now
       }
       if(this.sendContents == null)
         return;
@@ -81,10 +93,13 @@ export class ChatboxComponent implements OnInit {
     }
 
     // if a user has sent 6+ messages within 5000 miliseconds
+    const now = new Date();
     if (this.spamFilterTracker.messageCount > 5) {
       const announcement = {
+        ticketId: this.user,
         user: "Announcement",
-        message: "Please wait a moment before sending another message"
+        message: "Please wait a moment before sending another message",
+        date: now
       }
 
       this.chatService.sendChat(announcement, ticketId);
@@ -113,9 +128,12 @@ export class ChatboxComponent implements OnInit {
   public initializeSupportConnection(event: any) {
     const privateRoomKey: string = event.target.id
     // should contain the initial message that will be pushed into TECH messages
+    const now = new Date();
     const initialMessage: ChatMessage = {
+      ticketId: event.target.dataset.ticketId,
       user: event.target.dataset.user,
-      message: event.target.innerText
+      message: event.target.innerText,
+      date: now
     };
 
     this.chatService.initializeSupportConnection(parseInt(privateRoomKey), initialMessage);

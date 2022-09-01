@@ -15,6 +15,7 @@ namespace server.Model
         //ticket ID
         public string ticketId { get; set; }
 
+
         // the user who sent the message client or tech support
         public string user { get; set; }
 
@@ -26,6 +27,7 @@ namespace server.Model
 
 
         //public MessageDTO(int id, int ticket_id, string? message_content, DateTime message_date, string message_user)
+
         public MessageDTO(string ticketId, string user, string message, DateTime date)
         {
             //this.id = id;

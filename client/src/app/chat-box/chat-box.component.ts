@@ -21,43 +21,61 @@ export class ChatBoxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    const now = new Date();
     let testMessages: ChatMessage[] = [
       {
+        ticketId: this.user,
         user: 'Lance',
-        message: 'hello'
+        message: 'hello',
+        date: now
       },
       {
+        ticketId: this.user,
         user: 'Kadin',
-        message: 'hello to you too'
+        message: 'hello to you too',
+        date: now
       },
       {
+        ticketId: this.user,
         user: 'Lance',
-        message: 'cool'
+        message: 'cool',
+        date: now
       },
       {
+        ticketId: this.user,
         user: 'Lance',
-        message: 'overflow'
+        message: 'overflow',
+        date: now
       },
       {
+        ticketId: this.user,
         user: 'Onandi',
-        message: 'overflow?'
+        message: 'overflow?',
+        date: now
       },      
       {
+        ticketId: this.user,
         user: 'Lance',
-        message: 'overflow.'
+        message: 'overflow.',
+        date: now
       },
       {
+        ticketId: this.user,
         user: 'Lance',
-        message: 'overflow'
+        message: 'overflow',
+        date: now
       },
       {
+        ticketId: this.user,
         user: 'Onandi',
-        message: 'overflow?'
+        message: 'overflow?',
+        date: now
       },      
       {
+        ticketId: this.user,
         user: 'Lance',
-        message: 'overflow.'
+        message: 'overflow.',
+        date: now
       }
     ];
 
@@ -67,9 +85,12 @@ export class ChatBoxComponent implements OnInit {
   }
 
   submitMessage(form: NgForm){
+    const now = new Date();
     let newMessage: ChatMessage = {
+      ticketId: this.user,
       user: this.user,
-      message: this.sendContents
+      message: this.sendContents,
+      date: now
     }
     console.log(this.user + ": " + this.sendContents);
     this.messages.push(newMessage);
