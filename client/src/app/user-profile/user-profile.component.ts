@@ -78,6 +78,10 @@ export class UserProfileComponent {
     )
   }
 
+  openPasswordDialog(){
+    
+  }
+
   submitChanges() {
     console.log(this.customer);
     const headers = new HttpHeaders({ 'Content-Type' : 'application/json', 'Accept' : 'application/json'});

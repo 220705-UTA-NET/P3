@@ -2,12 +2,15 @@
 <input #customerID type="number">
 <button type="button" (click)="getAccounts(customerID.value)">Submit</button>
 
-<div *ngFor="let account of accounts" class="checking">
-  <ul>
-    <li>ID: {{account.accountId}}</li>
-    <li>Type: {{account.type}}</li>
-    <li>Balance: {{account.balance}}</li>
-    <li>Customer ID: {{account.customerId}}</li>
-
-  </ul>
-</div>
+<table>
+  <tr>
+    <th>Account ID</th>
+    <th>Type</th>
+    <th>Balance</th>
+  </tr>
+  <tr *ngFor="let account of accounts">
+    <td>{{account.accountId}}</td>
+    <td>{{account.type}}</td>
+    <td>{{account.balance}}</td>
+  </tr>
+</table>

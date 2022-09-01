@@ -12,13 +12,21 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserProfileDialogComponent } from './user-profile-dialog/user-profile-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccountComponent } from './account/account.component';
+import { HeaderComponent } from './header/header.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { LandingComponent } from './landing/landing.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserProfileComponent,
     UserProfileDialogComponent,
-    AccountComponent
+    AccountComponent,
+    NavBarComponent,
+    HeaderComponent,
+    LandingComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
