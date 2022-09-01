@@ -1,5 +1,11 @@
-using server.Data;
 
+using server_Database;
+
+// TEMP connection string for internal testing
+// string DB_connectionString = await File.ReadAllTextAsync(@"./../../../connectionString_P3.txt");
+
+
+// builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,6 +18,8 @@ builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(ConnectionStr
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 
 var app = builder.Build();
 

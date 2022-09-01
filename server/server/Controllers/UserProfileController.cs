@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using server.Data;
-using server.Models;
+using Server_DataModels;
+using server_Database;
+using server.DTOs;
 using System.Text.Json;
 
 namespace server.Controllers
@@ -24,7 +25,8 @@ namespace server.Controllers
         {
             try
             {
-                Customer customer = await _repository.GetCustomerAsync(customerId);
+                DMODEL_Customer data = await _repository.GetCustomerAsync(customerId);
+                Customer customer = new (data.id, data.firstName, data.lastName, data.email, data.phoneNumber, data.password);
                 _logger.LogInformation($"Successfully executed GetCustomerAsync for Customer #{customerId}");
                 Response.Headers.AccessControlAllowOrigin = "*";
                 return customer;
@@ -51,8 +53,8 @@ namespace server.Controllers
         {
             try
             {
-                await _repository.UpdateCustomerAsync(customer.Id, customer.Email, customer.PhoneNumber, customer.Password);
-                _logger.LogInformation($"Successfully executed UpdateCustomerAsync for customer #{customer.Id}");
+                await _repository.UpdateCustomerAsync(customer.id, customer.firstName, customer.lastName, customer.email, customer.phoneNumber, customer.password);
+                _logger.LogInformation($"Successfully executed UpdateCustomerAsync for customer #{customer.id}");
                 Response.Headers.AccessControlAllowOrigin = "*";
                 return StatusCode(201);
             }catch(Exception e)

@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using server.Controllers;
-using server.Data;
-using server.Models;
+using server_Database;
+using Server_DataModels;
+using server.DTOs;
 using System.Text.Json;
 
 namespace server_Test
@@ -27,7 +28,7 @@ namespace server_Test
         {
             // Arrange
             SetUp();
-            Customer result = new Customer(1, "FirstName", "LastName", "Email", "111-111-1111", "password");
+            DMODEL_Customer result = new DMODEL_Customer(1, "FirstName", "LastName", "Email", "111-111-1111", "password");
             _repository.Setup(p => p.GetCustomerAsync(1)).ReturnsAsync(result);
 
             // Act
@@ -47,7 +48,7 @@ namespace server_Test
             //Arrange
             SetUp();
             Customer customer = new Customer(1, "FirstName", "LastName", "Email", "111-111-1111", "password");
-            _repository.Setup(p => p.UpdateCustomerAsync(customer.Id, customer.Email, customer.PhoneNumber, customer.Password));
+            _repository.Setup(p => p.UpdateCustomerAsync(customer.id, customer.firstName, customer.lastName, customer.email, customer.phoneNumber, customer.password));
             // Act
 
             var result = (StatusCodeResult)await _controller.ModifyUserProfile(customer);
