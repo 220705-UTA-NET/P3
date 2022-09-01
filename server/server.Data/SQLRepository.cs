@@ -55,6 +55,14 @@ namespace server.Data{
             VALUES
             (@customer_id , @ticket_status)";
 
+            string cmdText2 = "SELECT * FROM Customer WHERE username = @username;";
+
+            SqlCommand cmd2 = new SqlCommand(cmdText2, connection);
+
+            cmd2.Parameters.AddWithValue("@username", ticket.user);
+
+            using SqlDataReader reader = await cmd2.ExecuteReaderAsync();
+
             int status ;
 
             if (ticket.open)
@@ -68,7 +76,7 @@ namespace server.Data{
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
             
-            cmd.Parameters.AddWithValue("@customer_id", ticket.);
+            cmd.Parameters.AddWithValue("@customer_id", reader.GetInt32(0));
             cmd.Parameters.AddWithValue("@ticket_status", status);
             
 
@@ -89,11 +97,10 @@ namespace server.Data{
             VALUES
             (@message_content, @message_DateTime, @message_user)";
 
-           
-
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
 
+            //cmd.Parameters.AddWithValue("@ticket_id", message.ticket_id);
             cmd.Parameters.AddWithValue("@message_content", message.message);
             cmd.Parameters.AddWithValue("@message_DateTime", DateTime.Now);
             cmd.Parameters.AddWithValue("@message_user", message.user);
@@ -105,5 +112,10 @@ namespace server.Data{
 
             _logger.LogInformation("Executed AddMessage");
         }
+    
+    
+    
+    
+    
     }
 }*/
