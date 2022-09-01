@@ -14,12 +14,14 @@ namespace server.Controllers
             _repo = repo;
             _logger = logger;
         }
-        [HttpGet]
+
+        [HttpGet("/tickets")]
         public async Task<ActionResult<IEnumerable<TicketDTO>>> GetAllTickets() {
             IEnumerable<TicketDTO> tickets;
             try
             {
                 tickets = await _repo.LoadAllTickets();
+                _logger.LogInformation($"loaded all tickets ...");
             }
             catch (Exception ex)
             {
@@ -30,21 +32,41 @@ namespace server.Controllers
             return tickets.ToList();
         }
 
-        [HttpGet]
+        [HttpGet("/message")]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string key = null)
         {
             IEnumerable<MessageDTO> messages;
             try
             {
                 messages = await _repo.LoadAllMessagesbyTicket(key);
+                _logger.LogInformation($"loaded messages for #{key}  # ...");
+               
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 return StatusCode(500);
             }
-
+            
             return messages.ToList();
         }
+
+        [HttpPut("/ticket/{ticketid}")]
+        public async Task<ActionResult> UpdateTicket(string ticketid)
+        {
+            try
+            {
+                await _repo.UpdateTicket(ticketid);
+                _logger.LogInformation($"User #{ticketid} status changed # ...");
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                // Minor error checking for now
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(500);
+            }
+        }
+
     }
 }

@@ -115,7 +115,7 @@ namespace server.Data{
             _logger.LogInformation("Executed AddMessage");
         }
            
-        public async Task<List<TicketDTO>> GetTickets()
+        public async Task<List<TicketDTO>> LoadAllTickets()
         {
             List<TicketDTO> ticketList = new List<TicketDTO>();
 
@@ -127,48 +127,101 @@ namespace server.Data{
             SqlCommand cmd = new SqlCommand(cmdText, connection);
 
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+            
+            
+            string cmdText2 = "SELECT username FROM Customer WHERE customer_id = @id;";
+
+            SqlCommand cmd2 = new SqlCommand(cmdText2, connection);
+            
+
 
             TicketDTO NewTicket;
             while (await reader.ReadAsync())
             {//bring in user inmstead of customer ID
-                NewTicket = new TicketDTO(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetBoolean(3));
+                
+
+                cmd2.Parameters.AddWithValue("@id", reader.GetString(1));
+
+     
+                using SqlDataReader reader2 = await cmd2.ExecuteReaderAsync();
+
+                NewTicket = new TicketDTO(reader.GetString(0),reader2.GetString(0), reader.GetString(2), reader.GetBoolean(3));
 
                 ticketList.Add(NewTicket);
             }
 
             await connection.CloseAsync();
 
-            _logger.LogInformation("Executed ListTransactions, returned {0} results", ticketList.Count);
+            _logger.LogInformation("Executed GetTickets, returned {0} results", ticketList.Count);
 
             return ticketList;
         }
 
-        public async Task<List<MessageDTO>> GetMessage(string chatRoomId)
+        public async Task<List<MessageDTO>> LoadAllMessagesbyTicket(string chatRoomId)
         {
             List<MessageDTO> messages = new List<MessageDTO>();
 
             using SqlConnection connection = new(_ConnectionString);
             await connection.OpenAsync();
 
-            string cmdText = "SELECT * FROM Jewelry WHERE Item_ID = @Item_ID;";
+            string cmdText = "SELECT * FROM Message WHERE ticket_id = @ticket_id;";
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
 
-            cmd.Parameters.AddWithValue("@Item_ID", ItemID);
+            cmd.Parameters.AddWithValue("@ticket_id", chatRoomId);
 
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
+
+            MessageDTO message;
             while (await reader.ReadAsync())
             {
-                jewelry = new Jewelry(reader.GetInt32(0), reader.GetString(1), reader.GetDouble(2),
-                                      reader.GetString(3), reader.GetString(4), reader.IsDBNull(5) ? "" : reader.GetString(5));
+                message = new MessageDTO(reader.GetString(1), reader.GetString(4),
+                                    reader.GetString(2), reader.GetDateTime(3));
+
+                messages.Add(message);
             }
 
-            _logger.LogInformation("Executed GetJewelry");
+            _logger.LogInformation("Executed GetMessages, returned {0} results", messages.Count);
 
-            return jewelry;
+            return messages;
         }
 
+        public async Task UpdateTicket(string ticketid)
+        {
+            using SqlConnection connection = new(_ConnectionString);
+            await connection.OpenAsync();
+
+            string cmdText = "UPDATE Ticket SET ticket_status = @value WHERE ticket_id = @ticket_id; ";
+
+            string cmdText2 = "SELECT ticket_status FROM Ticket WHERE ticket_id = @ticket_id;";
+
+            int status;
+
+            SqlCommand cmd2 = new SqlCommand(cmdText2, connection);
+
+            cmd2.Parameters.AddWithValue("@ticket_id", ticketid);
+
+            using SqlDataReader reader = await cmd2.ExecuteReaderAsync();
+
+
+            if (reader.GetBoolean(0))
+            {
+                status = 0;
+            }
+            else
+            {
+                status = 1;
+            }
+
+            SqlCommand cmd = new SqlCommand(cmdText, connection);
+
+            cmd.Parameters.AddWithValue("@value", status);
+            cmd.Parameters.AddWithValue("@ticket_id", ticketid);
+
+
+            _logger.LogInformation("Executed UpdateTicket");
+        }
 
 
     }
