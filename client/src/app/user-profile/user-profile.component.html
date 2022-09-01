@@ -3,11 +3,11 @@
 <button type="button" (click)="getCustomer(customerID.value)">Submit</button>
 
 <div *ngIf="customer">
-  <p>{{customer.customer_id}}</p>
-  <p>First Name: {{customer.first_name}}</p>
-  <p>Last Name: {{customer.last_name}}</p>
+  <p>{{customer.id}}</p>
+  <p>First Name: {{customer.firstName}}</p>
+  <p>Last Name: {{customer.lastName}}</p>
   <p>Email: {{customer.email}}</p>
-  <p>Phone Number: {{customer.phone}}</p>
+  <p>Phone Number: {{customer.phoneNumber}}</p>
 </div>
 
 <div>

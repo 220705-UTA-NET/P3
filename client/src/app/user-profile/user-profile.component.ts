@@ -1,15 +1,14 @@
-import { Checking } from './../checking-account/checking-account.component';
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { UserProfileDialogComponent } from '../user-profile-dialog/user-profile-dialog.component';
 
 export interface Customer {
-  customer_id: number,
-  first_name: string,
-  last_name: string,
+  id: number,
+  firstName: string,
+  lastName: string,
   email: string,
-  phone: string,
+  phoneNumber: string,
   password: string
 }
 
@@ -18,18 +17,17 @@ export interface Customer {
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css'],
 })
-export class UserProfileComponent {
 
+export class UserProfileComponent {
   customerSet: Boolean = false;
-  checking: Checking[] = [];
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
   customer: Customer = {
-    customer_id: 0,
-    first_name: "",
-    last_name: "",
+    id: 0,
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     password: ""
   };
 
@@ -58,22 +56,21 @@ export class UserProfileComponent {
       id: 1,
       title: 'Profile',
       data: {
-        fName : this.customer.first_name,
-        lName : this.customer.last_name,
+        fName : this.customer.firstName,
+        lName : this.customer.lastName,
         email : this.customer.email,
-        phoneNumber : this.customer.phone
+        phoneNumber : this.customer.phoneNumber
       }
     }
 
     const obj = this.dialog.open(UserProfileDialogComponent, profileDialogConfig);
-
     obj.afterClosed().subscribe(
       data => {
         if(typeof(data.fName) !== "undefined"){
-          this.customer.first_name = data.fName;
-          this.customer.last_name = data.lName;
+          this.customer.firstName = data.fName;
+          this.customer.lastName = data.lName;
           this.customer.email = data.email;
-          this.customer.phone = data.phoneNumber;
+          this.customer.phoneNumber = data.phoneNumber;
           this.submitChanges();
         }
         

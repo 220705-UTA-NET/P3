@@ -21,7 +21,7 @@ namespace server.Data
             using SqlConnection connection = new(_connectionString);
             await connection.OpenAsync();
 
-            string cmdText = "SELECT * FROM Customer WHERE customer_id=@CustomerId;";
+            string cmdText = "SELECT * FROM project3.Customer WHERE customer_id=@CustomerId;";
 
             using SqlCommand cmd = new(cmdText, connection);
 
@@ -46,7 +46,7 @@ namespace server.Data
         }
         public async Task UpdateCustomerAsync(int id, string email, string phoneNumber, string password)
         {
-            string cmdText = "UPDATE Customer SET email = @email,phone = @phone,password = @password Where customer_id = @id";
+            string cmdText = "UPDATE project3.Customer SET email = @email,phone = @phone,password = @password Where customer_id = @id";
             SqlConnection connection = new(_connectionString);
 
 
@@ -67,7 +67,7 @@ namespace server.Data
             using SqlConnection connection = new(_connectionString);
             await connection.OpenAsync();
 
-            string cmdText = "SELECT * FROM Account WHERE customer_id=@CustomerId;";
+            string cmdText = "SELECT * FROM project3.Account WHERE customer_id=@CustomerId;";
 
             using SqlCommand cmd = new(cmdText, connection);
 
