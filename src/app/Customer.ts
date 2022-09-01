@@ -6,3 +6,7 @@ export interface Customer {
     phone: string,
     password: string
 }
+
+export interface AccessToken {
+    "Access-Token": string
+}

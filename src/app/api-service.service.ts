@@ -25,6 +25,7 @@ export class ApiServiceService {
   }
 
   // Register new customer. Pass in JSON stringified object as parameter.
+  
   registerCustomer(customer: string): Observable<string> {
     const url = `${this.apiUrl}/register`;
     return this.http.post<string>(url, customer, httpOptions);
