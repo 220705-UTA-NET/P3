@@ -75,9 +75,12 @@ export class ChatService {
       }
     })
 
+    const now = new Date();
     const finalMessage: ChatMessage = {
+      ticketId: chatRoomId,
       user: "Announcement",
-      message: "This ticket has been marked as resolved"
+      message: "This ticket has been marked as resolved",
+      date: now
     }
 
     // CloseTicket method simply informs group members that the ticket has been closed
@@ -107,9 +110,13 @@ export class ChatService {
     // BOTH: tech joins private room & notifies both parties
     this._hubConnection.on("conversationStarted", (message: ChatMessage) => {
       // should announce to user that tech support has joined the chat session
+      
+      const now = new Date();
       const joinAnnouncement: ChatMessage =  {
+        ticketId: message.ticketId,
         user: "Announcement",
-        message: "Tech support has joined the chat"
+        message: "Tech support has joined the chat",
+        date: now
       };
 
       this.messages.push(joinAnnouncement);

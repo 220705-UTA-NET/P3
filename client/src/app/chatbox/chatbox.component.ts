@@ -51,9 +51,12 @@ export class ChatboxComponent implements OnInit {
     this.checkIfSpam();
 
     const ticketId: number = this.chatService.currentActiveTicket;
+    const now = new Date();
     let newMessage: ChatMessage = {
+      ticketId: this.user,
       user: this.user,
-      message: this.sendContents
+      message: this.sendContents,
+      date: now
     }
     if(this.sendContents == null)
       return;
@@ -101,9 +104,12 @@ export class ChatboxComponent implements OnInit {
   public initializeSupportConnection(event: any) {
     const privateRoomKey: string = event.target.id
     // should contain the initial message that will be pushed into TECH messages
+    const now = new Date();
     const initialMessage: ChatMessage = {
+      ticketId: event.target.dataset.ticketId,
       user: event.target.dataset.user,
-      message: event.target.innerText
+      message: event.target.innerText,
+      date: now
     };
 
     this.chatService.initializeSupportConnection(parseInt(privateRoomKey), initialMessage);
