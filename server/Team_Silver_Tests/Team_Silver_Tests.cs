@@ -6,7 +6,7 @@ namespace Team_Silver_Tests
 {
     public class Test_Silver_Controller
     {
-        #region 
+        
         [Fact]
         public async Task GetTransactionHistory_AccountFound()
         {
