@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr'; 
 import {ChatMessage, OpenTicket} from "../models/ChatDTO";
@@ -8,7 +9,7 @@ import {ChatMessage, OpenTicket} from "../models/ChatDTO";
 
 export class ChatService {
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   // BOTH USER and TECH --------------------------------------------------------
   private _hubConnection!: signalR.HubConnection;
@@ -147,4 +148,48 @@ export class ChatService {
       .then(() => console.log("connection started"))
       .catch((err) => console.log("error receiving connection", err))
   }
+
+  // api calls
+
+  // get all currently open tickets
+  public fetchAllTickets() {
+    return this.http.get("https://localhost:7249/getAllTickets", {
+      // headers: {"Authorization": accessToken},
+      observe: "response"
+    })
+      .subscribe((result) => {
+        console.log("fetch all tickets result", result);
+        const receivedTickets: OpenTicket[] = result.body as OpenTicket[];
+        // allTickets to be displayed to TECH user; rendered in the HTML
+        this.openTickets = receivedTickets;
+      })
+  }
+
+  // get particular ticket by username
+  public fetchUserTicket(username: string) {
+    return this.http.get(`https://localhost:7249/getAllMessagesByTicket?key=${username}`, {
+      // headers: {"Authorization": accessToken},
+      observe: "response"
+    })
+      .subscribe((result) => {
+        console.log("fetch user ticket result", result);
+        const userTicket: OpenTicket = result.body as OpenTicket;
+
+        // new ChatMessage[] to replace the currently set one
+        const ticketMessages: ChatMessage[] = [];
+        // create a new initialTicket to push to ticketMessages; need to typecast OpenTicket -> ChatMessages
+        const initialTicketMessage: ChatMessage = {
+          ticketId: userTicket.chatRoomId,
+          user: userTicket.user,
+          message: userTicket.message,
+          date: new Date()
+        }
+        ticketMessages.push(initialTicketMessage);
+
+        // overwrite currently set messages with the initial message from the newly selected ticket
+        this.messages = ticketMessages;
+      })
+  }
+
+  // functionality for saving messages & creating tickets will be handled in the HUB, as it is taken care of by websocket connection
 }

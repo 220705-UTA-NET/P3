@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using server.Model;
+
 namespace server.Hubs
 {
     public class ChatHub: Hub
@@ -13,31 +14,31 @@ namespace server.Hubs
         }
 
         // TECH: will be used to connect an indiviudal tech support staff to a user ticket
-        public Task TechSupportJoinsConversation(int privateRoomKey)
+        public Task TechSupportJoinsConversation(string chatRoomId)
         { 
             // Id of the tech support
             string connectionId = Context.ConnectionId;
             // add tech support to private room
-            Groups.AddToGroupAsync(connectionId, privateRoomKey.ToString());
+            Groups.AddToGroupAsync(connectionId, chatRoomId);
 
-            return Clients.Group(privateRoomKey.ToString()).SendAsync("conversationStarted", "Tech support has joined the chat", privateRoomKey.ToString());
+            return Clients.Group(chatRoomId).SendAsync("conversationStarted", "Tech support has joined the chat", chatRoomId);
         }
 
         // USER: create a ticket, open a private room, notify tech
-        public Task OpenTicket(int privateRoomKey, MessageDTO initialMessage)
+        public Task OpenTicket(string chatRoomId, MessageDTO initialMessage)
         {
             string connectionId = Context.ConnectionId;
-            Groups.AddToGroupAsync(connectionId, privateRoomKey.ToString());
+            Groups.AddToGroupAsync(connectionId, chatRoomId);
 
-            return Clients.Group("techSupport").SendAsync("OpenTicket", privateRoomKey.ToString(), initialMessage);
+            return Clients.Group("techSupport").SendAsync("OpenTicket", chatRoomId, initialMessage);
         }
 
         // BOTH TECH & USER: exchanges messages with both parties in private room
-        public Task SendChat(MessageDTO newMessage, int privateRoomKey)
+        public Task SendChat(MessageDTO newMessage, string chatRoomId)
         {
             string clientId = Context.ConnectionId;
             // message will need to go to the client's group, should pass it from frontend
-            return Clients.Group(privateRoomKey.ToString()).SendAsync("messaging", newMessage);
+            return Clients.Group(chatRoomId).SendAsync("messaging", newMessage);
         }
 
         public Task CloseTicket(string chatRoomId, MessageDTO finalMessage)

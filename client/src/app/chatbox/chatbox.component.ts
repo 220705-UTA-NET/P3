@@ -16,12 +16,16 @@ export class ChatboxComponent implements OnInit {
   "Daniel Beidelschies", "Derick Xie", "Eunice Decena", "Aurel Npounengnong", "Samuel Jackson", "Ellery De_Jesus", "Rogers Ssozi",
   "Lance Gong", "Arthur Gao", "Jared Green", "Jake Nguyen", "Joseph Boye", "Onandi Stewart", "Andrew Grozdanov", "Richard Hawkins" ];
   user : string = ''; //Client username goes here
+  // the messages from each client will be fetched via service calls, and retrieved from chatService.messages
   messages : ChatMessage[] = this.chatService.messages;
+  // grab tickets from chat.services
+  tickets = this.chatService.openTickets;
+  // changed on ticket selection, routes message to correct user for TECH ONLY
+  currentActiveTicket: number = this.chatService.currentActiveTicket;
   sendContents : string = ''; //Don't touch this
   minimized : boolean = true;
   ticketMinimized : boolean = true;
   isSupport : boolean = false;
-
 
   constructor(public chatService: ChatService, private cdref: ChangeDetectorRef) { }
   
@@ -29,14 +33,16 @@ export class ChatboxComponent implements OnInit {
     this.cdref.detectChanges();
   }
   ngOnInit(): void {
+    // TESTING ONLY; setting username (will be grabbed here from auth once implemented)
     this.user = this.testUsernames[Math.floor(Math.random() * this.testUsernames.length)];
     console.log(this.user);
-    this.chatService.connect()
-  }
 
-  // grab values from chat.services
-  tickets = this.chatService.openTickets;
-  currentActiveTicket: number = this.chatService.currentActiveTicket;
+    // connect to webSocket
+    this.chatService.connect()
+
+    // fetch all tickets for TECH ONLY
+    this.fetchAllTickets();
+  }
 
   messageInput = new FormControl('');
 
@@ -50,12 +56,12 @@ export class ChatboxComponent implements OnInit {
   submitMessage(form: NgForm){
     const ticketId: number = this.chatService.currentActiveTicket;
     const now = new Date();
-    let newMessage: ChatMessage = {
-      ticketId: this.user,
-      user: this.user,
-      message: this.sendContents,
-      date: now
-    }
+    // let newMessage: ChatMessage = {
+    //   ticketId: this.user,
+    //   user: this.user,
+    //   message: this.sendContents,
+    //   date: now
+    // }
     if(this.sendContents == null)
       return;
     console.log(this.user + ": " + this.sendContents);
@@ -136,7 +142,10 @@ export class ChatboxComponent implements OnInit {
       date: now
     };
 
+    // connect tech support to user chat room
     this.chatService.initializeSupportConnection(parseInt(privateRoomKey), initialMessage);
+    // grab the user's ticket's previous message
+    this.fetchUserTicket(event.target.dataset.user);
   }
 
   //closes ticket
@@ -153,12 +162,48 @@ export class ChatboxComponent implements OnInit {
       this.minimized = true;
   }
 
-  
   //Button click function to minimize support tickets
   public ticketMinimizerClick(){
     if(this.ticketMinimized)
       this.ticketMinimized = false;
     else
       this.ticketMinimized = true;
+  }
+
+  // will need to update how we get all tickets, as below & the previous method above (getting them from the service variable) collide
+  public fetchAllTickets() {
+    this.chatService.fetchAllTickets()
+    // moved the below functionality all to service, since we currently have the tickets in this component linked up with openTickets in the service
+    // this may or may not be the best approach
+
+      // .subscribe((result) => {
+      //   console.log("fetch all tickets result", result);
+      //   const receivedTickets: OpenTicket[] = result.body as OpenTicket[];
+      //   // allTickets to be displayed to TECH user; rendered in the HTML
+      //   this.tickets = receivedTickets;
+      // })
+  }
+
+  public fetchUserTicket(username: string) {
+    this.chatService.fetchUserTicket(username)
+    // moved the below functionality to service, for the same reason as fetchAllTickets
+      // .subscribe((result) => {
+      //   console.log("fetch user ticket result", result);
+      //   const userTicket: OpenTicket = result.body as OpenTicket;
+
+      //   // new ChatMessage[] to replace the currently set one
+      //   const ticketMessages: ChatMessage[] = [];
+      //   // create a new initialTicket to push to ticketMessages; need to typecast OpenTicket -> ChatMessages
+      //   const initialTicketMessage: ChatMessage = {
+      //     ticketId: userTicket.chatRoomId,
+      //     user: userTicket.user,
+      //     message: userTicket.message,
+      //     date: new Date()
+      //   }
+      //   ticketMessages.push(initialTicketMessage);
+
+      //   // overwrite currently set messages with the initial message from the newly selected ticket
+      //   this.messages = ticketMessages;
+      // })
   }
 }
