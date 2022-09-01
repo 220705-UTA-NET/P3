@@ -26,6 +26,7 @@ namespace server.Controllers
         // ===================================== METHODS ====================================================================================================
         [HttpGet]
         [Route("TransactionHistory")]
+
         public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AuthToken, int INPUT_AccountNumber)
         {
             // Authenticate User
@@ -39,6 +40,7 @@ namespace server.Controllers
             // Checks if returned list is a dummy list
             if (TEMP_LIST_TransactionHistory[0].transaction_id == -1)
             {
+
                 OUTPUT_DTO.NumberOfTransactions = 0;
                 OUTPUT_DTO.LIST_DMODEL_Transactions = new List<DMODEL_Transaction>();
             }
@@ -191,6 +193,7 @@ namespace server.Controllers
             double VERIFICATION_INITIAL_RecieverAccountBalance;
             double VERIFICATION_POST_SenderAccountBalance;
             double VERIFICATION_POST_RecieverAccountBalance;
+
             try
             {
                     // Setting up Initial Verification Variables to proper format

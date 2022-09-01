@@ -41,6 +41,7 @@ namespace server_Database
                 OUTPUT_BlankHistory.Add(OUTPUT_DummyTransaction);
 
                 API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> OUTPUT: !FAILURE = Unable to find transaction history for account id, returning blank list", INPUT_AccountNumber);
+
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return OUTPUT_BlankHistory;
