@@ -15,9 +15,9 @@ namespace server.Data
 
         //gets ticket history 
 
-        //gets all message from a particular ticket
+        //gets all message from a particular ticket/ chatroomID
 
-        //gets all tickets from a particular user
+        //gets all tickets from a particular user //
 
         // update ticket status
 

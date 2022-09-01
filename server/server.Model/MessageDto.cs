@@ -13,7 +13,7 @@ namespace server.Model
         //public int id { get; set; }
 
         //ticket ID
-        //public int chatRoomId { get; set; }
+        public string ticketId { get; set; }
 
         // the user who sent the message client or tech support
         public string user { get; set; }
@@ -22,17 +22,17 @@ namespace server.Model
         public string message { get; set; }
 
         //time of message
-        //public DateTime date { get; set; }
+        public DateTime date { get; set; }
 
 
         //public MessageDTO(int id, int ticket_id, string? message_content, DateTime message_date, string message_user)
-        public MessageDTO(string user, string message)
+        public MessageDTO(string ticketId, string user, string message, DateTime date)
         {
             //this.id = id;
-            //this.chatRoomId = ticket_id;
+            this.ticketId = ticketId;
             this.user = user;
             this.message = message;
-            //this.date = message_date;
+            this.date = date;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿/* 
+﻿/* */
 
 using Microsoft.Extensions.Logging;
 using server.Model;
@@ -51,9 +51,9 @@ namespace server.Data{
             await connection.OpenAsync();
 
             string cmdText =
-            @"INSERT INTO Ticket (customer_id, ticket_status)
+            @"INSERT INTO Ticket (ticket_id ,customer_id, ticket_status)
             VALUES
-            (@customer_id , @ticket_status)";
+            (@ticket_id ,@customer_id , @ticket_status)";
 
             string cmdText2 = "SELECT * FROM Customer WHERE username = @username;";
 
@@ -75,7 +75,8 @@ namespace server.Data{
             }
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
-            
+
+            cmd.Parameters.AddWithValue("@ticket_id ", ticket.chatRoomId);
             cmd.Parameters.AddWithValue("@customer_id", reader.GetInt32(0));
             cmd.Parameters.AddWithValue("@ticket_status", status);
             
@@ -93,16 +94,17 @@ namespace server.Data{
             await connection.OpenAsync();
 
             string cmdText =
-            @"INSERT INTO Message (message_content, message_DateTime, message_user,)
+            @"INSERT INTO Message (ticket_id,message_content, message_DateTime, message_user,)
             VALUES
-            (@message_content, @message_DateTime, @message_user)";
+            (@ticket_id,@message_content, @message_DateTime, @message_user)";
 
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
 
-            //cmd.Parameters.AddWithValue("@ticket_id", message.ticket_id);
+            
+            cmd.Parameters.AddWithValue("@ticket_id", message.ticketId);
             cmd.Parameters.AddWithValue("@message_content", message.message);
-            cmd.Parameters.AddWithValue("@message_DateTime", DateTime.Now);
+            cmd.Parameters.AddWithValue("@message_DateTime", message.date);
             cmd.Parameters.AddWithValue("@message_user", message.user);
 
 
@@ -112,10 +114,62 @@ namespace server.Data{
 
             _logger.LogInformation("Executed AddMessage");
         }
-    
-    
-    
-    
-    
+           
+        public async Task<List<TicketDTO>> GetTickets()
+        {
+            List<TicketDTO> ticketList = new List<TicketDTO>();
+
+            using SqlConnection connection = new(_ConnectionString);
+            await connection.OpenAsync();
+
+            string cmdText = "SELECT * from Ticket;";
+
+            SqlCommand cmd = new SqlCommand(cmdText, connection);
+
+            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+            TicketDTO NewTicket;
+            while (await reader.ReadAsync())
+            {//bring in user inmstead of customer ID
+                NewTicket = new TicketDTO(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetBoolean(3));
+
+                ticketList.Add(NewTicket);
+            }
+
+            await connection.CloseAsync();
+
+            _logger.LogInformation("Executed ListTransactions, returned {0} results", ticketList.Count);
+
+            return ticketList;
+        }
+
+        public async Task<List<MessageDTO>> GetMessage(string chatRoomId)
+        {
+            List<MessageDTO> messages = new List<MessageDTO>();
+
+            using SqlConnection connection = new(_ConnectionString);
+            await connection.OpenAsync();
+
+            string cmdText = "SELECT * FROM Jewelry WHERE Item_ID = @Item_ID;";
+
+            SqlCommand cmd = new SqlCommand(cmdText, connection);
+
+            cmd.Parameters.AddWithValue("@Item_ID", ItemID);
+
+            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                jewelry = new Jewelry(reader.GetInt32(0), reader.GetString(1), reader.GetDouble(2),
+                                      reader.GetString(3), reader.GetString(4), reader.IsDBNull(5) ? "" : reader.GetString(5));
+            }
+
+            _logger.LogInformation("Executed GetJewelry");
+
+            return jewelry;
+        }
+
+
+
     }
-}*/
+}
