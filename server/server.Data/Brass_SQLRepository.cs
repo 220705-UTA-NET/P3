@@ -5,14 +5,14 @@ using server.Model;
 using System.Data.SqlClient;
 
 namespace server.Data{
-    public class SQLRepository : IRepository
+    public class Brass_SQLRepository : Brass_IRepository
     {
         // URL of the Database being used
         private readonly string _ConnectionString;
         // Something to log the actions of our API
-        private readonly ILogger<SQLRepository> _logger;
+        private readonly ILogger<Brass_SQLRepository> _logger;
 
-        public SQLRepository(string connectionString, ILogger<SQLRepository> logger)
+        public Brass_SQLRepository(string connectionString, ILogger<Brass_SQLRepository> logger)
         {
             _ConnectionString = connectionString;
             _logger = logger;

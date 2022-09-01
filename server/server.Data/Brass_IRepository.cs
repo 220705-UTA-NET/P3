@@ -2,7 +2,7 @@
 
 namespace server.Data
 {
-    public interface IRepository
+    public interface Brass_IRepository
     {
         //Adds a tech support user
         public Task AddSupport(SupportDTO support);

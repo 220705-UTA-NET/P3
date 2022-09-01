@@ -8,9 +8,9 @@ namespace server.Controllers
     [ApiController]
     public class MessageController : Controller
     {
-        private readonly IRepository _repo;
+        private readonly Brass_IRepository _repo;
         private readonly ILogger<MessageController> _logger;
-        public MessageController(IRepository repo, ILogger<MessageController> logger) {
+        public MessageController(Brass_IRepository repo, ILogger<MessageController> logger) {
             _repo = repo;
             _logger = logger;
         }
