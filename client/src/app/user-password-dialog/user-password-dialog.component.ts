@@ -2,13 +2,23 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+
+export interface Customer {
+  id: number,
+  firstName: string,
+  lastName: string,
+  email: string,
+  phoneNumber: string,
+  password: string
+}
+
 @Component({
-  selector: 'app-user-profile-dialog',
-  templateUrl: './user-profile-dialog.component.html',
-  styleUrls: ['./user-profile-dialog.component.css']
+  selector: 'app-user-password-dialog',
+  templateUrl: './user-password-dialog.component.html',
+  styleUrls: ['./user-password-dialog.component.css']
 })
 
-export class UserProfileDialogComponent implements OnInit {
+export class UserPasswordDialogComponent implements OnInit {
   public form : FormGroup;
   public fName : string = this.data.data.fName;
   public lName : string = this.data.data.lName;
@@ -17,7 +27,7 @@ export class UserProfileDialogComponent implements OnInit {
 
 
   constructor(private fb : FormBuilder,
-              private dialogRef: MatDialogRef<UserProfileDialogComponent>,
+              private dialogRef: MatDialogRef<UserPasswordDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data : any) {
                 this.form = this.fb.group({
                   fName : this.fName,
@@ -46,3 +56,4 @@ export class UserProfileDialogComponent implements OnInit {
   }
 
 }
+

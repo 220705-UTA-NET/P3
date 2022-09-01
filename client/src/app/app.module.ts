@@ -16,6 +16,7 @@ import { HeaderComponent } from './header/header.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LandingComponent } from './landing/landing.component';
 import { FooterComponent } from './footer/footer.component';
+import { UserPasswordDialogComponent } from './user-password-dialog/user-password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FooterComponent } from './footer/footer.component';
     NavBarComponent,
     HeaderComponent,
     LandingComponent,
-    FooterComponent
+    FooterComponent,
+    UserPasswordDialogComponent
   ],
   imports: [
     BrowserModule,
