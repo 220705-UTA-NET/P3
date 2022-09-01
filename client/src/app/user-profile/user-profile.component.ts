@@ -94,8 +94,10 @@ export class UserProfileComponent {
 
     const obj = this.dialog.open(UserPasswordDialogComponent, profileDialogConfig);
     obj.afterClosed().subscribe(data => {
-      this.customer.password = data;
-      this.submitChanges();
+      if(Object.keys(data).length !== 0){
+        this.customer.password = data;
+        this.submitChanges();
+      }
     })
   }
 
