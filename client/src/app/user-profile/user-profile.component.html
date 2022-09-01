@@ -4,14 +4,13 @@
 
 <div *ngIf="customer">
   <p>{{customer.id}}</p>
-  <input value="{{customer.firstname}}" (change)="editFirstName($event)"/>
-  <input value="{{customer.lastname}}" (change)="editLastName($event)"/>
-  <input value="{{customer.email}}" (change)="editEmail($event)"/>
-  <input value="{{customer.phoneNumber}}" (change)="editPhoneNumber($event)"/>
-  <input value="{{customer.password}}" (change)="editPassword($event)"/>
+  <p>First Name: {{customer.firstname}}</p>
+  <p>Last Name: {{customer.lastname}}</p>
+  <p>Email: {{customer.email}}</p>
+  <p>Phone Number: {{customer.phoneNumber}}</p>
 </div>
 
-
-<div *ngIf="customerSet">
-  <button type="button" (click)="submitChanges()">Submit Changes</button>
+<div>
+  <button (click)="openProfileDialog()">Edit Profile</button>
+  <!-- <button (click)="openPasswordDialog()">Edit Password</button> -->
 </div>

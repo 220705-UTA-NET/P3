@@ -26,12 +26,24 @@ namespace server.Controllers
             {
                 Customer customer = await _repository.GetCustomerAsync(customerId);
                 _logger.LogInformation($"Successfully executed GetCustomerAsync for Customer #{customerId}");
+                Response.Headers.AccessControlAllowOrigin = "*";
                 return customer;
             }catch(Exception e)
             {
                 _logger.LogError(e, "An error occured when executing GetCustomerAsync with Customer ID #{customerId} ...", e.Message);
                 return StatusCode(500);
             }
+        }
+
+        [HttpOptions("/userprofile")]
+        public async Task<ActionResult> OptionRequest()
+        {
+            Response.Headers.AccessControlAllowOrigin = "http://localhost:4200";
+            Response.Headers.AccessControlAllowCredentials = "true";
+            Response.Headers.AccessControlAllowMethods = "GET, PUT, OPTIONS";
+            Response.Headers.AccessControlAllowHeaders = "Origin, Content-Type, Accept";
+
+            return StatusCode(200);
         }
 
         [HttpPut("/userprofile")]
@@ -41,6 +53,7 @@ namespace server.Controllers
             {
                 await _repository.UpdateCustomerAsync(customer.Id, customer.Email, customer.PhoneNumber, customer.Password);
                 _logger.LogInformation($"Successfully executed UpdateCustomerAsync for customer #{customer.Id}");
+                Response.Headers.AccessControlAllowOrigin = "*";
                 return StatusCode(201);
             }catch(Exception e)
             {

@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Edit Profile</h2>
+<mat-dialog-content [formGroup]="form">
+    <div class="dialog">
+        <mat-form-field>
+            <mat-label>First Name: </mat-label>
+            <input matInput [placeholder]="fName" formControlName="fName"/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Last Name: </mat-label>
+            <input matInput [placeholder]="lName" formControlName="lName" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email: </mat-label>
+            <input matInput [placeholder]="email" formControlName="email" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Phone Number: </mat-label>
+            <input matInput [placeholder]="phoneNumber" formControlName="phoneNumber" />
+    </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button (click)="save()">Confirm</button>
+    <button (click)="close()">Close</button>
+</mat-dialog-actions>

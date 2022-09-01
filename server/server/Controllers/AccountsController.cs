@@ -27,6 +27,7 @@ namespace server.Controllers
                 accounts =(List<Account>)(await _repository.GetCustomerAccountsAsync(customerId));
 
                 _logger.LogInformation($"Successfully executed GetAccounts for Customer #{customerId}");
+                Response.Headers.AccessControlAllowOrigin = "*";
                 return accounts;
             }
             catch(Exception e)

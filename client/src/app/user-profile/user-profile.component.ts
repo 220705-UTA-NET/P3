@@ -1,6 +1,8 @@
 import { Checking } from './../checking-account/checking-account.component';
 import { Component } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
+import { UserProfileDialogComponent } from '../user-profile-dialog/user-profile-dialog.component';
 
 export interface Customer {
   id: number,
@@ -18,8 +20,9 @@ export interface Customer {
 })
 export class UserProfileComponent {
 
+  customerSet: Boolean = false;
   checking: Checking[] = [];
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private dialog: MatDialog) { }
 
   customer: Customer = {
     id: 0,
@@ -29,9 +32,10 @@ export class UserProfileComponent {
     phoneNumber: "",
     password: ""
   };
-  customerSet: Boolean = false;
 
+  
   getCustomer(value: any) {
+    const headers = {'Access-Control-Allow-Origin' : '*'};
     this.http.get(`https://localhost:7249/userprofile`, {
          params: new HttpParams().set('customerId', value),
          observe: "response",
@@ -45,29 +49,62 @@ export class UserProfileComponent {
     console.log("In getCustomer: " + value);
   }
 
-  editFirstName(event: any) {
-    this.customer.firstname = event.target.value
+  openProfileDialog(){
+    const profileDialogConfig = new MatDialogConfig();
+
+    profileDialogConfig.autoFocus = true;
+    
+    profileDialogConfig.data = {
+      id: 1,
+      title: 'Profile',
+      data: {
+        fName : this.customer.firstname,
+        lName : this.customer.lastname,
+        email : this.customer.email,
+        phoneNumber : this.customer.phoneNumber
+      }
+    }
+
+    const obj = this.dialog.open(UserProfileDialogComponent, profileDialogConfig);
+
+    obj.afterClosed().subscribe(
+      data => {
+        if(typeof(data.fName) !== "undefined"){
+          this.customer.firstname = data.fName;
+          this.customer.lastname = data.lName;
+          this.customer.email = data.email;
+          this.customer.phoneNumber = data.phoneNumber;
+          this.submitChanges();
+        }
+        
+      }
+    )
   }
 
-  editLastName(event: any) {
-    this.customer.lastname = event.target.value
-  }
+  // editFirstName(event: any) {
+  //   this.customer.firstname = event.target.value
+  // }
 
-  editEmail(event: any) {
-    this.customer.email = event.target.value
-  }
+  // editLastName(event: any) {
+  //   this.customer.lastname = event.target.value
+  // }
 
-  editPhoneNumber(event: any) {
-    this.customer.phoneNumber = event.target.value
-  }
+  // editEmail(event: any) {
+  //   this.customer.email = event.target.value
+  // }
 
-  editPassword(event: any) {
-    this.customer.password = event.target.value
-  }
+  // editPhoneNumber(event: any) {
+  //   this.customer.phoneNumber = event.target.value
+  // }
+
+  // editPassword(event: any) {
+  //   this.customer.password = event.target.value
+  // }
 
   submitChanges() {
     console.log(this.customer);
-    this.http.put('https://localhost:7249/userprofile', this.customer).subscribe()
+    const headers = new HttpHeaders({ 'Content-Type' : 'application/json', 'Accept' : 'application/json'});
+    this.http.put('https://localhost:7249/userprofile', this.customer, {headers}).subscribe()
   }
     
 }

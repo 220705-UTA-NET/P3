@@ -30,7 +30,7 @@ export class CheckingAccountComponent  {
   };
 
   getCheckingAcc(value: any) {
-    this.http.get(`http://localhost:4200/checkingaccount`, {
+    this.http.get(/*`http://localhost:7249/checkingaccount` */ `http://localhost:7249/accounts`, {
       params: new HttpParams().set('customerId', value),
       observe: "response",
       responseType: "json"
