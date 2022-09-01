@@ -111,7 +111,7 @@ namespace server.Controllers
 
             bool STATUS_RequetCreate;
 
-            STATUS_RequetCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(INPUT_DTO_RequestCreate.request_from, INPUT_DTO_RequestCreate.org_account, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, INPUT_DTO_RequestCreate.request_note);
+            STATUS_RequetCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(INPUT_DTO_RequestCreate.reciever_from, INPUT_DTO_RequestCreate.org_acct, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, INPUT_DTO_RequestCreate.request_notes);
 
             // Basic Returns Until Error Codes Can Be Designated
             if (STATUS_RequetCreate == true)
@@ -164,7 +164,7 @@ namespace server.Controllers
             if (INPUT_DTO_RequestResponse.ApprovedTransaction == false)
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);
-                return -1;
+                return 2;
             }
 
             // IF User Approved Transfer
@@ -172,11 +172,11 @@ namespace server.Controllers
             int STATUS_Request;
             if (INPUT_DTO_RequestResponse.RequestData.request_type == true)
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
             }
             else
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount);
             }
 
             await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);

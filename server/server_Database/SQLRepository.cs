@@ -158,7 +158,7 @@ namespace server_Database
                                             WHERE [account_id] = @INPUT_AccountNumber;";
 
                 using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
-                DB_command.Parameters.AddWithValue("@INPUT_AccountID", INPUT_AccountNumber);
+                DB_command.Parameters.AddWithValue("@INPUT_AccountNumber", INPUT_AccountNumber);
                 DB_command.Parameters.AddWithValue("@INPUT_ChangeAmount", INPUT_NewBalance);
 
                 await DB_command.ExecuteNonQueryAsync();
@@ -183,8 +183,8 @@ namespace server_Database
             using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
             await DB_connection.OpenAsync();
 
-            string DB_commandText = @"SELECT request_id, request_from, org_account, amount, req_DatTime, request_type, request_note 
-                                        FROM [project3].[Request] WHERE request_from = @INPUT_CustomerNumber;";
+            string DB_commandText = @"SELECT request_id, reciever_from, org_acct, amount, req_DateTime, request_type, request_notes 
+                                        FROM [project3].[Request] WHERE reciever_from = @INPUT_CustomerNumber;";
 
             using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
             DB_command.Parameters.AddWithValue("@INPUT_CustomerNumber", INPUT_CustomerNumber);
@@ -239,7 +239,7 @@ namespace server_Database
                 using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
                 await DB_connection.OpenAsync();
 
-                string DB_commandText = @"INSERT INTO [project3].[Request] (request_from, org_account, amount, req_DatTime, request_type, request_note) 
+                string DB_commandText = @"INSERT INTO [project3].[Request] (reciever_from, org_acct, amount, req_DateTime, request_type, request_notes) 
                                             VALUES (@INPUT_CustomerID, @INPUT_OriginAccount, @INPUT_ChangeAmount, @INPUT_Time, @INPUT_RequestType, @INPUT_RequestNotes)";
 
                 using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
