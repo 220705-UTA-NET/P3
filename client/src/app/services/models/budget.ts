@@ -6,5 +6,5 @@ export interface Budget{
     monthlyAmount:number;
     warningAmount:number;
     remaining:number;
-    startDate:string|null;
+    startDate:Date|null;
 }

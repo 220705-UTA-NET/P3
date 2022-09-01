@@ -18,11 +18,11 @@ export class AddBudgetComponent implements OnInit {
   }
 
   onClickSubmit(){
-    let mydt = new Date;
-    let mydt1 = mydt.toLocaleDateString();
-    console.log(mydt1);
-    //mydt1.toString("MM/dd/yyyy h:mm:ss tt");
-    let budget:Budget = {budgetId:this.budgetService.getNextId(),customerId:1,accountId:1,monthlyAmount:this.monthlyAmount,warningAmount:this.warningAmount, remaining:this.monthlyAmount, startDate:mydt1};
+    let mydate = new Date;
+    mydate.setDate(1);//set to the first of this month | need to change component to allow user to set first day
+    mydate.setHours(0,0,0);//set to the first hour
+    //mydate.setUTCHours(0,0,0);
+    let budget:Budget = {budgetId:this.budgetService.getNextId(),customerId:1,accountId:1,monthlyAmount:this.monthlyAmount,warningAmount:this.warningAmount, remaining:this.monthlyAmount, startDate:mydate};
     console.log(budget);
     this.budgetService.addNewBudget(budget).subscribe((res)=>{
       console.log(res)
