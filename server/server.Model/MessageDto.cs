@@ -13,7 +13,8 @@ namespace server.Model
         //public int id { get; set; }
 
         //ticket ID
-        public string chatRoomId { get; set; }
+        public string ticketId { get; set; }
+
 
         // the user who sent the message client or tech support
         public string user { get; set; }
@@ -26,10 +27,11 @@ namespace server.Model
 
 
         //public MessageDTO(int id, int ticket_id, string? message_content, DateTime message_date, string message_user)
-        public MessageDTO(string chatRoomId, string user, string message, DateTime date)
+
+        public MessageDTO(string ticketId, string user, string message, DateTime date)
         {
             //this.id = id;
-            this.chatRoomId = chatRoomId;
+            this.ticketId = ticketId;
             this.user = user;
             this.message = message;
             this.date = date;

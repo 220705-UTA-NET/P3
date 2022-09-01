@@ -2,7 +2,7 @@
 
 namespace server.Data
 {
-    public interface IRepository
+    public interface Brass_IRepository
     {
         //Adds a tech support user
         public Task AddSupport(SupportDTO support);
@@ -14,13 +14,15 @@ namespace server.Data
         public Task AddMessage(MessageDTO message);
 
         //gets ticket history 
+        public Task<List<TicketDTO>> LoadAllTickets();
 
-        //gets all message from a particular ticket
+        //gets all message from a particular ticket/ chatroomID
+        public Task<List<MessageDTO>> LoadAllMessagesbyTicket(string chatRoomId);
 
-        //gets all tickets from a particular user
+        //gets all tickets from a particular user //
 
         // update ticket status
-
+        public Task UpdateTicket(string ticketid);
         //
     }
 }

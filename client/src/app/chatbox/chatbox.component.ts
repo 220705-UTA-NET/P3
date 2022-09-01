@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
-import {ChatService} from "../services/chat.service";
+import { ChatService } from "../services/chat.service";
 import { ChatMessage, OpenTicket } from '../models/ChatDTO';
 
 @Component({

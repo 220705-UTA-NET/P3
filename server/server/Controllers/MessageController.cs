@@ -8,18 +8,20 @@ namespace server.Controllers
     [ApiController]
     public class MessageController : Controller
     {
-        private readonly IRepository _repo;
+        private readonly Brass_IRepository _repo;
         private readonly ILogger<MessageController> _logger;
-        public MessageController(IRepository repo, ILogger<MessageController> logger) {
+        public MessageController(Brass_IRepository repo, ILogger<MessageController> logger) {
             _repo = repo;
             _logger = logger;
         }
-        [HttpGet]
+
+        [HttpGet("/tickets")]
         public async Task<ActionResult<IEnumerable<TicketDTO>>> GetAllTickets() {
             IEnumerable<TicketDTO> tickets;
             try
             {
                 tickets = await _repo.LoadAllTickets();
+                _logger.LogInformation($"loaded all tickets ...");
             }
             catch (Exception ex)
             {
@@ -30,21 +32,46 @@ namespace server.Controllers
             return tickets.ToList();
         }
 
-        [HttpGet]
+<<<<<<< Updated upstream
+        [HttpGet("/message")]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string key = null)
+=======
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string? key = null)
+>>>>>>> Stashed changes
         {
             IEnumerable<MessageDTO> messages;
             try
             {
                 messages = await _repo.LoadAllMessagesbyTicket(key);
+                _logger.LogInformation($"loaded messages for #{key}  # ...");
+               
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 return StatusCode(500);
             }
-
+            
             return messages.ToList();
         }
+
+        [HttpPut("/ticket/{ticketid}")]
+        public async Task<ActionResult> UpdateTicket(string ticketid)
+        {
+            try
+            {
+                await _repo.UpdateTicket(ticketid);
+                _logger.LogInformation($"User #{ticketid} status changed # ...");
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                // Minor error checking for now
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(500);
+            }
+        }
+
     }
 }
