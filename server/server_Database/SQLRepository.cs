@@ -18,6 +18,7 @@ namespace server_Database
         }
 
         // ===================================== METHODS ====================================================================================================
+
         public async Task<List<DMODEL_Transaction>> TRANSACTION_SQL_ASYNC_GetTransactonHistory(int INPUT_AccountNumber)
         {
             // Setting up SQL command 
@@ -290,6 +291,7 @@ namespace server_Database
                 return false;
             }
         }
+
 
     }
 }

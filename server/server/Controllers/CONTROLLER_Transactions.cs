@@ -54,7 +54,7 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpPost]
         [Route("Deposit")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_DepositMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Deposit)
+        public async Task<DTO_TRANSACTION_TransactionResponse> TRANSACTION_MAIN_ASYNC_DepositMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Deposit)
         {
             // Authenticate User
             //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
@@ -69,16 +69,18 @@ namespace server.Controllers
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Deposit.AccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT", true);
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Deposit.AccountID, false);
-                return STATUS_Deposit;
             }
 
-            return STATUS_Deposit;
+            DTO_TRANSACTION_TransactionResponse OUTPUT_DTO = new DTO_TRANSACTION_TransactionResponse();
+            OUTPUT_DTO.StatusCode = STATUS_Deposit;
+            OUTPUT_DTO.AccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_DTO_Deposit.AccountID);
+            return OUTPUT_DTO;
         }
 
         // =================================================================================================================================================
         [HttpPost]
         [Route("Withdraw")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_WithdrawMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Withdraw)
+        public async Task<DTO_TRANSACTION_TransactionResponse> TRANSACTION_MAIN_ASYNC_WithdrawMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Withdraw)
         {
             // Authenticate User
             //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
@@ -93,10 +95,12 @@ namespace server.Controllers
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT", true);
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Withdraw.AccountID, false);
-                return STATUS_Withdraw;
             }
 
-            return STATUS_Withdraw;
+            DTO_TRANSACTION_TransactionResponse OUTPUT_DTO = new DTO_TRANSACTION_TransactionResponse();
+            OUTPUT_DTO.StatusCode = STATUS_Withdraw;
+            OUTPUT_DTO.AccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_DTO_Withdraw.AccountID);
+            return OUTPUT_DTO;
         }
 
         // =================================================================================================================================================
