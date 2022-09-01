@@ -26,7 +26,8 @@ namespace server_Database
             await DB_connection.OpenAsync();
 
             string DB_commandText = @"SELECT transaction_id, account_id, time, amount, transaction_notes, transaction_type, completion_status 
-                                        FROM [project3].[Transaction] WHERE account_id = @INPUT_AccountID;";
+                                        FROM [project3].[Transaction] WHERE account_id = @INPUT_AccountID
+                                        ORDER BY transaction_id DESC;";
 
             using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
             DB_command.Parameters.AddWithValue("@INPUT_AccountID", INPUT_AccountNumber);
@@ -292,6 +293,44 @@ namespace server_Database
             }
         }
 
+        //====================================================================================================================================================
+
+        public async Task<int> TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail(string INPUT_CustomerEmail)
+        {
+            // Setting up SQL command 
+            using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
+            await DB_connection.OpenAsync();
+
+            string DB_commandText = @"SELECT [customer_id]
+                                       FROM [project3].[Customer]
+                                       WHERE [email] = @INPUT_CustomerEmail;";
+
+            using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
+            DB_command.Parameters.AddWithValue("@INPUT_CustomerEmail", INPUT_CustomerEmail);
+
+            using SqlDataReader DB_reader = await DB_command.ExecuteReaderAsync();
+
+            // Outcome if no account balence can be found
+            if (DB_reader.HasRows == false)
+            {
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail ({0}) --> OUTPUT: !FAILURE = Unable to find customerID for email {1}, returning -1", INPUT_CustomerEmail, INPUT_CustomerEmail);
+                await DB_reader.CloseAsync();
+                await DB_connection.CloseAsync();
+                return -1;
+            }
+            // Outcome if account balence is found, Parsing data
+            else
+            {
+                await DB_reader.ReadAsync();
+
+                int OUTPUT_CustomerID = DB_reader.GetInt32(0);
+
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail ({0}) --> OUTPUT: Found customerID for email {1}, returning customerID", INPUT_CustomerEmail, INPUT_CustomerEmail);
+                await DB_reader.CloseAsync();
+                await DB_connection.CloseAsync();
+                return OUTPUT_CustomerID;
+            }
+        }
 
     }
 }

@@ -81,5 +81,15 @@ namespace server_Database
         //      If successfully delete from [Request] table -> return true
         //          OR
         //      If unable to delete from table -> return false
+
+        Task<int> TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail(string INPUT_CustomerEmail);
+        // FUNCTION:
+        //      Gets the Customer ID from an inputed email
+        // PARAMETER (int)
+        //      Customer Email
+        // OUTPUT (bool)
+        //      If able to find ID based on email -> return customer id
+        //          OR
+        //      If unable to find ID -> return -1
     }
 }

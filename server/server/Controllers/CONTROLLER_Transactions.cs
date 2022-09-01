@@ -111,14 +111,38 @@ namespace server.Controllers
             // Authenticate User
             //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
 
-            // Transfer Money from Account to Implicit Bank Reserve 
+            // Parse and Validate CustomerEmail->CustomerID
+            if (INPUT_DTO_RequestCreate.reciever_email == "")
+            {
+                return -2;
+            }
+            int WORK_CustomerID = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail(INPUT_DTO_RequestCreate.reciever_email);
 
-            bool STATUS_RequetCreate;
+            if (WORK_CustomerID == -1)
+            {
+                return -2;
+            }
 
-            STATUS_RequetCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(INPUT_DTO_RequestCreate.reciever_from, INPUT_DTO_RequestCreate.org_acct, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, INPUT_DTO_RequestCreate.request_notes);
+            // Create Request Notes
+            // NOTE: request_type (true = send money, false = request money)
+            string WORK_RequestNotes;
+            if( INPUT_DTO_RequestCreate.request_type == true)
+            {
+                WORK_RequestNotes = "Sending Money From: " + INPUT_DTO_RequestCreate.reciever_email + " Notes: " + INPUT_DTO_RequestCreate.request_notes;
+            }
+            else
+            {
+                WORK_RequestNotes = "Requesting Money From: " + INPUT_DTO_RequestCreate.reciever_email + " Notes: " + INPUT_DTO_RequestCreate.request_notes;
+            }
+
+            // Insert Request
+            bool STATUS_RequestCreate;
+
+
+            STATUS_RequestCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(WORK_CustomerID, INPUT_DTO_RequestCreate.org_acct, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, WORK_RequestNotes);
 
             // Basic Returns Until Error Codes Can Be Designated
-            if (STATUS_RequetCreate == true)
+            if (STATUS_RequestCreate == true)
             {
                 return 1;
             }
