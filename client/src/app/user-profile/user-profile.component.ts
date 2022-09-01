@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { UserProfileDialogComponent } from '../user-profile-dialog/user-profile-dialog.component';
+import { UserPasswordDialogComponent } from '../user-password-dialog/user-password-dialog.component';
 
 export interface Customer {
   id: number,
@@ -79,7 +80,23 @@ export class UserProfileComponent {
   }
 
   openPasswordDialog(){
+    const profileDialogConfig = new MatDialogConfig();
+
+    profileDialogConfig.autoFocus = true;
     
+    profileDialogConfig.data = {
+      id: 1,
+      title: 'Profile',
+      data: {
+        password : this.customer.password
+      }
+    }
+
+    const obj = this.dialog.open(UserPasswordDialogComponent, profileDialogConfig);
+    obj.afterClosed().subscribe(data => {
+      this.customer.password = data;
+      this.submitChanges();
+    })
   }
 
   submitChanges() {
