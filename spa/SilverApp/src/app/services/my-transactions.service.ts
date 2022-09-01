@@ -7,8 +7,21 @@ import { Observable } from "rxjs";
 })
 export class MyTransactionsService {
 
+  // constructor(private http:HttpClient) { }
+  // getMyTransactions(url:string): Observable<Transaction[]>{
+  //   return this.http.get<Transaction[]>(url);
+  // }
+
   constructor(private http:HttpClient) { }
-  getMyTransactions(url:string): Observable<Transaction[]>{
-    return this.http.get<Transaction[]>(url);
+getMyTransactions(url:string): Observable<TransactionResponse>{
+    console.log("Ran GET request");
+    console. log(this.http.get<TransactionResponse>(url));
+    return this.http.get<TransactionResponse>(url);
   }
+}
+
+//instead of Transaction[] - list of transaction, we're using TransactionResponse with the list as property
+export interface TransactionResponse{
+  numberOfTransactions: number
+  lisT_DMODEL_Transactions: Transaction[]
 }
