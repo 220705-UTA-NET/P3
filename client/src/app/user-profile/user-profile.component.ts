@@ -5,11 +5,11 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { UserProfileDialogComponent } from '../user-profile-dialog/user-profile-dialog.component';
 
 export interface Customer {
-  id: number,
-  firstname: string,
-  lastname: string,
+  customer_id: number,
+  first_name: string,
+  last_name: string,
   email: string,
-  phoneNumber: string,
+  phone: string,
   password: string
 }
 
@@ -25,11 +25,11 @@ export class UserProfileComponent {
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
   customer: Customer = {
-    id: 0,
-    firstname: "",
-    lastname: "",
+    customer_id: 0,
+    first_name: "",
+    last_name: "",
     email: "",
-    phoneNumber: "",
+    phone: "",
     password: ""
   };
 
@@ -58,10 +58,10 @@ export class UserProfileComponent {
       id: 1,
       title: 'Profile',
       data: {
-        fName : this.customer.firstname,
-        lName : this.customer.lastname,
+        fName : this.customer.first_name,
+        lName : this.customer.last_name,
         email : this.customer.email,
-        phoneNumber : this.customer.phoneNumber
+        phoneNumber : this.customer.phone
       }
     }
 
@@ -70,10 +70,10 @@ export class UserProfileComponent {
     obj.afterClosed().subscribe(
       data => {
         if(typeof(data.fName) !== "undefined"){
-          this.customer.firstname = data.fName;
-          this.customer.lastname = data.lName;
+          this.customer.first_name = data.fName;
+          this.customer.last_name = data.lName;
           this.customer.email = data.email;
-          this.customer.phoneNumber = data.phoneNumber;
+          this.customer.phone = data.phoneNumber;
           this.submitChanges();
         }
         
@@ -81,30 +81,9 @@ export class UserProfileComponent {
     )
   }
 
-  // editFirstName(event: any) {
-  //   this.customer.firstname = event.target.value
-  // }
-
-  // editLastName(event: any) {
-  //   this.customer.lastname = event.target.value
-  // }
-
-  // editEmail(event: any) {
-  //   this.customer.email = event.target.value
-  // }
-
-  // editPhoneNumber(event: any) {
-  //   this.customer.phoneNumber = event.target.value
-  // }
-
-  // editPassword(event: any) {
-  //   this.customer.password = event.target.value
-  // }
-
   submitChanges() {
     console.log(this.customer);
     const headers = new HttpHeaders({ 'Content-Type' : 'application/json', 'Accept' : 'application/json'});
     this.http.put('https://localhost:7249/userprofile', this.customer, {headers}).subscribe()
   }
-    
 }
