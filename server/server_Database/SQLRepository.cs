@@ -262,5 +262,28 @@ namespace server_Database
 
             return result;
         }
+
+        public async Task<DMODEL_Account> AddAccountAsync(int customerId, int accountType)
+        {
+            using SqlConnection connection = new(this.DB_PROP_ConnectionString);
+            await connection.OpenAsync();
+
+            string cmdText = "INSERT INTO project3.Account OUTPUT INSERTED.* VALUES (0, 0.00, @CustomerId);";
+            
+            using SqlCommand cmd = new(cmdText, connection);
+            cmd.Parameters.AddWithValue("@CustomerId", customerId);
+
+            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+            await reader.ReadAsync();
+
+            DMODEL_Account result = new(reader.GetInt32(0), reader.GetInt32(1), reader.GetDouble(2), reader.GetInt32(3));
+
+            reader.Close();
+            connection.Close();
+
+            return result;
+
+        }
     }
 }

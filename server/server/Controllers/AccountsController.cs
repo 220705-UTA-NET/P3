@@ -19,6 +19,18 @@ namespace server.Controllers
             _logger = logger;
         }
 
+        [HttpOptions("/accounts")]
+        public async Task<ActionResult> OptionRequest()
+        {
+            Response.Headers.AccessControlAllowOrigin = "http://localhost:4200";
+            Response.Headers.AccessControlAllowCredentials = "true";
+            Response.Headers.AccessControlAllowMethods = "GET, PUT, OPTIONS";
+            Response.Headers.AccessControlAllowHeaders = "Origin, Content-Type, Accept";
+
+            return StatusCode(200);
+        }
+
+
         [HttpGet("/accounts")]
         public async Task<ActionResult<List<Account>>> GetAccounts(int customerId)
         {
@@ -44,9 +56,23 @@ namespace server.Controllers
         }
 
         [HttpPost("/accounts")]
-        public async Task<ActionResult> AddAccount([FromBody]Account account)
+        public async Task<ActionResult<Account>> AddAccount(int customerId, int accountType)
         {
-            return StatusCode(201);
+            try
+            {
+                
+                DMODEL_Account output = await _repository.AddAccountAsync(customerId, accountType);
+                Account result = new Account(output.AccountId, output.Type, output.Balance, output.CustomerId);
+                Response.Headers.AccessControlAllowOrigin = "*";
+
+                _logger.LogInformation($"Successfully executed AddAccounts for Customer #{customerId}");
+                return result;
+
+            }catch(Exception e)
+            {
+                _logger.LogError(e, $"An error occured when executing AddAccountAsync with Customer ID #{customerId} ...", e.Message);
+                return StatusCode(500);
+            }
         }
 
     }

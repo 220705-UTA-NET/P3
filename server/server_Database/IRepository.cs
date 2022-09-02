@@ -53,5 +53,7 @@ namespace server_Database
         Task<DMODEL_Customer> GetCustomerAsync(int id);
         Task UpdateCustomerAsync(int id, string firstName, string lastName, string email, string phoneNumber, string password);
         Task<IEnumerable<DMODEL_Account>> GetCustomerAccountsAsync(int id);
+
+        Task<DMODEL_Account> AddAccountAsync(int customerId, int accountType);
     }
 }
