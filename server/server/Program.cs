@@ -1,7 +1,8 @@
+using System;
 using server_Database;
 
 // TEMP connection string for internal testing
-string DB_connectionString = await File.ReadAllTextAsync(@"./../../../connectionString_P3.txt");
+string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
+string MyAllowAllOrgins = "_myAllowAllOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowAllOrgins, builder =>
+    {
+        builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -28,5 +40,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseCors(MyAllowAllOrgins);
 
 app.Run();
