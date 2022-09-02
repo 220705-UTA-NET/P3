@@ -186,8 +186,8 @@ namespace server_Database
             using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
             await DB_connection.OpenAsync();
 
-            string DB_commandText = @"SELECT request_id, reciever_from, org_acct, amount, req_DateTime, request_type, request_notes 
-                                        FROM [project3].[Request] WHERE reciever_from = @INPUT_CustomerNumber;";
+            string DB_commandText = @"SELECT request_id, request_from, org_acct, amount, time, request_type, request_notes 
+                                        FROM [project3].[Request] WHERE request_from = @INPUT_CustomerNumber;";
 
             using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
             DB_command.Parameters.AddWithValue("@INPUT_CustomerNumber", INPUT_CustomerNumber);

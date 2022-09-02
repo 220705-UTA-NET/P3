@@ -205,14 +205,14 @@ namespace server.Controllers
                 STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
 
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, false);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.reciever_from, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, true);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.request_from, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, true);
             }
             else
             {
                 STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount);
 
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, true);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.reciever_from, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.request_from, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, false);
             }
 
             await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);
