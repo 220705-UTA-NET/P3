@@ -51,7 +51,7 @@ namespace server.Controllers
 
 
 
-        [HttpGet("/message")]
+        [HttpGet("/message/{key}")]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string? key = null)
         {
             IEnumerable<MessageDTO> messages;

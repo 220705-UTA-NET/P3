@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr'; 
+import { BehaviorSubject } from 'rxjs';
 import {ChatMessage, OpenTicket} from "../models/ChatDTO";
 
 @Injectable({
@@ -14,22 +15,21 @@ export class ChatService {
   // BOTH USER and TECH --------------------------------------------------------
   private _hubConnection!: signalR.HubConnection;
 
+  public messageService = new BehaviorSubject<ChatMessage[]>([]);
   // holds message conversations
   public messages: ChatMessage[] = []
 
+  public ticketService = new BehaviorSubject<OpenTicket[]>([]);
   // holds the chatRoomId & initial message for TECH ONLY
   public openTickets: OpenTicket[] = [];
 
   // how messages are exchanged between tech & user once in a private room
   public sendChat(chat: ChatMessage) {
-    // temporary measure until we have seperate profiles
-    // ticketId should be equivalent to the privateRoomKey of a user account
-    // if (this.privateRoomKey == 0) {
-      console.log(this.privateRoomKey);
+    if (this.currentActiveTicket != "") {
+      this._hubConnection.invoke("SendChat", chat, this.currentActiveTicket);
+    } else {
       this._hubConnection.invoke("SendChat", chat, this.privateRoomKey);
-    // } else {
-      // this._hubConnection.invoke("SendChat", chat, this.privateRoomKey);
-    // }
+    }
   }
 
   // USER ONLY -----------------------------------------------------------------
@@ -38,10 +38,8 @@ export class ChatService {
 
   // for USERS only; puts user in a private connection room & informs tech support
   public initiateTicket(initialMessage: ChatMessage) {    
-    // need to generate a privateRoomKey. should do it via the customer_id in production, but will generate a random one for testing
+    // need to get user login & set to privateRoomKey
     this.privateRoomKey = initialMessage.user;
-
-    console.log("the room key", this.privateRoomKey);
 
     this._hubConnection.invoke("OpenTicket", this.privateRoomKey, initialMessage)
   }
@@ -69,6 +67,7 @@ export class ChatService {
 
     // move initial message into TECH's chat
     this.messages.push(initialMessage)
+    this.messageService.next(this.messages);
   }
 
   // once a ticket has been fulfilled, close the ticket connection
@@ -109,6 +108,7 @@ export class ChatService {
     this._hubConnection.on("messaging", (message: ChatMessage) => {
       // can render response messages from here
       this.messages.push(message);
+      this.messageService.next(this.messages);
     });
 
     // BOTH: tech joins private room & notifies both parties
@@ -124,6 +124,7 @@ export class ChatService {
       };
 
       this.messages.push(joinAnnouncement);
+      this.messageService.next(this.messages);
     })
 
     // TECH: listening for when a user opens a ticket, need the privateRoomKey id that will be attached
@@ -139,12 +140,13 @@ export class ChatService {
         open: true
       }
       this.openTickets.push(newTicket);
-
+      this.ticketService.next(this.openTickets);
     })
 
     // notify all participants that the ticket has been resolved
     this._hubConnection.on("CloseTicket", (notification: ChatMessage) => {
       this.messages.push(notification);
+      this.messageService.next(this.messages);
     })
 
     // BOTH: starts listening for hub coorespondance
@@ -157,7 +159,7 @@ export class ChatService {
 
   // get all currently open tickets
   public fetchAllTickets() {
-    return this.http.get("https://localhost:7249/getAllTickets", {
+    return this.http.get("https://localhost:7249/tickets", {
       // headers: {"Authorization": accessToken},
       observe: "response"
     })
@@ -171,12 +173,11 @@ export class ChatService {
 
   // get particular ticket by username
   public fetchUserTicket(username: string) {
-    return this.http.get(`https://localhost:7249/getAllMessagesByTicket?key=${username}`, {
+    return this.http.get(`https://localhost:7249/message?key=${username}`, {
       // headers: {"Authorization": accessToken},
       observe: "response"
     })
       .subscribe((result) => {
-        console.log("fetch user ticket result", result);
         const userTicket: OpenTicket = result.body as OpenTicket;
 
         // new ChatMessage[] to replace the currently set one
@@ -192,6 +193,7 @@ export class ChatService {
 
         // overwrite currently set messages with the initial message from the newly selected ticket
         this.messages = ticketMessages;
+        this.messageService.next(this.messages);
       })
   }
 

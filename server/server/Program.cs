@@ -15,7 +15,7 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
             .AllowCredentials();
     }));
 
-string? ConnectionString = Environment.GetEnvironmentVariable("CONN");
+// string? ConnectionString = Environment.GetEnvironmentVariable("CONN");
 
 builder.Services.AddSingleton<Brass_IRepository>(sp => new Brass_SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<Brass_SQLRepository>>()));
 
