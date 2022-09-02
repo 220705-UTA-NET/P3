@@ -3,7 +3,7 @@ using server.Model;
 
 namespace server.Data;
 
-public interface IRepository
+public interface IBudgetRepository
 {
     Task<IEnumerable<Transaction>> GetAllTransactionsAsync();
     Task<int> GetTransactionsSumAsync(Budget budget);

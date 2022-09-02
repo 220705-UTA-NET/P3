@@ -10,9 +10,9 @@ namespace server.Controllers
     public class BudgetController : ControllerBase
     {
 
-        private readonly IRepository _repo;
+        private readonly IBudgetRepository _repo;
 
-        public BudgetController(IRepository repo)
+        public BudgetController(IBudgetRepository repo)
         {
             _repo = repo;
         }

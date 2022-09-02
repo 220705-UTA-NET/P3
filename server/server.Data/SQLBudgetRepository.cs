@@ -4,12 +4,12 @@ using System.Data.SqlClient;
 
 
 namespace server.Data {
-    public class SqlRepository : IRepository
+    public class SQLBudgetRepository : IBudgetRepository
     {
 
         private readonly string _connectionString;
 
-        public SqlRepository(string connectionString)
+        public SQLBudgetRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
