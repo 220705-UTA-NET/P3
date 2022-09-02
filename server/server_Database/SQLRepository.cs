@@ -18,6 +18,7 @@ namespace server_Database
         }
 
         // ===================================== METHODS ====================================================================================================
+
         public async Task<List<DMODEL_Transaction>> TRANSACTION_SQL_ASYNC_GetTransactonHistory(int INPUT_AccountNumber)
         {
             // Setting up SQL command 
@@ -25,7 +26,8 @@ namespace server_Database
             await DB_connection.OpenAsync();
 
             string DB_commandText = @"SELECT transaction_id, account_id, time, amount, transaction_notes, transaction_type, completion_status 
-                                        FROM [project3].[Transaction] WHERE account_id = @INPUT_AccountID;";
+                                        FROM [project3].[Transaction] WHERE account_id = @INPUT_AccountID
+                                        ORDER BY transaction_id DESC;";
 
             using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
             DB_command.Parameters.AddWithValue("@INPUT_AccountID", INPUT_AccountNumber);
@@ -159,7 +161,7 @@ namespace server_Database
                                             WHERE [account_id] = @INPUT_AccountNumber;";
 
                 using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
-                DB_command.Parameters.AddWithValue("@INPUT_AccountID", INPUT_AccountNumber);
+                DB_command.Parameters.AddWithValue("@INPUT_AccountNumber", INPUT_AccountNumber);
                 DB_command.Parameters.AddWithValue("@INPUT_ChangeAmount", INPUT_NewBalance);
 
                 await DB_command.ExecuteNonQueryAsync();
@@ -184,8 +186,8 @@ namespace server_Database
             using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
             await DB_connection.OpenAsync();
 
-            string DB_commandText = @"SELECT request_id, request_from, org_account, amount, req_DatTime, request_type, request_note 
-                                        FROM [project3].[Request] WHERE request_from = @INPUT_CustomerNumber;";
+            string DB_commandText = @"SELECT request_id, reciever_from, org_acct, amount, req_DateTime, request_type, request_notes 
+                                        FROM [project3].[Request] WHERE reciever_from = @INPUT_CustomerNumber;";
 
             using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
             DB_command.Parameters.AddWithValue("@INPUT_CustomerNumber", INPUT_CustomerNumber);
@@ -240,7 +242,7 @@ namespace server_Database
                 using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
                 await DB_connection.OpenAsync();
 
-                string DB_commandText = @"INSERT INTO [project3].[Request] (request_from, org_account, amount, req_DatTime, request_type, request_note) 
+                string DB_commandText = @"INSERT INTO [project3].[Request] (reciever_from, org_acct, amount, req_DateTime, request_type, request_notes) 
                                             VALUES (@INPUT_CustomerID, @INPUT_OriginAccount, @INPUT_ChangeAmount, @INPUT_Time, @INPUT_RequestType, @INPUT_RequestNotes)";
 
                 using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
@@ -289,6 +291,45 @@ namespace server_Database
                 API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest ({0}) --> OUTPUT: !FAILED = Unable to delete request", INPUT_RequestID);
                 API_PROP_Logger.LogWarning(ERROR_UnableInsertIntoRequestTable.Message, ERROR_UnableInsertIntoRequestTable);
                 return false;
+            }
+        }
+
+        //====================================================================================================================================================
+
+        public async Task<int> TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail(string INPUT_CustomerEmail)
+        {
+            // Setting up SQL command 
+            using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
+            await DB_connection.OpenAsync();
+
+            string DB_commandText = @"SELECT [customer_id]
+                                       FROM [project3].[Customer]
+                                       WHERE [email] = @INPUT_CustomerEmail;";
+
+            using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
+            DB_command.Parameters.AddWithValue("@INPUT_CustomerEmail", INPUT_CustomerEmail);
+
+            using SqlDataReader DB_reader = await DB_command.ExecuteReaderAsync();
+
+            // Outcome if no account balence can be found
+            if (DB_reader.HasRows == false)
+            {
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail ({0}) --> OUTPUT: !FAILURE = Unable to find customerID for email {1}, returning -1", INPUT_CustomerEmail, INPUT_CustomerEmail);
+                await DB_reader.CloseAsync();
+                await DB_connection.CloseAsync();
+                return -1;
+            }
+            // Outcome if account balence is found, Parsing data
+            else
+            {
+                await DB_reader.ReadAsync();
+
+                int OUTPUT_CustomerID = DB_reader.GetInt32(0);
+
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail ({0}) --> OUTPUT: Found customerID for email {1}, returning customerID", INPUT_CustomerEmail, INPUT_CustomerEmail);
+                await DB_reader.CloseAsync();
+                await DB_connection.CloseAsync();
+                return OUTPUT_CustomerID;
             }
         }
 

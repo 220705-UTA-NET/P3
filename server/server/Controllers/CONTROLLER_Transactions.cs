@@ -55,7 +55,7 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpPost]
         [Route("Deposit")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_DepositMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Deposit)
+        public async Task<DTO_TRANSACTION_TransactionResponse> TRANSACTION_MAIN_ASYNC_DepositMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Deposit)
         {
             // Authenticate User
             //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
@@ -70,16 +70,18 @@ namespace server.Controllers
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Deposit.AccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT", true);
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Deposit.AccountID, false);
-                return STATUS_Deposit;
             }
 
-            return STATUS_Deposit;
+            DTO_TRANSACTION_TransactionResponse OUTPUT_DTO = new DTO_TRANSACTION_TransactionResponse();
+            OUTPUT_DTO.StatusCode = STATUS_Deposit;
+            OUTPUT_DTO.AccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_DTO_Deposit.AccountID);
+            return OUTPUT_DTO;
         }
 
         // =================================================================================================================================================
         [HttpPost]
         [Route("Withdraw")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_WithdrawMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Withdraw)
+        public async Task<DTO_TRANSACTION_TransactionResponse> TRANSACTION_MAIN_ASYNC_WithdrawMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Withdraw)
         {
             // Authenticate User
             //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
@@ -94,10 +96,12 @@ namespace server.Controllers
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT", true);
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Withdraw.AccountID, false);
-                return STATUS_Withdraw;
             }
 
-            return STATUS_Withdraw;
+            DTO_TRANSACTION_TransactionResponse OUTPUT_DTO = new DTO_TRANSACTION_TransactionResponse();
+            OUTPUT_DTO.StatusCode = STATUS_Withdraw;
+            OUTPUT_DTO.AccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_DTO_Withdraw.AccountID);
+            return OUTPUT_DTO;
         }
 
         // =================================================================================================================================================
@@ -108,14 +112,38 @@ namespace server.Controllers
             // Authenticate User
             //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
 
-            // Transfer Money from Account to Implicit Bank Reserve 
+            // Parse and Validate CustomerEmail->CustomerID
+            if (INPUT_DTO_RequestCreate.reciever_email == "")
+            {
+                return -2;
+            }
+            int WORK_CustomerID = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail(INPUT_DTO_RequestCreate.reciever_email);
 
-            bool STATUS_RequetCreate;
+            if (WORK_CustomerID == -1)
+            {
+                return -2;
+            }
 
-            STATUS_RequetCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(INPUT_DTO_RequestCreate.request_from, INPUT_DTO_RequestCreate.org_account, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, INPUT_DTO_RequestCreate.request_note);
+            // Create Request Notes
+            // NOTE: request_type (true = send money, false = request money)
+            string WORK_RequestNotes;
+            if( INPUT_DTO_RequestCreate.request_type == true)
+            {
+                WORK_RequestNotes = "Sending Money From: " + INPUT_DTO_RequestCreate.reciever_email + " Notes: " + INPUT_DTO_RequestCreate.request_notes;
+            }
+            else
+            {
+                WORK_RequestNotes = "Requesting Money From: " + INPUT_DTO_RequestCreate.reciever_email + " Notes: " + INPUT_DTO_RequestCreate.request_notes;
+            }
+
+            // Insert Request
+            bool STATUS_RequestCreate;
+
+
+            STATUS_RequestCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(WORK_CustomerID, INPUT_DTO_RequestCreate.org_acct, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, WORK_RequestNotes);
 
             // Basic Returns Until Error Codes Can Be Designated
-            if (STATUS_RequetCreate == true)
+            if (STATUS_RequestCreate == true)
             {
                 return 1;
             }
@@ -166,7 +194,7 @@ namespace server.Controllers
             if (INPUT_DTO_RequestResponse.ApprovedTransaction == false)
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);
-                return -1;
+                return 2;
             }
 
             // IF User Approved Transfer
@@ -174,11 +202,17 @@ namespace server.Controllers
             int STATUS_Request;
             if (INPUT_DTO_RequestResponse.RequestData.request_type == true)
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
+
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.reciever_from, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, true);
             }
             else
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount);
+
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, true);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.reciever_from, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, false);
             }
 
             await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);
@@ -305,5 +339,6 @@ namespace server.Controllers
                 return -1;
             }
         }
+
     }
 }
