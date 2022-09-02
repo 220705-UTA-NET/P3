@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import {ChatService} from "../services/chat.service";
 import { ChatMessage, OpenTicket } from '../models/ChatDTO';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-chatbox',
@@ -21,6 +22,7 @@ export class ChatboxComponent implements OnInit {
   minimized : boolean = true;
   ticketMinimized : boolean = true;
   isSupport : boolean = false;
+  dateActive : boolean = false;
 
 
   constructor(public chatService: ChatService, private cdref: ChangeDetectorRef) { }
@@ -160,5 +162,58 @@ export class ChatboxComponent implements OnInit {
       this.ticketMinimized = false;
     else
       this.ticketMinimized = true;
+  }
+  
+  public delay = async (ms : number) => new Promise(res => setTimeout(res, ms));
+  // public onDateClick = async() => {
+  //   if(!this.dateActive)
+  //   {
+  //     this.dateActive = true;
+  //     await this.delay(3000);
+  //     this.dateActive = false;
+  //   }
+  // }
+
+  public onDateClick(){
+    this.dateActive = true;
+  }
+
+  public onDateLeave(){
+    this.dateActive = false;
+  }
+
+  public onHover = async() => {
+    if(!this.dateActive)
+    {
+      this.dateActive = true;
+      await this.delay(10);
+      this.dateActive = false;
+    }
+  }
+
+  public zeroPad = (num: number, places: number) => String(num).padStart(places, '0')
+  public formatDate(date : Date): string{
+    const then = new Date(date);
+    const now = new Date();
+    if(then.getFullYear() < now.getFullYear()){
+      return then.getMonth() + "/" + this.zeroPad(then.getDay(), 2) + "/" + then.getFullYear();
+    }
+    if(then.getMonth() < (then.getMonth() - 1)){
+      return then.getMonth() + "/" + this.zeroPad(then.getDay(), 2) + "/" + then.getFullYear();
+    }
+    if(then.getMonth() == (then.getMonth() - 1)){
+      return "Last Month";
+    }
+    if(then.getDate() == now.getDate() - 1){
+      return "Yesterday";
+    }
+    if(then.getDate() == now.getDate()){
+      return "Today " + then.getHours() + ":" +  this.zeroPad(then.getMinutes(), 2);
+    }
+    if(now.getDate() - then.getDate() <= 7){
+      const days : string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      return "This " + days[then.getDay()];
+    }
+    return "You don't exist in the space time continuum";
   }
 }
