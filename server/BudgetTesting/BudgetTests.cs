@@ -21,7 +21,7 @@ namespace BudgetTesting
             //logging
             Console.WriteLine("Null return test started.");
 
-            //creating Mock Irepo
+            //creating Mock IRepo
             Mock<IRepository> mockRepo = new();
 
             //Fake call to the repo
