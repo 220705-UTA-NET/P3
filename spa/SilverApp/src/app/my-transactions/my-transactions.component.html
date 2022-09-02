@@ -1,0 +1,22 @@
+Here are your transactions:
+
+<div class="container">
+
+    <div *ngFor="let item of myTransactions" class="myTransactions" style="margin-bottom: 50px;">
+        <li>Transaction ID: {{item.transaction_id}}</li>
+        <li>Account ID: {{item.account_id}}</li>
+        <li>Time: {{item.time}}</li>
+        <li>Amount:{{item.amount}}</li>
+        <li>Transaction Notes:{{item.transaction_notes}} </li>
+        <li>Transaction Type: {{item.transaction_type}}</li>
+        <li>Completd: {{item.completion_status}}</li>
+</div>
+
+
+<!-- transaction_id:string; 
+account_id:string;
+time:string;
+amount:string;
+transaction_notes:string;
+transaction_type:string;
+completion_status:string; -->
