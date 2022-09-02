@@ -1,0 +1,11 @@
+<p>budget-list works!</p>
+
+<app-budget-item
+*ngFor="let budget of budgetList"
+[budget]="budget"
+(editBudgetEvent)="onEmitChanges(budget)"
+(deleteBudgetEvent)="onEmitDelete(budget)"
+>
+    
+</app-budget-item>
+<button class="btn btn-block" (click)="onAddNew()">add new</button>

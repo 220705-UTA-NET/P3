@@ -1,0 +1,19 @@
+<form class="form-input" (ngSubmit)="onClickSubmit()">
+    <div>
+        <label>Monthly Budget</label>
+        <input type="text" 
+        name="monthly" 
+        id="monthly" 
+        placeholder="type amount" [(ngModel)]="monthlyAmount"/>
+    </div>
+    <div>
+        <label>Warning Set Amount</label>
+        <input
+        name="warning"
+        id="warning"
+        placeholder="type amount"
+        [(ngModel)]="warningAmount"
+        />
+    </div>
+    <button class="btn btn-block">submit</button>
+</form>
