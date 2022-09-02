@@ -22,7 +22,7 @@ export class ChatboxComponent implements OnInit {
   // grab tickets from chat.services
   tickets = this.chatService.openTickets;
   // changed on ticket selection, routes message to correct user for TECH ONLY
-  currentActiveTicket: number = this.chatService.currentActiveTicket;
+  currentActiveTicket: string = this.chatService.currentActiveTicket;
   sendContents : string = ''; //Don't touch this
   minimized : boolean = true;
   ticketMinimized : boolean = true;
@@ -56,7 +56,7 @@ export class ChatboxComponent implements OnInit {
   }
   
   submitMessage(form: NgForm){
-    const ticketId: number = this.chatService.currentActiveTicket;
+    const ticketId: string = this.chatService.currentActiveTicket;
     const now = new Date();
     // let newMessage: ChatMessage = {
     //   ticketId: this.user,
@@ -68,7 +68,7 @@ export class ChatboxComponent implements OnInit {
       return;
     console.log(this.user + ": " + this.sendContents);
 
-    const isSpam: boolean = this.checkIfSpam(ticketId);
+    const isSpam: boolean = this.checkIfSpam();
 
     if (!isSpam) {
       let newMessage: ChatMessage = {
@@ -85,12 +85,12 @@ export class ChatboxComponent implements OnInit {
       if (this.messages.length === 0) {
         this.initiateTicket(newMessage)
       }
-      this.chatService.sendChat(newMessage, ticketId)
+      this.chatService.sendChat(newMessage)
       form.reset();
     }
   }
 
-  checkIfSpam(ticketId: number): boolean {
+  checkIfSpam(): boolean {
     // if it has been at least 5 seconds since initial message, reset counter
     let isSpam: boolean = false;
 
@@ -110,7 +110,7 @@ export class ChatboxComponent implements OnInit {
         date: now
       }
 
-      this.chatService.sendChat(announcement, ticketId);
+      this.chatService.sendChat(announcement);
       console.log("Please wait a moment before trying to send another message")
       
       isSpam = true;
@@ -145,7 +145,7 @@ export class ChatboxComponent implements OnInit {
     };
 
     // connect tech support to user chat room
-    this.chatService.initializeSupportConnection(parseInt(privateRoomKey), initialMessage);
+    this.chatService.initializeSupportConnection(privateRoomKey, initialMessage);
     // grab the user's ticket's previous message
     this.fetchUserTicket(event.target.dataset.user);
   }
