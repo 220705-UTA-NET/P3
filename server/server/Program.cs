@@ -2,7 +2,7 @@ using System;
 using server_Database;
 
 // TEMP connection string for internal testing
-string DB_connectionString = System.GetEnvironmentVariable("CONN");
+string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
 
 var builder = WebApplication.CreateBuilder(args);
 
