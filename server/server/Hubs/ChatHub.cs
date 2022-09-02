@@ -27,7 +27,7 @@ namespace server.Hubs
 
         // USER: create a ticket, open a private room, notify tech
         // chatRoomId is just the client's username
-        public async Task OpenTicket(string chatRoomId, MessageDTO initialMessage)
+        public Task OpenTicket(string chatRoomId, MessageDTO initialMessage)
         {
             string connectionId = Context.ConnectionId;
             Groups.AddToGroupAsync(connectionId, chatRoomId);
@@ -40,14 +40,6 @@ namespace server.Hubs
             string clientId = Context.ConnectionId;
             // message will need to go to the client's group, should pass it from frontend
             return Clients.Group(chatRoomId).SendAsync("messaging", newMessage);
-        }
-
-        public async Task SaveChatToDB(MessageDTO message) {
-            try
-            {
-                await Brass_SQLRepository.AddMessage(message);
-            }
-            catch (Exception e) { }
         }
 
         public Task CloseTicket(string chatRoomId, MessageDTO finalMessage)
