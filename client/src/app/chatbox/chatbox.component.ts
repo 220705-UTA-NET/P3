@@ -215,8 +215,22 @@ export class ChatboxComponent implements OnInit {
     if(then.getDate() == now.getDate() - 1){
       return "Yesterday";
     }
+    if(now.getDate < then.getDate){
+      return "El Psy Congroo";
+    }
     if(then.getDate() == now.getDate()){
-      return "Today " + then.getHours() + ":" +  this.zeroPad(then.getMinutes(), 2);
+      let cycle: string = "am"
+      let hour: number = then.getHours();
+      if(hour > 12)
+      {
+        hour -= 12;
+        cycle = "pm";
+      }
+      if(hour == 0)
+      {
+        hour = 12;
+      }
+      return "Today " + hour + ":" +  this.zeroPad(then.getMinutes(), 2) + cycle;
     }
     if(now.getDate() - then.getDate() <= 7){
       const days : string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

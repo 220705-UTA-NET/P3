@@ -32,6 +32,24 @@ namespace server.Controllers
             return tickets.ToList();
         }
 
+        [HttpPut("/send/{contents}")] 
+        public async Task<ActionResult> PutNewMessage(MessageDTO contents)
+        {
+            try
+            {
+                await _repo.AddMessage(contents);
+                _logger.LogInformation($"User #{contents} status changed # ...");
+                return StatusCode(201);
+            }
+            catch (Exception ex)
+            {
+                // Minor error checking for now
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(500);
+            }
+        }
+
+
 
         [HttpGet("/message")]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string? key = null)
