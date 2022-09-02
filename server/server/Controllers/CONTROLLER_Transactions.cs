@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
 using server_Database;
@@ -40,7 +40,6 @@ namespace server.Controllers
             // Checks if returned list is a dummy list
             if (TEMP_LIST_TransactionHistory[0].transaction_id == -1)
             {
-
                 OUTPUT_DTO.NumberOfTransactions = 0;
                 OUTPUT_DTO.LIST_DMODEL_Transactions = new List<DMODEL_Transaction>();
             }
