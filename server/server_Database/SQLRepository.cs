@@ -40,8 +40,8 @@ namespace server_Database
 
                 OUTPUT_BlankHistory.Add(OUTPUT_DummyTransaction);
 
-                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> " +
-                                            "OUTPUT: !FAILURE = Unable to find transaction history for account id {0}, returning blank list", INPUT_AccountNumber);
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> OUTPUT: !FAILURE = Unable to find transaction history for account id, returning blank list", INPUT_AccountNumber);
+
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return OUTPUT_BlankHistory;
@@ -65,8 +65,7 @@ namespace server_Database
                     OUTPUT_TransactionHistory.Add(TEMP_Transaction);
                 }
 
-                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> " +
-                                            "OUTPUT: Found transaction history for account id {0}, returning list", INPUT_AccountNumber);
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> OUTPUT: Found transaction history for account id {0}, returning list", INPUT_AccountNumber);
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return OUTPUT_TransactionHistory;
@@ -95,14 +94,12 @@ namespace server_Database
 
                 await DB_command.ExecuteNonQueryAsync();
 
-                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewTransaction ({0}, {1}) --> " +
-                                            "OUTPUT: Successfully inserted new transaction", INPUT_AccountNumber);
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewTransaction ({0}) --> OUTPUT: Successfully inserted new transaction for account {1}", INPUT_AccountNumber, INPUT_AccountNumber);
                 return true;
             }
             catch (Exception ERROR_UnableInsertIntoTransactionTable)
             {
-                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewTransaction ({0}, {1}) --> " +
-                                            "OUTPUT: !FAILED = Unable to insert new transaction", INPUT_AccountNumber);
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewTransaction ({0}) --> OUTPUT: !FAILED = Unable to insert new transaction for account {1}", INPUT_AccountNumber, INPUT_AccountNumber);
                 API_PROP_Logger.LogWarning(ERROR_UnableInsertIntoTransactionTable.Message, ERROR_UnableInsertIntoTransactionTable);
                 return false;
             }
@@ -128,8 +125,7 @@ namespace server_Database
             // Outcome if no account balence can be found
             if (DB_reader.HasRows == false)
             {
-                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getAccountBalance ({0}) --> " +
-                                            "OUTPUT: !FAILURE = Unable to find balence for account id {0}, returning -1", INPUT_AccountNumber);
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_ASYNC_getAccountBalance ({0}) --> OUTPUT: !FAILURE = Unable to find balence for account id {1}, returning -1", INPUT_AccountNumber, INPUT_AccountNumber);
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return -1;
@@ -141,8 +137,7 @@ namespace server_Database
                
                 double OUTPUT_Balence = DB_reader.GetDouble(0);
 
-                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> " +
-                                            "OUTPUT: Found transaction history for account id {0}, returning list", INPUT_AccountNumber);
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_getTransactons ({0}) --> OUTPUT: Found transaction history for account id {1}, returning list", INPUT_AccountNumber, INPUT_AccountNumber);
                 await DB_reader.CloseAsync();
                 await DB_connection.CloseAsync();
                 return OUTPUT_Balence;
@@ -169,18 +164,133 @@ namespace server_Database
 
                 await DB_command.ExecuteNonQueryAsync();
 
-                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_updateAccountBalence ({0}, {1}) --> " +
-                                            "OUTPUT: Updated balence to {1} for account {0}, returning true", INPUT_AccountNumber, INPUT_NewBalance, INPUT_NewBalance, INPUT_AccountNumber);
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_ASYNC_updateAccountBalence ({0}, {1}) --> OUTPUT: Updated balence to {2} for account {3}, returning true", INPUT_AccountNumber, INPUT_NewBalance, INPUT_NewBalance, INPUT_AccountNumber);
                 await DB_connection.CloseAsync();
                 return true;
             }
             catch (Exception ERROR_TRANSACTION_updateBalence)
             {
-                API_PROP_Logger.LogError("EXECUTED: TRANSACTION_ASYNC_updateAccountBalence ({0}, {1}) --> " +
-                                            "OUTPUT: !FAILURE = Unable to update account {0} balence", INPUT_AccountNumber, INPUT_NewBalance, INPUT_AccountNumber);
+                API_PROP_Logger.LogError("EXECUTED: TRANSACTION_ASYNC_updateAccountBalence ({0}, {1}) --> OUTPUT: !FAILURE = Unable to update account {2} balence", INPUT_AccountNumber, INPUT_NewBalance, INPUT_AccountNumber);
                 API_PROP_Logger.LogError(ERROR_TRANSACTION_updateBalence.Message, ERROR_TRANSACTION_updateBalence);
                 return false;
             }
         }
+
+        //====================================================================================================================================================
+
+        public async Task<List<DMODEL_Request>> TRANSACTION_SQL_ASYNC_GetOutstandingRequest(int INPUT_CustomerNumber)
+        {
+            // Setting up SQL command 
+            using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
+            await DB_connection.OpenAsync();
+
+            string DB_commandText = @"SELECT request_id, request_from, org_account, amount, req_DatTime, request_type, request_note 
+                                        FROM [project3].[Request] WHERE request_from = @INPUT_CustomerNumber;";
+
+            using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
+            DB_command.Parameters.AddWithValue("@INPUT_CustomerNumber", INPUT_CustomerNumber);
+
+            using SqlDataReader DB_reader = await DB_command.ExecuteReaderAsync();
+
+            // Outcome if no transaction history can be found
+            if (DB_reader.HasRows == false)
+            {
+                List<DMODEL_Request> OUTPUT_BlankRequest = new List<DMODEL_Request>();
+                DMODEL_Request OUTPUT_DummyRequest = new DMODEL_Request(-1,-1,-1,-1,DateTime.MinValue, false, "");
+
+                OUTPUT_BlankRequest.Add(OUTPUT_DummyRequest);
+
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_GetOutstandingRequest ({0}) --> OUTPUT: !FAILURE = Unable to find requests customer {1}, returning blank list", INPUT_CustomerNumber, INPUT_CustomerNumber);
+                await DB_reader.CloseAsync();
+                await DB_connection.CloseAsync();
+                return OUTPUT_BlankRequest;
+            }
+            // Outcome if transaction history is found, Parsing data
+            else
+            {
+                List<DMODEL_Request> OUTPUT_OutstandingRequest = new List<DMODEL_Request>();
+                while (await DB_reader.ReadAsync())
+                {
+                    int TEMP_request_id = DB_reader.GetInt32(0);
+                    int TEMP_request_from = DB_reader.GetInt32(1);
+                    int TEMP_org_account = DB_reader.GetInt32(2);
+                    double TEMP_amount = DB_reader.GetDouble(3);
+                    DateTime TEMP_time = DB_reader.GetDateTime(4);
+                    bool TEMP_request_type = DB_reader.GetBoolean(5);
+                    string TEMP_request_notes = DB_reader.GetString(6);
+
+                    DMODEL_Request TEMP_Request = new DMODEL_Request(TEMP_request_id, TEMP_request_from, TEMP_org_account, TEMP_amount, TEMP_time, TEMP_request_type, TEMP_request_notes);
+
+                    OUTPUT_OutstandingRequest.Add(TEMP_Request);
+                }
+
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_GetOutstandingRequest ({0}) --> OUTPUT: Found transaction history for account id {1}, returning list", INPUT_CustomerNumber, INPUT_CustomerNumber);
+                await DB_reader.CloseAsync();
+                await DB_connection.CloseAsync();
+                return OUTPUT_OutstandingRequest;
+            }
+        }
+
+        //====================================================================================================================================================
+
+        public async Task<bool> TRANSACTION_SQL_ASYNC_InsertNewRequest(int INPUT_CustomerID, int INPUT_OriginAccount, double INPUT_ChangeAmount, bool INPUT_RequestType, string? INPUT_RequestNotes)
+        {
+            try
+            {
+                using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
+                await DB_connection.OpenAsync();
+
+                string DB_commandText = @"INSERT INTO [project3].[Request] (request_from, org_account, amount, req_DatTime, request_type, request_note) 
+                                            VALUES (@INPUT_CustomerID, @INPUT_OriginAccount, @INPUT_ChangeAmount, @INPUT_Time, @INPUT_RequestType, @INPUT_RequestNotes)";
+
+                using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
+                DB_command.Parameters.AddWithValue("@INPUT_CustomerID", INPUT_CustomerID);
+                DB_command.Parameters.AddWithValue("@INPUT_OriginAccount", INPUT_OriginAccount);
+                DB_command.Parameters.AddWithValue("@INPUT_ChangeAmount", INPUT_ChangeAmount);
+                DB_command.Parameters.AddWithValue("@INPUT_Time", DateTime.Now);
+                DB_command.Parameters.AddWithValue("@INPUT_RequestType", INPUT_RequestType);
+                DB_command.Parameters.AddWithValue("@INPUT_RequestNotes", INPUT_RequestNotes);
+
+                await DB_command.ExecuteNonQueryAsync();
+
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewRequest (CustomerID: {0}, OriginAccount: {1}) --> OUTPUT: Successfully inserted new request for customer {2}", INPUT_CustomerID, INPUT_OriginAccount, INPUT_CustomerID);
+                return true;
+            }
+            catch (Exception ERROR_UnableInsertIntoRequestTable)
+            {
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_InsertNewRequest  (CustomerID: {0}, OriginAccount: {1}) --> OUTPUT: !FAILED = Unable to insert new request for customer {2}", INPUT_CustomerID, INPUT_OriginAccount, INPUT_CustomerID);
+                API_PROP_Logger.LogWarning(ERROR_UnableInsertIntoRequestTable.Message, ERROR_UnableInsertIntoRequestTable);
+                return false;
+            }
+        }
+
+        //====================================================================================================================================================
+
+        public async Task<bool> TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(int INPUT_RequestID)
+        {
+            try
+            {
+                using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
+                await DB_connection.OpenAsync();
+
+                string DB_commandText = @"DELETE FROM [project3].[Request] WHERE request_id = @INPUT_RequestID";
+
+                using SqlCommand DB_command = new SqlCommand(DB_commandText, DB_connection);
+                DB_command.Parameters.AddWithValue("@INPUT_RequestID", INPUT_RequestID);
+
+
+                await DB_command.ExecuteNonQueryAsync();
+
+                API_PROP_Logger.LogTrace("EXECUTED: TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest ({0}) --> OUTPUT: Successfully deleted request", INPUT_RequestID);
+                return true;
+            }
+            catch (Exception ERROR_UnableInsertIntoRequestTable)
+            {
+                API_PROP_Logger.LogWarning("EXECUTED: TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest ({0}) --> OUTPUT: !FAILED = Unable to delete request", INPUT_RequestID);
+                API_PROP_Logger.LogWarning(ERROR_UnableInsertIntoRequestTable.Message, ERROR_UnableInsertIntoRequestTable);
+                return false;
+            }
+        }
+
     }
 }
