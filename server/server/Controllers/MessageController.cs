@@ -32,8 +32,14 @@ namespace server.Controllers
             return tickets.ToList();
         }
 
+<<<<<<< HEAD
         [HttpGet("/message")]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string key = null)
+=======
+
+        [HttpGet("/message")]
+        public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string? key = null)
+>>>>>>> e7f699be7775c46ddf2856b24a76ecefacdae9f5
         {
             IEnumerable<MessageDTO> messages;
             try
