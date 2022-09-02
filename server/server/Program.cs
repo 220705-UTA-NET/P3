@@ -15,7 +15,7 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
             .AllowCredentials();
     }));
 
-string ConnectionString = await File.ReadAllTextAsync("c:/Revature/ConnectionStrings/ianDB.txt");
+string? ConnectionString = Environment.GetEnvironmentVariable("CONN");
 
 builder.Services.AddSingleton<Brass_IRepository>(sp => new Brass_SQLRepository(ConnectionString, sp.GetRequiredService<ILogger<Brass_SQLRepository>>()));
 
