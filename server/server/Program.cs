@@ -1,7 +1,7 @@
 using server_Database;
 
 // TEMP connection string for internal testing
-string DB_connectionString = await File.ReadAllTextAsync(@"./../../../connectionString_P3.txt");
+string DB_connectionString = GetEnvironmentVariable("CONN");
 
 var builder = WebApplication.CreateBuilder(args);
 
