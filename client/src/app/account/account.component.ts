@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 export interface Account {
   accountId: number,
@@ -16,7 +17,7 @@ export interface Account {
 })
 export class AccountComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   accounts: Account[] = [];
 
@@ -38,7 +39,7 @@ export class AccountComponent {
   }
 
   getAccount(id : number){
-    alert(id);
+
   }
 
 
