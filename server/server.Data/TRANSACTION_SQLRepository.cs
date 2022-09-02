@@ -58,7 +58,7 @@ namespace server.Data
                     int TEMP_account_id = DB_reader.GetInt32(1);
                     DateTime TEMP_time = DB_reader.GetDateTime(2);
                     double TEMP_amount = DB_reader.GetDouble(3);
-                    string TEMP_transaction_notes = DB_reader.GetString(4);
+                    string? TEMP_transaction_notes = DB_reader.GetString(4);
                     bool TEMP_type = DB_reader.GetBoolean(5);
                     bool TEMP_completion_status = DB_reader.GetBoolean(6);
 
@@ -76,10 +76,15 @@ namespace server.Data
 
         //====================================================================================================================================================
 
-        public async Task<bool> TRANSACTION_SQL_ASYNC_InsertNewTransaction(int INPUT_AccountNumber, double INPUT_ChangeAmount, string INPUT_TransactionNotes, bool INPUT_TransactionType)
+        public async Task<bool> TRANSACTION_SQL_ASYNC_InsertNewTransaction(int INPUT_AccountNumber, double INPUT_ChangeAmount, string? INPUT_TransactionNotes, bool INPUT_TransactionType)
         {
             try
             {
+                if (INPUT_TransactionNotes == null)
+                {
+                    INPUT_TransactionNotes = "";
+                }
+
                 using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
                 await DB_connection.OpenAsync();
 
@@ -239,6 +244,11 @@ namespace server.Data
         {
             try
             {
+                if (INPUT_RequestNotes == null)
+                {
+                    INPUT_RequestNotes = "";
+                }
+
                 using SqlConnection DB_connection = new SqlConnection(DB_PROP_ConnectionString);
                 await DB_connection.OpenAsync();
 

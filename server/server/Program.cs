@@ -4,8 +4,8 @@ using server.Data;
 // TEMP connection string for internal testing
 string? DB_connectionString;
 
-DB_connectionString = Environment.GetEnvironmentVariable("CONN");
-//DB_connectionString = await File.ReadAllTextAsync(@"./../../../connectionString_P3.txt");
+//DB_connectionString = Environment.GetEnvironmentVariable("CONN");
+DB_connectionString = await File.ReadAllTextAsync(@"./../../../connectionString_P3TEST.txt");
 
 var builder = WebApplication.CreateBuilder(args);
 

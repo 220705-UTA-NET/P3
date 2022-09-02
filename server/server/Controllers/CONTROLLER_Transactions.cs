@@ -40,11 +40,13 @@ namespace server.Controllers
             if (TEMP_LIST_TransactionHistory[0].transaction_id == -1)
             {
                 OUTPUT_DTO.NumberOfTransactions = 0;
+                OUTPUT_DTO.AccountBalance = 0;
                 OUTPUT_DTO.LIST_DMODEL_Transactions = new List<DMODEL_Transaction>();
             }
             else
             {
                 OUTPUT_DTO.NumberOfTransactions = TEMP_LIST_TransactionHistory.Count;
+                OUTPUT_DTO.AccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_AccountNumber);
                 OUTPUT_DTO.LIST_DMODEL_Transactions = TEMP_LIST_TransactionHistory;
             }
 
@@ -68,7 +70,7 @@ namespace server.Controllers
             if (STATUS_Deposit == 1)
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Deposit.AccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT", true);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Deposit.AccountID, false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT into Account: " + INPUT_DTO_Deposit.AccountID, false);
             }
 
             DTO_TRANSACTION_TransactionResponse OUTPUT_DTO = new DTO_TRANSACTION_TransactionResponse();
@@ -93,8 +95,8 @@ namespace server.Controllers
             //Successfuy Deposit
             if (STATUS_Withdraw == 1)
             {
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT", true);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Withdraw.AccountID, false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "WITHDRAW", false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "WITHDRAW from Account: " + INPUT_DTO_Withdraw.AccountID, true);
             }
 
             DTO_TRANSACTION_TransactionResponse OUTPUT_DTO = new DTO_TRANSACTION_TransactionResponse();
@@ -199,19 +201,20 @@ namespace server.Controllers
             // IF User Approved Transfer
             // NOTE: request_type (true = send money, false = request money)
             int STATUS_Request;
+            string Response_Message = "" + INPUT_DTO_RequestResponse.RequestData.request_notes;
             if (INPUT_DTO_RequestResponse.RequestData.request_type == true)
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);        
 
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, false);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.request_from, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, true);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, Response_Message, false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.request_from, INPUT_DTO_RequestResponse.RequestData.amount, Response_Message, true);
             }
             else
             {
                 STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount);
 
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, true);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.request_from, INPUT_DTO_RequestResponse.RequestData.amount, INPUT_DTO_RequestResponse.RequestData.request_notes, false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, Response_Message, true);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.request_from, INPUT_DTO_RequestResponse.RequestData.amount, Response_Message, false);
             }
 
             await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);

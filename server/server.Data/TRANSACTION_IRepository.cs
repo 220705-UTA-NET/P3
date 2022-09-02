@@ -14,7 +14,7 @@ namespace server.Data
         //          OR
         //      If not data for account found -> return dummy list with first element of (-1, -1, DateTime.Min, -1, false, false)
 
-        Task<bool> TRANSACTION_SQL_ASYNC_InsertNewTransaction(int INPUT_AccountNumber, double INPUT_ChangeAmount, string INPUT_TransactionNotes, bool INPUT_TransactionType);
+        Task<bool> TRANSACTION_SQL_ASYNC_InsertNewTransaction(int INPUT_AccountNumber, double INPUT_ChangeAmount, string? INPUT_TransactionNotes, bool INPUT_TransactionType);
         // FUNCTION:
         //      Insert new row into transactions table
         // PARAMETER (int, double, string, bool)
