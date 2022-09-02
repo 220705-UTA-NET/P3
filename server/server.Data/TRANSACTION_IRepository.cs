@@ -1,8 +1,8 @@
-﻿using Server_DataModels;
+﻿using server.Model;
 
-namespace server_Database
+namespace server.Data
 {
-    public interface IRepository
+    public interface TRANSACTION_IRepository
     {
         Task<List<DMODEL_Transaction>> TRANSACTION_SQL_ASYNC_GetTransactonHistory(int INPUT_AccountNumber);
         // FUNCTION:

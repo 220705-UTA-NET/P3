@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
-using Server_DataModels;
+using server.Model;
 using System.Data.SqlClient;
 
-namespace server_Database
+namespace server.Data
 {
-    public class SQLRepository : IRepository
+    public class SQLRepository : TRANSACTION_IRepository
     {
         // FIELDS
         private readonly string DB_PROP_ConnectionString;

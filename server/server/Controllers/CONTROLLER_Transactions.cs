@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
-using server_Database;
-using Server_DataModels;
+using server.Data;
+using server.Model;
 
 namespace server.Controllers
 {
@@ -11,12 +11,12 @@ namespace server.Controllers
     public class CONTROLLER_Transactions : ControllerBase
     {
         // FIELDS
-        private readonly IRepository API_PROP_IRepository;
+        private readonly TRANSACTION_IRepository API_PROP_IRepository;
         private readonly ILogger<CONTROLLER_Transactions> API_PROP_Logger;
         private readonly int BASE_BankAccountID;
 
         // CONSTRUCTORS
-        public CONTROLLER_Transactions(IRepository INPUT_IRepository, ILogger<CONTROLLER_Transactions> INPUT_Logger)
+        public CONTROLLER_Transactions(TRANSACTION_IRepository INPUT_IRepository, ILogger<CONTROLLER_Transactions> INPUT_Logger)
         {
             this.API_PROP_IRepository = INPUT_IRepository;
             this.API_PROP_Logger = INPUT_Logger;
@@ -26,7 +26,6 @@ namespace server.Controllers
         // ===================================== METHODS ====================================================================================================
         [HttpGet]
         [Route("TransactionHistory")]
-
         public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AuthToken, int INPUT_AccountNumber)
         {
             // Authenticate User

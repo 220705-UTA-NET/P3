@@ -1,8 +1,11 @@
 using System;
-using server_Database;
+using server.Data;
 
 // TEMP connection string for internal testing
-string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
+string? DB_connectionString;
+
+DB_connectionString = Environment.GetEnvironmentVariable("CONN");
+//DB_connectionString = await File.ReadAllTextAsync(@"./../../../connectionString_P3.txt");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
+builder.Services.AddSingleton<TRANSACTION_IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
 
 string MyAllowAllOrgins = "_myAllowAllOrigins";
 

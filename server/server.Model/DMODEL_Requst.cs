@@ -1,5 +1,5 @@
-﻿namespace Server_DataModels
-{
+﻿namespace server.Model
+{ 
     public class DMODEL_Request
     {
         // FIELDS

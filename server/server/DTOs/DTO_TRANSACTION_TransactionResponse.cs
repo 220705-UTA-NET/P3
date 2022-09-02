@@ -1,4 +1,4 @@
-﻿using Server_DataModels;
+﻿using server.Model;
 
 namespace server.DTOs
 {
