@@ -36,7 +36,6 @@ export class UserPasswordDialogComponent implements OnInit {
   }
 
   change() {
-
     if(this.form.value.currentPassword !== this.form.value.currentPassword2){
       this.error=true;
       this.message="Password don't match";

@@ -33,5 +33,13 @@ export class AccountComponent {
 
   }
 
+  addAccount(){
+    alert("hello");
+  }
+
+  getAccount(id : number){
+    alert(id);
+  }
+
 
 }

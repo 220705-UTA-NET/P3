@@ -48,6 +48,23 @@ export class UserProfileComponent {
     console.log("In getCustomer: " + value);
   }
 
+  
+  // changePassword(password? : string){
+  //   const headers = {'Access-Control-Allow-Origin' : '*'};
+  //   this.http.put(`https://localhost:7249/userprofile/password`, '{"password":"'+password+'"}', {
+  //        params: new HttpParams().set('customerId', this.customer.id),
+  //        observe: "response",
+  //        responseType: "json"
+
+  //   }).subscribe((result: any) => {
+  //     console.log(result);
+  //     this.customer = result.body;
+  //     this.customerSet = true;
+  //      })
+    
+  //   console.log("In getCustomer: " + this.customer.id);
+  // }
+
   openProfileDialog(){
     const profileDialogConfig = new MatDialogConfig();
 
@@ -106,4 +123,5 @@ export class UserProfileComponent {
     const headers = new HttpHeaders({ 'Content-Type' : 'application/json', 'Accept' : 'application/json'});
     this.http.put('https://localhost:7249/userprofile', this.customer, {headers}).subscribe()
   }
+
 }

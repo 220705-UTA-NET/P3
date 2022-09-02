@@ -63,5 +63,19 @@ namespace server.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPut("/userprofile/password")]
+        public async Task<ActionResult> ChangePassword([FromBody] string password)
+        {
+            try
+            {
+                Console.WriteLine(password);
+                return StatusCode(200);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }

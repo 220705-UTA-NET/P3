@@ -1,3 +1,50 @@
 table, th, td {
     border:1px solid black;
   }
+
+.container {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+  padding: 0;
+  margin: 10%;
+}
+
+.sub-container {
+  padding: 10px;
+}
+
+.header {
+  text-align: center;
+  background-color: gold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom-style: solid;
+  border-bottom-color: black;
+  border-bottom-width: 1px;
+
+  cursor: pointer;
+}
+
+.footer {
+  text-align: center;
+  color: blue;
+  border-width: 0;
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-bottom: 10px;
+}
