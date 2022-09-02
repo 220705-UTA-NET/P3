@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
 using server_Database;
@@ -26,6 +26,7 @@ namespace server.Controllers
         // ===================================== METHODS ====================================================================================================
         [HttpGet]
         [Route("TransactionHistory")]
+
         public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AuthToken, int INPUT_AccountNumber)
         {
             // Authenticate User
@@ -191,6 +192,7 @@ namespace server.Controllers
             double VERIFICATION_INITIAL_RecieverAccountBalance;
             double VERIFICATION_POST_SenderAccountBalance;
             double VERIFICATION_POST_RecieverAccountBalance;
+
             try
             {
                     // Setting up Initial Verification Variables to proper format
