@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 export interface Account {
@@ -35,19 +35,15 @@ export class AccountComponent {
   }
 
   addAccount(customerId: number){
-    let params = new HttpParams();
-    params.append('customerId', customerId);
-    params.append('accountType', 0);
-    this.http.post( `http://localhost:7249/accounts`, {
-      params: params
+    console.log(customerId);
+    let headers = new HttpHeaders({ 'Content-Type' : 'application/json', 'Accept' : 'application/json'});
+    let args = new HttpParams().set('customerId', customerId).set('accountType', 0);
+    this.http.post( `https://localhost:7249/accounts?` + args.toString(), {
+      headers: headers
     }).subscribe((result : any) => {
       console.log(result);
       this.accounts.push(result);
     })
-  }
-
-  getAccount(id : number){
-
   }
 
 
