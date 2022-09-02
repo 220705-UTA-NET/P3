@@ -32,13 +32,9 @@ namespace server.Controllers
             return tickets.ToList();
         }
 
-<<<<<<< Updated upstream
+
         [HttpGet("/message")]
-        public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string key = null)
-=======
-        [HttpGet]
         public async Task<ActionResult<IEnumerable<MessageDTO>>> GetAllMessagesbyTicket(string? key = null)
->>>>>>> Stashed changes
         {
             IEnumerable<MessageDTO> messages;
             try
@@ -72,6 +68,5 @@ namespace server.Controllers
                 return StatusCode(500);
             }
         }
-
     }
 }
