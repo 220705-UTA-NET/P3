@@ -24,7 +24,7 @@ namespace server.Data{
             await connection.OpenAsync();
             
             string cmdText =
-            @"INSERT INTO Support (first_name, last_name, email, username, phone, password)
+            @"INSERT INTO [project3].[Support] (first_name, last_name, email, username, phone, password)
             VALUES
             (@first_name, @last_name, @email, @username, @phone, @password)";
 
@@ -51,11 +51,11 @@ namespace server.Data{
             await connection.OpenAsync();
 
             string cmdText =
-            @"INSERT INTO Ticket (ticket_id ,customer_id, ticket_status)
+            @"INSERT INTO [project3].[Ticket] (ticket_id ,customer_id, ticket_status)
             VALUES
             (@ticket_id ,@customer_id , @ticket_status)";
 
-            string cmdText2 = "SELECT * FROM Customer WHERE username = @username;";
+            string cmdText2 = "SELECT * FROM [project3].[Customer] WHERE username = @username;";
 
             SqlCommand cmd2 = new SqlCommand(cmdText2, connection);
 
@@ -94,7 +94,7 @@ namespace server.Data{
             await connection.OpenAsync();
 
             string cmdText =
-            @"INSERT INTO Message (ticket_id,message_content, message_DateTime, message_user,)
+            @"INSERT INTO [project3].[Message] (ticket_id,message_content, message_DateTime, message_user,)
             VALUES
             (@ticket_id,@message_content, @message_DateTime, @message_user)";
 
@@ -122,14 +122,14 @@ namespace server.Data{
             using SqlConnection connection = new(_ConnectionString);
             await connection.OpenAsync();
 
-            string cmdText = "SELECT * from Ticket;";
+            string cmdText = "SELECT * FROM [project3].[Ticket];";
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
 
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
             
             
-            string cmdText2 = "SELECT username FROM Customer WHERE customer_id = @id;";
+            string cmdText2 = "SELECT username FROM [project3].[Customer] WHERE customer_id = @id;";
 
             SqlCommand cmd2 = new SqlCommand(cmdText2, connection);
             
@@ -164,7 +164,7 @@ namespace server.Data{
             using SqlConnection connection = new(_ConnectionString);
             await connection.OpenAsync();
 
-            string cmdText = "SELECT * FROM Message WHERE ticket_id = @ticket_id;";
+            string cmdText = "SELECT * FROM [project3].[Message] WHERE ticket_id = @ticket_id;";
 
             SqlCommand cmd = new SqlCommand(cmdText, connection);
 
@@ -192,9 +192,9 @@ namespace server.Data{
             using SqlConnection connection = new(_ConnectionString);
             await connection.OpenAsync();
 
-            string cmdText = "UPDATE Ticket SET ticket_status = @value WHERE ticket_id = @ticket_id; ";
+            string cmdText = "UPDATE [project3].[Ticket] SET ticket_status = @value WHERE ticket_id = @ticket_id; ";
 
-            string cmdText2 = "SELECT ticket_status FROM Ticket WHERE ticket_id = @ticket_id;";
+            string cmdText2 = "SELECT ticket_status FROM [project3].[Ticket] WHERE ticket_id = @ticket_id;";
 
             int status;
 
