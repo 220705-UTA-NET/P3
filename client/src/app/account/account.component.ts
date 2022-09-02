@@ -17,7 +17,7 @@ export interface Account {
 })
 export class AccountComponent {
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+  constructor(private http: HttpClient) { }
 
   accounts: Account[] = [];
 
@@ -34,8 +34,16 @@ export class AccountComponent {
 
   }
 
-  addAccount(){
-    alert("hello");
+  addAccount(customerId: number){
+    let params = new HttpParams();
+    params.append('customerId', customerId);
+    params.append('accountType', 0);
+    this.http.post( `http://localhost:7249/accounts`, {
+      params: params
+    }).subscribe((result : any) => {
+      console.log(result);
+      this.accounts.push(result);
+    })
   }
 
   getAccount(id : number){

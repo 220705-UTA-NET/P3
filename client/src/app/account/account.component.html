@@ -1,5 +1,5 @@
 <h1>Account</h1>
-<input #customerID type="number">
+<input #customerID type="number" />
 <button type="button" (click)="getAccounts(customerID.value)">Submit</button>
 
 <div>
@@ -15,6 +15,6 @@
         <!-- </div> -->
       </div>
     </div>
-    <button class="footer" (click)="addAccount()">+ Add Account</button>
+    <button class="footer" (click)="addAccount(1)">+ Add Account</button>
   </div>
 </div>

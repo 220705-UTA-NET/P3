@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './account/account.component';
-import { LandingComponent } from './landing/landing.component';
+import { AppComponent } from './app.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 const routes: Routes = [{ path: '\customer', component: UserProfileComponent},
                         { path: '\accounts', component: AccountComponent },
-                        { path: '\\' , component: LandingComponent }];
+                        { path: '\\' , component: AppComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
