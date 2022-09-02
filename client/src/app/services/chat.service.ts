@@ -21,33 +21,36 @@ export class ChatService {
   public openTickets: OpenTicket[] = [];
 
   // how messages are exchanged between tech & user once in a private room
-  public sendChat(chat: ChatMessage, ticketId: number) {
+  public sendChat(chat: ChatMessage) {
     // temporary measure until we have seperate profiles
     // ticketId should be equivalent to the privateRoomKey of a user account
-    if (this.privateRoomKey == 0) {
-      this._hubConnection.invoke("SendChat", chat, ticketId);
-    } else {
+    // if (this.privateRoomKey == 0) {
+      console.log(this.privateRoomKey);
       this._hubConnection.invoke("SendChat", chat, this.privateRoomKey);
-    }
+    // } else {
+      // this._hubConnection.invoke("SendChat", chat, this.privateRoomKey);
+    // }
   }
 
   // USER ONLY -----------------------------------------------------------------
   // establishes their private room to be connected to
-  private privateRoomKey: number = 0;
+  private privateRoomKey: string = "";
 
   // for USERS only; puts user in a private connection room & informs tech support
   public initiateTicket(initialMessage: ChatMessage) {    
     // need to generate a privateRoomKey. should do it via the customer_id in production, but will generate a random one for testing
-    this.privateRoomKey = Math.floor(Math.random() * 10000);
+    this.privateRoomKey = initialMessage.user;
+
+    console.log("the room key", this.privateRoomKey);
 
     this._hubConnection.invoke("OpenTicket", this.privateRoomKey, initialMessage)
   }
 
   // TECH ONLY -----------------------------------------------------------------
   // holds all user tickets
-  public userTickets: number[] = [];
+  public userTickets: string[] = [];
   // value of active ticket is assigned to the send message btn; how messages are routed correctly
-  public currentActiveTicket: number = 0;
+  public currentActiveTicket: string = "";
 
   // enables tech support to be notified when a new ticket is made.
   public joinTechSupport()
@@ -56,7 +59,7 @@ export class ChatService {
   }  
 
   // on click of a ticket, matches a tech support with a customer
-  public initializeSupportConnection(roomKey: number, initialMessage: ChatMessage) {
+  public initializeSupportConnection(roomKey: string, initialMessage: ChatMessage) {
     // sets currentActiveTicket to the user's roomKey; how we change who the TECH is speaking to
     this.currentActiveTicket = roomKey;
     this._hubConnection.invoke("TechSupportJoinsConversation", roomKey);
@@ -125,17 +128,18 @@ export class ChatService {
 
     // TECH: listening for when a user opens a ticket, need the privateRoomKey id that will be attached
     // Ticket also carries the user's name & their initial message that began the chat
-    this._hubConnection.on("OpenTicket", (privateRoomKey: number, initialMessage: ChatMessage) => {
+    this._hubConnection.on("OpenTicket", (privateRoomKey: string, initialMessage: ChatMessage) => {
       this.userTickets.push(privateRoomKey);
+      this.privateRoomKey = privateRoomKey;
 
-      console.log(initialMessage.user + ": test " + initialMessage.message)
       const newTicket: OpenTicket = {
-        chatRoomId: privateRoomKey.toString(),
+        chatRoomId: privateRoomKey,
         user: initialMessage.user,
         message: initialMessage.message,
         open: true
       }
       this.openTickets.push(newTicket);
+
     })
 
     // notify all participants that the ticket has been resolved

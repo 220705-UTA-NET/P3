@@ -25,6 +25,7 @@ namespace server.Hubs
         }
 
         // USER: create a ticket, open a private room, notify tech
+        // chatRoomId is just the client's username
         public Task OpenTicket(string chatRoomId, MessageDTO initialMessage)
         {
             string connectionId = Context.ConnectionId;
