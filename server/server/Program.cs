@@ -17,11 +17,7 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
 
 //string ConnectionString = await File.ReadAllTextAsync("c:/Revature/ConnectionStrings/ianDB.txt");
 
-<<<<<<< HEAD
-//builder.Services.AddSingleton<Brass_IRepository>(sp => new Brass_SQLRepository(ConnectionString, sp.GetRequiredService<ILogger<Brass_SQLRepository>>()));
-=======
 builder.Services.AddSingleton<Brass_IRepository>(sp => new Brass_SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<Brass_SQLRepository>>()));
->>>>>>> e7f699be7775c46ddf2856b24a76ecefacdae9f5
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
