@@ -32,13 +32,14 @@ namespace server.Controllers
             return tickets.ToList();
         }
 
-        [HttpPut("/send/{contents}")] 
-        public async Task<ActionResult> PutNewMessage(MessageDTO contents)
+        [HttpPost("/newMessage")] 
+        public async Task<ActionResult> PostNewMessage([FromBody] MessageDTO contents)
         {
+            Console.WriteLine(contents);
             try
             {
                 await _repo.AddMessage(contents);
-                _logger.LogInformation($"User #{contents} status changed # ...");
+                _logger.LogInformation($"New message added: #{contents}# ...");
                 return StatusCode(201);
             }
             catch (Exception ex)

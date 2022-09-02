@@ -30,6 +30,9 @@ export class ChatService {
     } else {
       this._hubConnection.invoke("SendChat", chat, this.privateRoomKey);
     }
+
+    // save message to db
+    this.saveChatMessage(chat);
   }
 
   // USER ONLY -----------------------------------------------------------------
@@ -42,6 +45,9 @@ export class ChatService {
     this.privateRoomKey = initialMessage.user;
 
     this._hubConnection.invoke("OpenTicket", this.privateRoomKey, initialMessage)
+
+    // save initial message to db
+    // this.saveChatMessage(initialMessage);
   }
 
   // TECH ONLY -----------------------------------------------------------------
@@ -173,11 +179,13 @@ export class ChatService {
 
   // get particular ticket by username
   public fetchUserTicket(username: string) {
-    return this.http.get(`https://localhost:7249/message?key=${username}`, {
+    return this.http.get(`https://localhost:7249/message/${username}`, {
       // headers: {"Authorization": accessToken},
       observe: "response"
     })
       .subscribe((result) => {
+        console.log("all messages from a user", result);
+
         const userTicket: OpenTicket = result.body as OpenTicket;
 
         // new ChatMessage[] to replace the currently set one
@@ -197,5 +205,13 @@ export class ChatService {
       })
   }
 
-  // functionality for saving messages & creating tickets will be handled in the HUB, as it is taken care of by websocket connection
+  public saveChatMessage(newMessage: ChatMessage) {
+    this.http.post("https://localhost:7249/newMessage", newMessage, {
+      // headers: {"Authorization": accessToken},
+      observe: "response"
+    })
+      .subscribe((result) => {
+        console.log(`Message saved: {result}`)
+      })
+  }
 }
