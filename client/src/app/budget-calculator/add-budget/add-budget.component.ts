@@ -11,7 +11,6 @@ import { Budget } from '../../services/models/budget';
 export class AddBudgetComponent implements OnInit {
   monthlyAmount:number = 0;
   warningAmount:number = 0;
-  //enableEdit = false;
   constructor(private budgetService: BudgetService, private router:Router) { }
 
   ngOnInit(): void {
