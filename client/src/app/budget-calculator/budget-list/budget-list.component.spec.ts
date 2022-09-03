@@ -64,11 +64,8 @@ describe('BudgetListComponent', () => {
   it('should get call onEmitChanges',()=>{
     const childElement = fixture.debugElement.query(By.directive(FakeChild));
     const fakeChildComponent:FakeChild = childElement.componentInstance;
-    //expectedBudget.monthlyAmount = 200;
     spyOn(window,'alert');
     fakeChildComponent.editBudgetEvent.emit(expectedBudget);
-    //expect(component.budgetList[0].monthlyAmount).toBe(200);
-    //const spy = 
     expect(window.alert).toHaveBeenCalledWith("successfully updated bugdet");
   });
   it('should call onEmitDelete',()=>{
