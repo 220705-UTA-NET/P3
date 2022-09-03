@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ChatboxComponent } from './chatbox/chatbox.component';
+import { ReactiveFormsModule  } from '@angular/forms';
+import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BudgetListComponent } from './budget-list/budget-list.component';
@@ -15,15 +18,21 @@ import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
+    ChatboxComponent,
+    ChatBoxComponent,
+    AddBudgetComponent,
     BudgetListComponent,
     BudgetItemComponent,
-    AddBudgetComponent,
     NavBarComponent,
     HeaderComponent,
     LandingComponent,
     FooterComponent
   ],
   imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
