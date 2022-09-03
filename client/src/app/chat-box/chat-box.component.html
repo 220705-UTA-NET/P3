@@ -1,0 +1,28 @@
+<link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+<div class="chat-box" style="display:block;"> <!--display block or none-->
+    <div class="chat-box-header">
+        <div class="room-name">Ticket: QAZrySw21235SD2312412</div><i class="material-icons chat-box-close">close</i> <!--click should change display of chat-->
+    </div>
+
+    <div class="chat-box-body">
+        <div class="chat-contents" #scroll [scrollTop]="scroll.scrollHeight">
+            <div class="listStyle" *ngFor = "let msg of messages; let i = index;">
+                <div [ngClass]="msg.user == user ? 'myUser allUser' : 'otherUser allUser'"> <!--ngClass checks if message is from client user or other user, sets style to match-->
+                    <div *ngIf = "i == 0">{{msg.user}}</div>
+                    <div *ngIf = "i >= 1"><div *ngIf = "msg.user != messages[i-1].user">{{msg.user}}</div></div>
+                </div>
+                <div [ngClass]="msg.user == user ? 'myMessage allMessage' : 'otherMessage allMessage'"> <!--ngClass checks if message is from client user or other user, sets style to match-->
+                    {{msg.message}}
+                </div>
+                <br>
+            </div>
+        </div><!--chat-log -->
+    </div>
+
+    <div class="chat-input">      
+    <form #inputForm="ngForm">
+        <input type="text" id="chat-input" [(ngModel)]="sendContents" name="first" (keyup.enter)="submitMessage(inputForm)" autocomplete="off" placeholder="Send a message..."/>
+        <button type="button" class="chat-submit material-icons" (click)="submitMessage(inputForm)">send</button>
+    </form>
+    </div>
+</div>

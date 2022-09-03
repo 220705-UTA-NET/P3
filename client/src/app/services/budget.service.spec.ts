@@ -1,7 +1,5 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { of } from 'rxjs';
 
 import { BudgetService } from './budget.service';
 import { Budget } from './models/budget';
@@ -14,8 +12,6 @@ describe('BudgetService', () => {
   const status201 = JSON.parse('{"status":"201"}');
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj('HttpClient',['get','put','post','delete']);
-    //TestBed.configureTestingModule({});
-    //service = TestBed.inject(BudgetService);
     service = new BudgetService(httpClientSpy);
   });
 
