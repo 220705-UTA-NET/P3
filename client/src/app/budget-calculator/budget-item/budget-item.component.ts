@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Budget } from '../services/models/budget';
+import { Budget } from '../../services/models/budget';
 
 @Component({
   selector: 'app-budget-item',
   templateUrl: './budget-item.component.html',
-  styleUrls: ['../app.component.css','./budget-item.component.css']
+  styleUrls: ['../../app.component.css','./budget-item.component.css']
 })
 export class BudgetItemComponent implements OnInit {
 @Input() budget!:Budget;
