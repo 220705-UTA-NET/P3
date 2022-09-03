@@ -18,14 +18,10 @@ describe('BudgetItemComponent', () => {
     })
     .compileComponents();
 
-    //fixture = TestBed.createComponent(BudgetItemComponent);
-    //component = fixture.componentInstance;
-    //fixture.detectChanges();
     testHostFixture = TestBed.createComponent(TestHostComponent);
     testHostComponent = testHostFixture.componentInstance;
     testHostFixture.detectChanges();
-    //component.input = expectedBudget;
-    //component.budget = expectedBudget;
+
   });
 
   it('should create', () => {
