@@ -31,7 +31,6 @@ colorS = "lightgreen";
       this.percentS = percent + "%";
     }
 
-    //percent = 88;
     if(percent < 30){
       this.colorS = "limegreen";
     }
