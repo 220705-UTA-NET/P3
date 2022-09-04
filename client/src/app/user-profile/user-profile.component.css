@@ -1,1 +1,10 @@
 @import url('..\\..\\styles.css');
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    margin: 20px;
+}

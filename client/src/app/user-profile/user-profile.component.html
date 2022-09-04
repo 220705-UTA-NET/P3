@@ -1,16 +1,24 @@
-<h1>User Profile</h1>
-<input #customerID type="number">
-<button type="button" (click)="getCustomer(customerID.value)">Submit</button>
+<div class="flex-container">
+  <div class="flex-child user">
+    <h1>User Profile</h1>
+    <input #customerID type="number">
+    <button type="button" (click)="getCustomer(customerID.value)">Submit</button>
 
-<div *ngIf="customer">
-  <p>{{customer.id}}</p>
-  <p>First Name: {{customer.firstName}}</p>
-  <p>Last Name: {{customer.lastName}}</p>
-  <p>Email: {{customer.email}}</p>
-  <p>Phone Number: {{customer.phoneNumber}}</p>
-</div>
+    <div *ngIf="customer">
+      <p>{{customer.id}}</p>
+      <p>First Name: {{customer.firstName}}</p>
+      <p>Last Name: {{customer.lastName}}</p>
+      <p>Email: {{customer.email}}</p>
+      <p>Phone Number: {{customer.phoneNumber}}</p>
+    </div>
 
-<div>
-  <button (click)="openProfileDialog()">Edit Profile</button>
-  <button (click)="openPasswordDialog()">Edit Password</button>
+    <div>
+      <button (click)="openProfileDialog()">Edit Profile</button>
+      <button (click)="openPasswordDialog()">Edit Password</button>
+    </div>
+  </div>
+
+  <div class="flex-child account">
+    <app-account></app-account>
+  </div>
 </div>
