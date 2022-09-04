@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import { BudgetListComponent } from './budget-list/budget-list.component';
-import { AddBudgetComponent } from './add-budget/add-budget.component';
+import { BudgetListComponent } from './budget-calculator/budget-list/budget-list.component';
+import { AddBudgetComponent } from './budget-calculator/add-budget/add-budget.component';
 const routes: Routes = [
   {path:'', component:BudgetListComponent},
   {path:'budget', component:BudgetListComponent},
