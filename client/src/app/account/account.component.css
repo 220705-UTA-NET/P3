@@ -1,7 +1,6 @@
 
 .container {
   display: flex;
-  width: 50%;
   max-height: 50%;
   flex-direction: column;
   background-color: white;
@@ -31,18 +30,6 @@
   border-top-right-radius: 9px;
 }
 
-
-/* .item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 5px;
-  border-bottom-style: solid;
-  border-bottom-color: black;
-  border-bottom-width: 1px;
-
-  cursor: pointer;
-} */
 
 .footer {
   text-align: center;
