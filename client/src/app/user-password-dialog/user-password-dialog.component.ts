@@ -14,6 +14,7 @@ export class UserPasswordDialogComponent implements OnInit {
   public form : FormGroup;
   public error : boolean = false;
   public message : string = "";
+  public hide : boolean = true;
 
   private password : string = this.data.data.password;
 

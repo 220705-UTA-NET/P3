@@ -1,16 +1,17 @@
-<h1>User Profile</h1>
-<input #customerID type="number">
-<button type="button" (click)="getCustomer(customerID.value)">Submit</button>
-
-<div *ngIf="customer">
-  <p>{{customer.id}}</p>
-  <p>First Name: {{customer.firstName}}</p>
-  <p>Last Name: {{customer.lastName}}</p>
-  <p>Email: {{customer.email}}</p>
-  <p>Phone Number: {{customer.phoneNumber}}</p>
-</div>
-
-<div>
-  <button (click)="openProfileDialog()">Edit Profile</button>
-  <button (click)="openPasswordDialog()">Edit Password</button>
+<div class="container">
+  <div class="header"><h1 style="color: white;">User Profile</h1></div>
+  <div class="main">
+    <input #customerID type="number">
+    <button type="button" (click)="getCustomer(customerID.value)">Submit</button>
+    <h1 style="text-align: center; font-size: xx-large">{{customer.firstName + " " + customer.lastName}}</h1>
+    <div style="text-align: center; font-size: large;" *ngIf="customer">
+      <p>Account Number: {{customer.id}}</p>
+      <p>Email: {{customer.email}}</p>
+      <p>Phone Number: {{customer.phoneNumber}}</p>
+    </div>
+    <div style="position: relative; bottom: 0; text-align: center;">
+      <button style="width: 125px;" (click)="openProfileDialog()">Edit Profile</button>
+      <button style="width: 125px;" (click)="openPasswordDialog()">Edit Password</button>
+    </div>
+  </div>
 </div>

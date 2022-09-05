@@ -1,4 +1,11 @@
 .dialog{
     display: flex; 
     flex-direction: column
-  }
+}
+
+.errorMessage {  
+  text-align: center; 
+  background-color: red;
+  opacity: .5; 
+  color: white ; 
+}
