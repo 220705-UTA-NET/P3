@@ -1,0 +1,12 @@
+<div style="max-width: 700px; margin: auto;">
+
+<app-budget-item
+*ngFor="let budget of budgetList"
+[budget]="budget"
+(editBudgetEvent)="onEmitChanges(budget)"
+(deleteBudgetEvent)="onEmitDelete(budget)"
+>
+    
+</app-budget-item>
+<button *ngIf="doneLoading" class="btn btn-block" (click)="onAddNew()">add new</button>
+</div>

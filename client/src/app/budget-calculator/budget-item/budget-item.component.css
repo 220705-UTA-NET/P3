@@ -1,0 +1,19 @@
+#progressbar {
+    background-color: lightgrey;
+    border-radius: 13px;
+    /* (height of inner div) / 2 + padding */
+    padding: 2px;
+  }
+  
+  #progressbar>#progress {
+    background-color: lightgreen;
+    width: 10%;
+    /* Adjust with JavaScript */
+    height: 20px;
+    border-radius: 10px;
+  }
+.budget-box{
+  border: 1px solid steelblue;
+  padding: 1em;
+  margin-bottom: 15px;
+}

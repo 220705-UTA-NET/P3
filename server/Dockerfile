@@ -3,6 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 as build
 #Create and Set the working Directory 
 WORKDIR /src
 
+ENV CONN=MYSQLCONNSTR_CONN
+
 COPY . .
 
 RUN dotnet publish -c Release -o /published ./server.sln
