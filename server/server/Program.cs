@@ -2,10 +2,11 @@ using System;
 using server.Hubs;
 using server.Data;
 using server_Database;
-using server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
+string? DB_connectionString = File.ReadAllText(@"C:\Users\brand\connection.txt");
+    
+//Environment.GetEnvironmentVariable("CONN");
 // Add services to the container.
 
 builder.Services.AddControllers();
