@@ -100,6 +100,7 @@ export class ChatService {
   // establishes connection to websocket / hub, and establishes event listeners
   // the events that should be listened to will depend on USER vs. TECH
   // can check for user status & create different connection methods for each
+  connectedToHub: boolean = false;
   public connect() {
     this._hubConnection = new signalR.HubConnectionBuilder()
     // withUrl requires hub connection url
@@ -154,6 +155,8 @@ export class ChatService {
       this.messages.push(notification);
       this.messageService.next(this.messages);
     })
+
+    this.connectedToHub = true;
 
     // BOTH: starts listening for hub coorespondance
     this._hubConnection.start()

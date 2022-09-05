@@ -36,6 +36,11 @@ export class ChatboxComponent implements OnInit {
     this.user = this.testUsernames[Math.floor(Math.random() * this.testUsernames.length)];
     console.log(this.user);
 
+
+    // for live retrival of accessToken ~
+    const accessToken = localStorage.getItem("customer");
+
+
     // subscribe to changes in tickets
     this.chatService.ticketService.subscribe((result) => this.tickets = result);
     //subscribe to changes in messages
@@ -237,7 +242,6 @@ export class ChatboxComponent implements OnInit {
     return "You don't exist in the space time continuum";
   }
 
-  // will need to update how we get all tickets, as below & the previous method above (getting them from the service variable) collide
   public fetchAllTickets() {
     this.chatService.fetchAllTickets()
   }
