@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using server.Data;
 using server.Model;
+using Server_DataModels;
+using System.Collections;
 
 namespace server.Controllers
 {
@@ -18,7 +20,7 @@ namespace server.Controllers
         }
 
         [HttpGet("CustomerBudgets/{customerId}")]
-        public async Task<ActionResult<IEnumerable<Transaction>>> GetCustomerBudgets(int customerId)
+        public async Task<ActionResult<IEnumerable<DMODEL_Transaction>>> GetCustomerBudgets(int customerId)
         {
             IEnumerable<Budget>? budgets = null;
 
@@ -74,10 +76,52 @@ namespace server.Controllers
             return s;
         }
 
+
+        [HttpGet("GetCustomerBudgetsWarning/{customerId}")]
+        public async Task<ActionResult> BudgetWarning(int customerId)
+        {
+            IEnumerable<Budget>? budgets = null;
+
+            try
+            {
+                budgets = await _repo.GetAllBudgetsFromCustomerAsync(customerId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+
+            }
+
+            if (budgets == null || !budgets.Any()) return BadRequest();
+      
+            ArrayList list = new();
+            
+            foreach (var bud in budgets)
+            {
+                try
+                {
+                    int amount = await _repo.GetTransactionsSumAsync(bud);
+                    if(bud.MonthlyAmount - amount < bud.WarningAmount)
+                    {
+                        double rem = bud.MonthlyAmount - amount;
+                        var addTo = new
+                        {
+                            budId = bud.BudgetId,
+                            remaining = rem,
+                            lim = bud.MonthlyAmount,
+                            accId = bud.AccountId
+                        };
+                        list.Add(addTo);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
+            }
+
+            return new JsonResult(list);
+        }
     }
-
-
-
-
-    
 }
