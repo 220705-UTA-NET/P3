@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { FormControl, NgForm, FormsModule } from '@angular/forms';
 import { ChatService } from "../services/chat.service";
 import { ChatMessage, OpenTicket } from '../models/ChatDTO';
 
@@ -16,6 +16,8 @@ export class ChatboxComponent implements OnInit {
   "Daniel Beidelschies", "Derick Xie", "Eunice Decena", "Aurel Npounengnong", "Samuel Jackson", "Ellery De_Jesus", "Rogers Ssozi",
   "Lance Gong", "Arthur Gao", "Jared Green", "Jake Nguyen", "Joseph Boye", "Onandi Stewart", "Andrew Grozdanov", "Richard Hawkins" ];
   user : string = ''; //Client username goes here
+  // role of the user: customer or tech support
+  userRole: string = '';
   messages : ChatMessage[] = [];
   tickets: OpenTicket[] = [];
   // changed on ticket selection, routes message to correct user for TECH ONLY
@@ -32,14 +34,11 @@ export class ChatboxComponent implements OnInit {
     this.cdref.detectChanges();
   }
   ngOnInit(): void {
+    // for live retrival of accessToken & user role
+    const accessToken = localStorage.getItem("customer");
     // TESTING ONLY; setting username (will be grabbed here from auth once implemented)
     this.user = this.testUsernames[Math.floor(Math.random() * this.testUsernames.length)];
     console.log(this.user);
-
-
-    // for live retrival of accessToken ~
-    const accessToken = localStorage.getItem("customer");
-
 
     // subscribe to changes in tickets
     this.chatService.ticketService.subscribe((result) => this.tickets = result);
@@ -54,6 +53,7 @@ export class ChatboxComponent implements OnInit {
   }
 
   messageInput = new FormControl('');
+  inputForm: any = {};
 
   // for tracking how many messages have been sent in a short time period, to help prevent bombarding our server
   spamFilterTracker = {

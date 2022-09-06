@@ -2,8 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule , HttpTestingController} from '@angular/common/http/testing';
 
 import { ChatboxComponent } from './chatbox.component';
-import { ChatService } from '../services/chat.service';
-import {OpenTicket, ChatMessage} from "../models/ChatDTO";
+import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 
 describe('ChatboxComponent', () => {
   let component: ChatboxComponent;
@@ -13,7 +12,7 @@ describe('ChatboxComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ChatboxComponent ],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule, FormsModule, ReactiveFormsModule]
     })
     .compileComponents();
 
@@ -68,30 +67,5 @@ describe('ChatboxComponent', () => {
     component.dateActive = false;
     component.onHover();
     expect(component.dateActive).toBe(true);
-    // component.delay(11);
-    // expect(component.dateActive).toBe(false);
   });
-
-  it('should fetch all tickets', () => {
-    // let spyCall = spyOn(component, "fetchAllTickets").and.callThrough();
-
-    // fixture.whenStable().then(() => {
-    //   expect(spyCall).toHaveBeenCalled();
-    // })
-
-    // let mockAllTickets: OpenTicket[] = [];
-    // let mockTicket: OpenTicket = {
-    //   chatRoomId: "Kadin",
-    //   user: "Kadin",
-    //   message: "Mocking fetch all tickets",
-    //   open: true
-    // }
-    // mockAllTickets.push(mockTicket);
-
-    // const request = httpTestingController.expectOne(data => 
-    //   data.url === "https://localhost:7249/tickets" && data.method === "GET"
-    // );
-
-    // request.flush(mockAllTickets);
-  })
 });
