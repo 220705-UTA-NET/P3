@@ -15,6 +15,7 @@ mat-form-field{
 }
 
 .button {
+  width: 50px;
   background-color: #72a4c2; 
   color: white;
 }

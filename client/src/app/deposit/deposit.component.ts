@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { isNgTemplate } from '@angular/compiler';
 
 @Component({
   selector: 'app-deposit',
@@ -8,20 +9,20 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
   styleUrls: ['./deposit.component.css']
 })
 export class DepositComponent implements OnInit {
-
   response: any;
+  @Input() accountNumber! : number;
 
   depositForm = this.formBuilder.group({
-    accountId: '',
     amount: ''
   });
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
   ngOnInit(): void {
   }
+
   onSubmit(): void {
     let formData = this.depositForm.value;
-    let accountId = formData['accountId'];
+    let accountId = this.accountNumber;
     let amount = formData['amount'];
 
     let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' });

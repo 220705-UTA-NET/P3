@@ -17,6 +17,7 @@ export interface Account {
 })
 export class AccountComponent {
   @Input() customerId! : number;
+  public amount : number = 0;
 
   constructor(private http: HttpClient) { 
     let login = localStorage.getItem('customer') as string;
@@ -54,6 +55,18 @@ export class AccountComponent {
       console.log(result);
       this.accounts.push(result);
     })
+  }
+
+  toggleInputField(name: string){
+    document.getElementById(name)?.classList.toggle("show");
+  }
+  
+  withdraw(){
+    console.log(0 - this.amount);
+  }
+
+  deposit(){
+    console.log(this.amount);
   }
 
 

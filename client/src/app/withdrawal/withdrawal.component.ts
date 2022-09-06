@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -10,12 +10,12 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class WithdrawalComponent implements OnInit {
 
   response: any;
+  @Input() accountNumber!: number;
 //accountId: any; this is not yet available, will need to be integrated with Accounts Team.
 
 withdrawalForm = this.formBuilder.group({
-    accountId: '', //move next to response
     amount: ''
-  });
+});
 
   constructor(private formBuilder: FormBuilder, private http: HttpClient) {
     //we have to populate accountID here.
@@ -27,7 +27,7 @@ withdrawalForm = this.formBuilder.group({
   }
   onSubmit(): void {
     let formData = this.withdrawalForm.value;
-    let accountId = formData['accountId'];
+    let accountId = this.accountNumber;
     let amount = formData['amount'];
 
     let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' });

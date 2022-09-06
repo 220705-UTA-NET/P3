@@ -1,7 +1,7 @@
 
 .container {
   display: flex;
-  max-height: 600px;
+  max-height: 800px;
   flex-direction: column;
   background-color: white;
   border-radius: 10px;
@@ -10,6 +10,7 @@
   border-color: black;
   padding: 0;
   margin: 10%;
+  margin-top: 0;
   box-shadow: 0px 1px 2px rgb(81 74 74);
   overflow-y: hidden;
   overflow-x: hidden;
@@ -39,4 +40,22 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   padding-bottom: 10px;
+}
+
+.dropdown-content {
+  margin-top: 2px;
+  margin-right: 10%;
+  display: none;
+}
+
+.show{
+  display: block;
+}
+
+.button {
+  margin-right: 200px;
+  margin-bottom: 30px;
+  margin-left: 80px;
+  background-color: #F26925;
+  color: white;
 }
