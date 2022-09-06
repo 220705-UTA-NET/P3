@@ -27,8 +27,6 @@ namespace server.Controllers
         [HttpGet("/Login")]
         public async Task<ActionResult<Dictionary<string, string>>> LogIn()
         {
-
-            Console.WriteLine("Method triggered");
             Customer customer;
             try
             {
@@ -52,7 +50,7 @@ namespace server.Controllers
                 {
                     var claims = new[]
 {
-                    new Claim(JwtRegisteredClaimNames.Sub, $"secrety secret")
+                    new Claim(JwtRegisteredClaimNames.Sub, $"{customer.CustomerId}")
                 };
 
                     var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
@@ -71,6 +69,7 @@ namespace server.Controllers
                     var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
                     Dictionary<string, string> response = new Dictionary<string, string>();
                     response.Add("Access-Token", tokenJson);
+                    response.Add("Role", "Customer");
 
 
                     return response;
@@ -111,7 +110,7 @@ namespace server.Controllers
                     person["Email"].ToString(), person["Phone"].ToString(), cred[1]);
                 var claims = new[]
                     {
-                        new Claim(JwtRegisteredClaimNames.Sub, $"secrety secret")
+                        new Claim(JwtRegisteredClaimNames.Sub, $"{customer.CustomerId}")
                     };
 
                 var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
@@ -131,6 +130,7 @@ namespace server.Controllers
                 var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
                 Dictionary<string, string> response = new Dictionary<string, string>();
                 response.Add("Access-Token", tokenJson);
+                response.Add("Role", "Customer");
 
                 return response;
 
@@ -140,12 +140,6 @@ namespace server.Controllers
                 _logger.LogError(e, e.Message);
                 return StatusCode(500);
             }
-        }
-        [HttpGet("/Test")]
-        [Authorize]
-        public string Test()
-        {
-            return "Congratulations this bitch is working";
         }
     }
 }
