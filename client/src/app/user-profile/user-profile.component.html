@@ -6,7 +6,7 @@
       <button type="button" (click)="getCustomer(customerID.value)">Submit</button>
       <h1 style="text-align: center; font-size: x-large">{{customer.firstName + " " + customer.lastName}}</h1>
       <div style="text-align: center; font-size: medium;" *ngIf="customer">
-        <p style="color: #474C55">Account Number: {{customer.id}}</p>
+        <p>Account Number: {{customer.id}}</p>
         <p>Email: {{customer.email}}</p>
         <p>Phone Number: {{customer.phoneNumber}}</p>
       </div>
