@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import { ReactiveFormsModule  } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BudgetListComponent } from './budget-calculator/budget-list/budget-list.component';
 import { BudgetItemComponent } from './budget-calculator/budget-item/budget-item.component';
 import { AppRoutingModule } from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AddBudgetComponent } from './budget-calculator/add-budget/add-budget.component';
 import { HeaderComponent } from './header/header.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -17,6 +17,8 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './Copper_Components/login/login.component';
 import { RegisterComponent } from './Copper_Components/register/register.component';
 import { AuthModule } from '@auth0/auth0-angular';
+import { BudgetNotificationComponent } from './budget-notification/budget-notification.component';
+import { BudgetNotifyService } from './budget-notify.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { AuthModule } from '@auth0/auth0-angular';
     LandingComponent,
     FooterComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    BudgetNotificationComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,7 @@ import { AuthModule } from '@auth0/auth0-angular';
       clientId: 'wFseXaNCNWXgvAxWNYecaiZCjTIL5N1C'
     })
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [BudgetNotifyService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
