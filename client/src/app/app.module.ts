@@ -14,7 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LandingComponent } from './landing/landing.component';
 import { FooterComponent } from './footer/footer.component';
-import { ChatService, ChatService } from './services/chat.service';
+import { ChatService } from './services/chat.service';
 import { LoginComponent } from './Copper_Components/login/login.component';
 import { RegisterComponent } from './Copper_Components/register/register.component';
 import { AuthModule } from '@auth0/auth0-angular';

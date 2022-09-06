@@ -1,9 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
-<<<<<<< HEAD
 import { FormControl, NgForm, FormsModule } from '@angular/forms';
-=======
-import { FormControl, NgForm } from '@angular/forms';
->>>>>>> 3b296d6626973e253ad10b04d0fe562639ffac84
 import { ChatService } from "../services/chat.service";
 import { ChatMessage, OpenTicket } from '../models/ChatDTO';
 
