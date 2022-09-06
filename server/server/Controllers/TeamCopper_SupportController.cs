@@ -13,12 +13,12 @@ namespace server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamCopper_CustomerController : ControllerBase
+    public class TeamCopper_SupportController : ControllerBase
     {
-        private readonly ILogger<TeamCopper_CustomerController> _logger;
+        private readonly ILogger<TeamCopper_SupportController> _logger;
         private readonly TeamCopper_IRepo _repo;
 
-        public TeamCopper_CustomerController(ILogger<TeamCopper_CustomerController> logger, TeamCopper_IRepo repo)
+        public TeamCopper_SupportController(ILogger<TeamCopper_SupportController> logger, TeamCopper_IRepo repo)
         {
             _logger = logger;
             _repo = repo;
@@ -27,7 +27,8 @@ namespace server.Controllers
         [HttpGet("/Login")]
         public async Task<ActionResult<Dictionary<string, string>>> LogIn()
         {
-            Customer customer;
+
+            Support support;
             try
             {
                 string Info = Request.Headers.Authorization;
@@ -45,12 +46,12 @@ namespace server.Controllers
                     Console.WriteLine("string " + s);
                 }
 
-                customer = await _repo.customerLogInAsync(cred[0], cred[1]);
-                if (customer.CustomerId != 0)
+                support = await _repo.supportLogInAsync(cred[0], cred[1]);
+                if (support.SupportId != 0)
                 {
                     var claims = new[]
 {
-                    new Claim(JwtRegisteredClaimNames.Sub, $"{customer.CustomerId}")
+                    new Claim(JwtRegisteredClaimNames.Sub, $"{support.SupportId}")
                 };
 
                     var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
@@ -69,7 +70,7 @@ namespace server.Controllers
                     var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
                     Dictionary<string, string> response = new Dictionary<string, string>();
                     response.Add("Access-Token", tokenJson);
-                    response.Add("Role", "Customer");
+                    response.Add("Role", "Support");
 
 
                     return response;
@@ -91,7 +92,7 @@ namespace server.Controllers
         [HttpPost("/Register")]
         public async Task<ActionResult<Dictionary<string, string>>> Register()
         {
-            Customer customer;
+            Support support;
             try
             {
                 string Info = Request.Headers.Authorization;
@@ -106,11 +107,11 @@ namespace server.Controllers
                 string json = await reader.ReadToEndAsync();
 
                 JsonObject person = (JsonObject)JsonSerializer.Deserialize(json, typeof(JsonObject));
-                customer = await _repo.registerCustomerAsync(person["FirstName"].ToString(), person["LastName"].ToString(), cred[0],
+                support = await _repo.registerSupportAsync(person["FirstName"].ToString(), person["LastName"].ToString(), cred[0],
                     person["Email"].ToString(), person["Phone"].ToString(), cred[1]);
                 var claims = new[]
                     {
-                        new Claim(JwtRegisteredClaimNames.Sub, $"{customer.CustomerId}")
+                        new Claim(JwtRegisteredClaimNames.Sub, $"{support.SupportId}")
                     };
 
                 var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
@@ -130,7 +131,7 @@ namespace server.Controllers
                 var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
                 Dictionary<string, string> response = new Dictionary<string, string>();
                 response.Add("Access-Token", tokenJson);
-                response.Add("Role", "Customer");
+                response.Add("Role", "Support");
 
                 return response;
 
