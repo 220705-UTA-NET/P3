@@ -2,7 +2,7 @@ name: Ping the Server with Sonar
 on:
   push:
     branches:
-      - master
+      - dev
   pull_request:
     types: [opened, synchronize, reopened]
   
