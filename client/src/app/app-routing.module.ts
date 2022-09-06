@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { BudgetListComponent } from './budget-calculator/budget-list/budget-list.component';
 import { AddBudgetComponent } from './budget-calculator/add-budget/add-budget.component';

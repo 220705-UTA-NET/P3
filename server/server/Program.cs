@@ -2,14 +2,17 @@ using System;
 using server.Hubs;
 using server.Data;
 using server_Database;
+using server.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using server.Model;
 using Microsoft.Extensions.DependencyInjection;
 
+
 var builder = WebApplication.CreateBuilder(args);
 string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
+
 // Add services to the container.
 
 builder.Services.AddControllers();
