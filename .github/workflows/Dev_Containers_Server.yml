@@ -40,7 +40,7 @@ jobs:
           context: ./server/
           file: ./server/Dockerfile
           push: true
-          tags: ${{ secrets.DEV_DOCKER_HUB_USERNAME }}/p3_server:${{ GITHUB_RUN_NUMBER }} , ${{ secrets.DEV_DOCKER_HUB_USERNAME }}/p3_server:latest
+          tags: ${{ secrets.DEV_DOCKER_HUB_USERNAME }}/p3_server:${{ env.GITHUB_RUN_NUMBER }} , ${{ secrets.DEV_DOCKER_HUB_USERNAME }}/p3_server:latest
           
    
           
