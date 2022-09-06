@@ -103,4 +103,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  supportLogin()
+  {
+    this.CustomerService.apiUrl='https://localhost:7249/Login'
+  }
+
 }
