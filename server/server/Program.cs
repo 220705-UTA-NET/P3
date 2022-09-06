@@ -7,7 +7,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-string? DB_connectionString = File.ReadAllText(@"C:\Users\brand\connection.txt");
+string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
     
 //Environment.GetEnvironmentVariable("CONN");
 // Add services to the container.
