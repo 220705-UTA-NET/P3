@@ -1,10 +1,5 @@
-<h1>Account</h1>
-<input #customerID type="number" />
-<button type="button" (click)="getAccounts(customerID.value)">Submit</button>
-
 <div class="container">
   <div class="header"><h1 style="color: white;">Banking Account</h1></div>
-  <!-- <div class="sub-container"> -->
     <mat-accordion class="sub-container">
       <mat-expansion-panel *ngFor="let account of accounts">
         <mat-expansion-panel-header>
@@ -17,6 +12,5 @@
         <!-- <transactions [childNameForId]="account.accountId"></transactions> -->
       </mat-expansion-panel>
     </mat-accordion>
-  <!-- </div> -->
   <button class="footer" (click)="addAccount(1)">Add Account</button>
 </div>

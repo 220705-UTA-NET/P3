@@ -39,5 +39,13 @@ h1, p {
     color: #474C55;
 }
 
+.button { 
+    margin: 5px; 
+    width: 120px; 
+    background-color: #F26925;
+    color: white; 
+    border-radius: 10px;
+}
+
 
 

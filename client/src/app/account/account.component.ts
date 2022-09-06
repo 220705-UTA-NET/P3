@@ -17,7 +17,16 @@ export interface Account {
 })
 export class AccountComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    let login = localStorage.getItem('customer') as string;
+    let customer = JSON.parse(login);
+
+    if(customer === null){
+      this.getAccounts(1);
+    }else{
+      this.getAccounts(customer.id);
+    }
+  }
 
   accounts: Account[] = [];
 

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { UserProfileDialogComponent } from '../user-profile-dialog/user-profile-dialog.component';
 import { UserPasswordDialogComponent } from '../user-password-dialog/user-password-dialog.component';
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 export interface Customer {
   id: number,
@@ -21,17 +22,25 @@ export interface Customer {
 
 export class UserProfileComponent {
   customerSet: Boolean = false;
-  constructor(private http: HttpClient, private dialog: MatDialog) { }
-
   customer: Customer = {
     id: 0,
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    password: ""
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    password: ''
   };
+  
+  constructor(private http: HttpClient, private dialog: MatDialog) {
+    let login = localStorage.getItem('customer') as string;
+    this.customer = JSON.parse(login);
 
+    if(this.customer === null){
+      this.getCustomer(1);
+    }else{
+      this.getCustomer(this.customer.id);
+    }
+  }
   
   getCustomer(value: any) {
     const headers = {'Access-Control-Allow-Origin' : '*'};
@@ -47,23 +56,6 @@ export class UserProfileComponent {
     
     console.log("In getCustomer: " + value);
   }
-
-  
-  // changePassword(password? : string){
-  //   const headers = {'Access-Control-Allow-Origin' : '*'};
-  //   this.http.put(`https://localhost:7249/userprofile/password`, '{"password":"'+password+'"}', {
-  //        params: new HttpParams().set('customerId', this.customer.id),
-  //        observe: "response",
-  //        responseType: "json"
-
-  //   }).subscribe((result: any) => {
-  //     console.log(result);
-  //     this.customer = result.body;
-  //     this.customerSet = true;
-  //      })
-    
-  //   console.log("In getCustomer: " + this.customer.id);
-  // }
 
   openProfileDialog(){
     const profileDialogConfig = new MatDialogConfig();
