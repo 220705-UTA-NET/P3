@@ -23,6 +23,7 @@ import { BudgetNotifyService } from './budget-notify.service';
 @NgModule({
   declarations: [
     AppComponent,
+
     ChatboxComponent,
     ChatBoxComponent,
     AddBudgetComponent,
@@ -35,6 +36,7 @@ import { BudgetNotifyService } from './budget-notify.service';
     LoginComponent,
     RegisterComponent,
     BudgetNotificationComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -54,3 +56,4 @@ import { BudgetNotifyService } from './budget-notify.service';
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
