@@ -23,7 +23,7 @@ describe('ChatService', () => {
     service.connectedToHub = false;
     service.connect();
     expect(service.connectedToHub).toBe(true);
-  })
+  });
 
   it('should call fetch all tickets', () => {
     const fetchAllTicketsSpy = spyOn(service, "fetchAllTickets");

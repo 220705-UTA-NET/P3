@@ -22,6 +22,8 @@ export class ChatService {
   public ticketService = new BehaviorSubject<OpenTicket[]>([]);
   // holds the chatRoomId & initial message for TECH ONLY
   public openTickets: OpenTicket[] = [];
+  // is the user a customer or tech support? Determines what user has access to
+  public userRole = "";
 
   // how messages are exchanged between tech & user once in a private room
   public sendChat(chat: ChatMessage) {
@@ -47,7 +49,7 @@ export class ChatService {
     this._hubConnection.invoke("OpenTicket", this.privateRoomKey, initialMessage)
 
     // save initial message to db
-    // this.saveChatMessage(initialMessage);
+    this.saveChatMessage(initialMessage);
   }
 
   // TECH ONLY -----------------------------------------------------------------

@@ -16,6 +16,8 @@ export class ChatboxComponent implements OnInit {
   "Daniel Beidelschies", "Derick Xie", "Eunice Decena", "Aurel Npounengnong", "Samuel Jackson", "Ellery De_Jesus", "Rogers Ssozi",
   "Lance Gong", "Arthur Gao", "Jared Green", "Jake Nguyen", "Joseph Boye", "Onandi Stewart", "Andrew Grozdanov", "Richard Hawkins" ];
   user : string = ''; //Client username goes here
+  // role of the user: customer or tech support
+  userRole: string = '';
   messages : ChatMessage[] = [];
   tickets: OpenTicket[] = [];
   // changed on ticket selection, routes message to correct user for TECH ONLY
@@ -32,14 +34,11 @@ export class ChatboxComponent implements OnInit {
     this.cdref.detectChanges();
   }
   ngOnInit(): void {
+    // for live retrival of accessToken & user role
+    const accessToken = localStorage.getItem("customer");
     // TESTING ONLY; setting username (will be grabbed here from auth once implemented)
     this.user = this.testUsernames[Math.floor(Math.random() * this.testUsernames.length)];
     console.log(this.user);
-
-
-    // for live retrival of accessToken ~
-    const accessToken = localStorage.getItem("customer");
-
 
     // subscribe to changes in tickets
     this.chatService.ticketService.subscribe((result) => this.tickets = result);
