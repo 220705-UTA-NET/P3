@@ -92,13 +92,10 @@ namespace server.Controllers
 
             }
 
-            if (budgets == null || !budgets.Any()) return NoContent();
-            Console.WriteLine("Reached here");
-
-
+            if (budgets == null || !budgets.Any()) return BadRequest();
+      
             ArrayList list = new();
             
-
             foreach (var bud in budgets)
             {
                 try
@@ -125,13 +122,6 @@ namespace server.Controllers
             }
 
             return new JsonResult(list);
-
         }
-
     }
-
-
-
-
-    
 }

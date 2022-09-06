@@ -93,15 +93,15 @@ namespace server.Data {
                 connection.Open();
 
                 // query string
-                string queryString = "INSERT INTO [project3].[Budget](customer_id, account_id, monthly_amount, warning_amount, time) VALUES(@customer, @account, @monthly, @warning, @time);";
+                string queryString = "INSERT INTO [project3].[Budget](customer_id, account_id, budget_DateTime, monthly_amount, warning_amount) VALUES(@customer, @account, @time, @monthly, @warning);";
 
                 // create the sql command
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Parameters.AddWithValue("@customer", budget.CustomerId);
                 command.Parameters.AddWithValue("@account", budget.AccountId);
+                command.Parameters.AddWithValue("@time", budget.StartDate);
                 command.Parameters.AddWithValue("@monthly", budget.MonthlyAmount);
                 command.Parameters.AddWithValue("@warning", budget.WarningAmount);
-                command.Parameters.AddWithValue("@time", budget.StartDate);
 
        
                 try
@@ -132,7 +132,7 @@ namespace server.Data {
 
 
                 // query string
-                string queryString = "UPDATE [project3].[Budget] SET monthly_amount=@monthly, warning_amount=@warning, time=@time WHERE budget_id=@budget AND account_id=@account AND customer_id=@customer;";
+                string queryString = "UPDATE [project3].[Budget] SET monthly_amount=@monthly, warning_amount=@warning, budget_DateTime=@time WHERE budget_id=@budget AND account_id=@account AND customer_id=@customer;";
                
 
                 // create the sql command
@@ -140,9 +140,9 @@ namespace server.Data {
                 command.Parameters.AddWithValue("@budget", budget.BudgetId);//is this needed (get sent from the frontend?)
                 command.Parameters.AddWithValue("@customer", budget.CustomerId);
                 command.Parameters.AddWithValue("@account", budget.AccountId);
+                command.Parameters.AddWithValue("@time", budget.StartDate);
                 command.Parameters.AddWithValue("@monthly", budget.MonthlyAmount);
                 command.Parameters.AddWithValue("@warning", budget.WarningAmount);
-                command.Parameters.AddWithValue("@time", budget.StartDate);
 
 
                 try
@@ -161,7 +161,7 @@ namespace server.Data {
             return new StatusCodeResult(200);// maybe change this
         }
 
-        public async Task<ActionResult> DeleteBudgetAsync(int budgetId)
+        public async Task<ActionResult> DeleteBudgetAsync(int budgetId)// the sql query might need the account_id as well
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
