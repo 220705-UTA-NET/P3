@@ -30,7 +30,7 @@
         </mat-form-field>
         <p *ngIf="error" class="errorMessage">{{errorMessage}}</p>
 </mat-dialog-content>
-<mat-dialog-actions>
-    <button (click)="save()">Confirm</button>
-    <button (click)="close()">Close</button>
+<mat-dialog-actions style="align-items: center;">
+    <button class="button" mat-raised-button (click)="save()">Confirm</button>
+    <button class="button" mat-raised-button (click)="close()">Close</button>
 </mat-dialog-actions>

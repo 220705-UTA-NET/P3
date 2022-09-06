@@ -3,9 +3,18 @@
     flex-direction: column
 }
 
+mat-form-field{
+  margin: 6px;
+}
+
 .errorMessage {  
   text-align: center; 
   background-color: red;
   opacity: .5; 
   color: white ; 
+}
+
+.button {
+  background-color: #72a4c2; 
+  color: white;
 }

@@ -12,8 +12,9 @@
             <p>Checking Account #{{account.accountId}}</p>
           </mat-panel-title>
         </mat-expansion-panel-header>
+        <p style="text-align: center; font-size: large;">Balance:</p> 
+        <p style="text-align: center; font-size:xx-large;">${{account.balance}}</p>
         <!-- <transactions [childNameForId]="account.accountId"></transactions> -->
-        <app-user-profile></app-user-profile>
       </mat-expansion-panel>
     </mat-accordion>
   <!-- </div> -->
