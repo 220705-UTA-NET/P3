@@ -7,9 +7,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
-    
-//Environment.GetEnvironmentVariable("CONN");
+string? DB_connectionString = Environment.GetEnvironmentVariable("MYSQLCONNSTR_CONN");
 // Add services to the container.
 
 builder.Services.AddControllers();
