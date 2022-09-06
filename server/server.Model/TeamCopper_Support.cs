@@ -18,16 +18,16 @@ namespace server.Model
 
         public Support() { }
 
-        public Support(int customer_id, string username, string password)
+        public Support(int support_id, string username, string password)
         {
-            SupportId = customer_id;
+            SupportId = support_id;
             UserName = username;
             Password = password;
         }
 
-        public Support(int customer_id, string firstName, string lastName, string userName, string email, string phone)
+        public Support(int support_id, string firstName, string lastName, string userName, string email, string phone)
         {
-            SupportId = customer_id;
+            SupportId = support_id;
             FirstName = firstName;
             LastName = lastName;
             UserName = userName;

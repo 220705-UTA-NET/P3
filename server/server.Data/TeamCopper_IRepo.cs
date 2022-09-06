@@ -13,5 +13,10 @@ namespace server.Data
         Task<Customer> getCustomerByUserName(string username);
         Task<Customer> customerLogInAsync(string username, string password);
         Task<Customer> registerCustomerAsync(string FirstName, string LastName, string UserName, string Email, string Phone, string Password);
+        Task<Support> getSupportByEmail(string email);
+        Task<Support> getSupportByUserName(string username);
+        Task<Support> supportLogInAsync(string username, string password);
+        Task<Support> registerSupportAsync(string FirstName, string LastName, string UserName, string Email, string Phone, string Password);
+        
     }
 }
