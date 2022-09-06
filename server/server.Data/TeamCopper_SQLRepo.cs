@@ -130,5 +130,120 @@ namespace server.Data
 
             return customer;
         }
+        public async Task<Support> getSupportByEmail(string email)
+        {
+            using SqlConnection connection = new(_connectionString);
+
+            await connection.OpenAsync();
+
+            string cmd = "SELECT customer_id, first_name, last_name, username, phone " +
+                           " FROM [project3].[Customer] " +
+                           " WHERE email = @email;";
+
+            using SqlCommand command = new(cmd, connection);
+
+            command.Parameters.AddWithValue("@email", email);
+
+            using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+            await reader.ReadAsync();
+
+            int customer_id = reader.GetInt32(0);
+            string first = reader.GetString(1);
+            string last = reader.GetString(2);
+            string username = reader.GetString(3);
+            string phone = reader.GetString(4);
+
+            Support support = new Support(customer_id, first, last, email, username, phone);
+
+            await connection.CloseAsync();
+
+            return support;
+        }
+
+        public async Task<Support> getSupportByUserName(string username)
+        {
+            using SqlConnection connection = new(_connectionString);
+
+            await connection.OpenAsync();
+
+            string cmd = "SELECT customer_id, first_name, last_name, email, phone " +
+                           " FROM [project3].[Customer] " +
+                           " WHERE username = @username;";
+
+            using SqlCommand command = new(cmd, connection);
+
+            command.Parameters.AddWithValue("@username", username);
+
+            using SqlDataReader reader = await command.ExecuteReaderAsync();
+
+            await reader.ReadAsync();
+
+            int customer_id = reader.GetInt32(0);
+            string first = reader.GetString(1);
+            string last = reader.GetString(2);
+            string email = reader.GetString(3);
+            string phone = reader.GetString(4);
+
+             Support support = new Support(customer_id, first, last, email, username, phone);
+            
+            await connection.CloseAsync();
+
+            return support;
+        }
+
+        public async Task<Support> SupportLogInAsync(string username, string password)
+        {
+            Support support = new Support();
+
+            using SqlConnection connection = new(_connectionString);
+
+
+            await connection.OpenAsync();
+
+            string cmd = @"SELECT customer_id, username, password FROM [project3].[Customer] WHERE username = @username AND password = @password;";
+
+            SqlCommand command = new SqlCommand(cmd, connection);
+
+
+            command.Parameters.AddWithValue("@username", username);
+            command.Parameters.AddWithValue("@password", password);
+
+
+            using SqlDataReader reader = command.ExecuteReader();
+
+            if (await reader.ReadAsync())
+            {
+                support = new Support(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+            }
+            
+            return support;
+        }
+
+        public async Task<Support> registerSupportAsync(string FirstName, string LastName, string UserName, string Email, string Phone, string Password)
+        {
+            Support support = new Support(FirstName, LastName, UserName, Email, Phone, Password);
+            using SqlConnection connection = new(_connectionString);
+
+            await connection.OpenAsync();
+
+            string cmd = "INSERT INTO [project3].[Customer] (first_name, last_name, username, email, phone, password) " +
+                            "VALUES( @first_name, @last_name, @username, @email, @phone, @password);";
+
+            using SqlCommand command = new(cmd, connection);
+
+            command.Parameters.AddWithValue("@first_name", FirstName);
+            command.Parameters.AddWithValue("@last_name", LastName);
+            command.Parameters.AddWithValue("@email", Email);
+            command.Parameters.AddWithValue("@username", UserName);
+            command.Parameters.AddWithValue("@phone", Phone);
+            command.Parameters.AddWithValue("@password", Password);
+
+            await command.ExecuteNonQueryAsync();
+
+            await connection.CloseAsync();
+
+            return support;
+        }
     }
 }
