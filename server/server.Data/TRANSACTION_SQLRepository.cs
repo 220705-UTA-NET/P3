@@ -4,14 +4,14 @@ using System.Data.SqlClient;
 
 namespace server.Data
 {
-    public class SQLRepository : TRANSACTION_IRepository
+    public class TRANSACTION_SQLRepository : TRANSACTION_IRepository
     {
         // FIELDS
         private readonly string DB_PROP_ConnectionString;
-        private readonly ILogger<SQLRepository> API_PROP_Logger;
+        private readonly ILogger<TRANSACTION_SQLRepository> API_PROP_Logger;
 
         // CONSTRUCTORS
-        public SQLRepository (string INPUT_ConnectionString, ILogger<SQLRepository> INPUT_Logger)
+        public TRANSACTION_SQLRepository(string INPUT_ConnectionString, ILogger<TRANSACTION_SQLRepository> INPUT_Logger)
         {
             this.DB_PROP_ConnectionString = INPUT_ConnectionString;
             this.API_PROP_Logger = INPUT_Logger;
@@ -404,8 +404,6 @@ namespace server.Data
                 return false;
             }
         }
-<<<<<<< HEAD:server/server_Database/SQLRepository.cs
-=======
 
         //====================================================================================================================================================
 
@@ -445,7 +443,5 @@ namespace server.Data
                 return OUTPUT_CustomerID;
             }
         }
-
->>>>>>> dee9feb80150b60602532d15be820322a5181a32:server/server.Data/TRANSACTION_SQLRepository.cs
     }
 }

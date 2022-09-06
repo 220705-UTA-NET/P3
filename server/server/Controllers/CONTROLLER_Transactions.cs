@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
 using server.Model;
+using server.Data;
 
 namespace server.Controllers
 {
@@ -10,12 +11,12 @@ namespace server.Controllers
     public class CONTROLLER_Transactions : ControllerBase
     {
         // FIELDS
-        private readonly IRepository API_PROP_IRepository;
+        private readonly TRANSACTION_IRepository API_PROP_IRepository;
         private readonly ILogger<CONTROLLER_Transactions> API_PROP_Logger;
         private readonly int BASE_BankAccountID;
 
         // CONSTRUCTORS
-        public CONTROLLER_Transactions(IRepository INPUT_IRepository, ILogger<CONTROLLER_Transactions> INPUT_Logger)
+        public CONTROLLER_Transactions(TRANSACTION_IRepository INPUT_IRepository, ILogger<CONTROLLER_Transactions> INPUT_Logger)
         {
             this.API_PROP_IRepository = INPUT_IRepository;
             this.API_PROP_Logger = INPUT_Logger;
@@ -172,11 +173,11 @@ namespace server.Controllers
             int STATUS_Request;
             if (INPUT_DTO_RequestResponse.RequestData.request_type == true)
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
             }
             else
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount);
             }
 
             await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);

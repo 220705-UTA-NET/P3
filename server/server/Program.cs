@@ -1,8 +1,6 @@
 using System;
 using server.Hubs;
 using server.Data;
-using server_Database;
-using server.Data;
 
 
 // builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
@@ -27,13 +25,13 @@ builder.Services.AddSingleton<Brass_IRepository>(sp => new Brass_SQLRepository(D
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
+builder.Services.AddSingleton<Bronze_IRepository>(sp => new Bronze_SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<Bronze_SQLRepository>>()));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IBudgetRepository>(sp => new SQLBudgetRepository(DB_connectionString));
 
-builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
+builder.Services.AddSingleton<TRANSACTION_IRepository>(sp => new TRANSACTION_SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<TRANSACTION_SQLRepository>>()));
 string MyAllowAllOrgins = "_myAllowAllOrigins";
 
 builder.Services.AddCors(options =>

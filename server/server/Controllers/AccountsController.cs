@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
 using server.Model;
+using server.Data;
 
 namespace server.Controllers
 {
@@ -9,10 +10,10 @@ namespace server.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        private readonly IRepository _repository;
+        private readonly Bronze_IRepository _repository;
         private readonly ILogger<AccountsController> _logger;
 
-        public AccountsController(IRepository repository, ILogger<AccountsController> logger)
+        public AccountsController(Bronze_IRepository repository, ILogger<AccountsController> logger)
         {
             _repository = repository;
             _logger = logger;

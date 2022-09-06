@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Model;
+using server.Data;
 using server.DTOs;
 using System.Text.Json;
 
@@ -10,10 +11,10 @@ namespace server.Controllers
     [ApiController]
     public class UserProfileController : ControllerBase
     {
-        private readonly IRepository _repository;
+        private readonly Bronze_IRepository _repository;
         private readonly ILogger<UserProfileController> _logger;
 
-        public UserProfileController(IRepository repository, ILogger<UserProfileController> logger)
+        public UserProfileController(Bronze_IRepository repository, ILogger<UserProfileController> logger)
         {
             _repository = repository;
             _logger = logger;
