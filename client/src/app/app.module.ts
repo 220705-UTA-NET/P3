@@ -14,6 +14,9 @@ import { HeaderComponent } from './header/header.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LandingComponent } from './landing/landing.component';
 import { FooterComponent } from './footer/footer.component';
+import { LoginComponent } from './Copper_Components/login/login.component';
+import { RegisterComponent } from './Copper_Components/register/register.component';
+import { AuthModule } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,9 @@ import { FooterComponent } from './footer/footer.component';
     NavBarComponent,
     HeaderComponent,
     LandingComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,11 @@ import { FooterComponent } from './footer/footer.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AuthModule.forRoot({
+      domain: 'dev-ti49ksgx.us.auth0.com',
+      clientId: 'wFseXaNCNWXgvAxWNYecaiZCjTIL5N1C'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
