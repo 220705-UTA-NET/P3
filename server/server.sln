@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server_DMODEL", "server_DMO
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server_Database", "server_Database\server_Database.csproj", "{B26B1D3B-D7BC-41AE-8FC4-6A7B8B00DF55}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Team_Silver_Tests", "Team_Silver_Tests\Team_Silver_Tests.csproj", "{02A92AF9-137D-4F96-B565-62F5855A43A2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.Data", "server.Data\server.Data.csproj", "{F444AA16-18C2-4568-B73C-59A9545A88CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.Model", "server.Model\server.Model.csproj", "{746AFF25-DDC4-4D09-9795-50E6A7B289AF}"
