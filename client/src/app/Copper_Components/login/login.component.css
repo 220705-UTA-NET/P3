@@ -1,0 +1,48 @@
+div.sm-jumbotron {
+    margin: 0px;
+    padding: 2rem;
+    background-color: white;
+    color: black;
+  }
+  
+  button.btn-submit{
+    background-color: orange;
+    color: black;
+    width: 100%;
+    margin: 50px;
+  }
+  
+  button.btn-submit:focus,button.btn-submit:hover{
+    background-color: lightseagreen;
+  }
+  
+  .buttons {
+    width: 300px;
+    margin: 0 auto;
+    display:inline;}
+  
+  .action_btn {
+    margin-left: 120px;
+    margin-bottom: 25px;
+    margin-top: 20px;
+  }  
+  
+  .action_btn-submit1 {
+    background-color: black;
+    color: white;
+    border-radius: 100px;
+    padding: 12px;
+    width: 150px;
+  }
+  
+  h5 {
+    color: rgb(255, 98, 0);
+    
+  }  
+  
+  h3 {
+    font-size: 35px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  }
+    
+  
