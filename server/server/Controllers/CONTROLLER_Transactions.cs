@@ -27,11 +27,8 @@ namespace server.Controllers
         [HttpGet]
         [Route("TransactionHistory")]
 
-        public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AuthToken, int INPUT_AccountNumber)
+        public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AccountNumber)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
             DTO_TRANSACTION_TransactionHistory OUTPUT_DTO = new DTO_TRANSACTION_TransactionHistory();
 
             List<DMODEL_Transaction> TEMP_LIST_TransactionHistory = new List<DMODEL_Transaction>();
@@ -55,10 +52,8 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpPost]
         [Route("Deposit")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_DepositMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Deposit)
+        public async Task<int> TRANSACTION_MAIN_ASYNC_DepositMoney([FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Deposit)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
 
             // Transfer Money from Implicit Bank Reserve to Account
 
@@ -79,11 +74,8 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpPost]
         [Route("Withdraw")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_WithdrawMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Withdraw)
+        public async Task<int> TRANSACTION_MAIN_ASYNC_WithdrawMoney([FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Withdraw)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
             // Transfer Money from Account to Implicit Bank Reserve 
 
             int STATUS_Withdraw;
@@ -103,11 +95,8 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpPost]
         [Route("RequestCreate")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_MakeNewRequest(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_RequestCreate INPUT_DTO_RequestCreate)
+        public async Task<int> TRANSACTION_MAIN_ASYNC_MakeNewRequest([FromBody] DTO_TRANSACTION_RequestCreate INPUT_DTO_RequestCreate)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
             // Transfer Money from Account to Implicit Bank Reserve 
 
             bool STATUS_RequetCreate;
@@ -128,11 +117,8 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpGet]
         [Route("RequestOutstanding")]
-        public async Task<DTO_TRANSACTION_RequestOutstanding> TRANSACTION_MAIN_ASYNC_GetOutstandingRequest(int INPUT_AuthToken, int INPUT_CustomerID)
+        public async Task<DTO_TRANSACTION_RequestOutstanding> TRANSACTION_MAIN_ASYNC_GetOutstandingRequest(int INPUT_CustomerID)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
             DTO_TRANSACTION_RequestOutstanding OUTPUT_DTO = new DTO_TRANSACTION_RequestOutstanding();
 
             List<DMODEL_Request> TEMP_LIST_OutstandingRequest = new List<DMODEL_Request>();
@@ -156,11 +142,8 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpPost]
         [Route("RequestResponse")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_UseRequestResponse(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_RequestResponse INPUT_DTO_RequestResponse)
+        public async Task<int> TRANSACTION_MAIN_ASYNC_UseRequestResponse([FromBody] DTO_TRANSACTION_RequestResponse INPUT_DTO_RequestResponse)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
             // If User Choices to Decline Transfer
             if (INPUT_DTO_RequestResponse.ApprovedTransaction == false)
             {
