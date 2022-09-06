@@ -14,6 +14,9 @@ import { HeaderComponent } from './header/header.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LandingComponent } from './landing/landing.component';
 import { FooterComponent } from './footer/footer.component';
+import { LoginComponent } from './Copper_Components/login/login.component';
+import { RegisterComponent } from './Copper_Components/register/register.component';
+import { AuthModule } from '@auth0/auth0-angular';
 import { BudgetNotificationComponent } from './budget-notification/budget-notification.component';
 import { BudgetNotifyService } from './budget-notify.service';
 
@@ -29,6 +32,8 @@ import { BudgetNotifyService } from './budget-notify.service';
     HeaderComponent,
     LandingComponent,
     FooterComponent,
+    LoginComponent,
+    RegisterComponent,
     BudgetNotificationComponent,
   ],
   imports: [
@@ -40,6 +45,10 @@ import { BudgetNotifyService } from './budget-notify.service';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
+    AuthModule.forRoot({
+      domain: 'dev-ti49ksgx.us.auth0.com',
+      clientId: 'wFseXaNCNWXgvAxWNYecaiZCjTIL5N1C'
+    })
   ],
   providers: [BudgetNotifyService],
   bootstrap: [AppComponent],
