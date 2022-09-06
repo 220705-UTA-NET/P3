@@ -43,6 +43,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_SERVER }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"220705-uta-net_P3_Client" /o:"220705-uta-net" /d:sonar.login="${{ secrets.SONAR_TOKEN_SERVER }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"220705-UTA-NET_P3" /o:"220705-uta-net" /d:sonar.login="${{ secrets.SONAR_TOKEN_SERVER }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build .\server\server.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN_SERVER }}"
+          
