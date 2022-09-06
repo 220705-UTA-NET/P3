@@ -7,3 +7,5 @@ After finding out about the WIKI I am useless!!
 The Dwarves are taking up residence here. 
 
 The Dwarves are making a Dev Server. What are these Dwarves up too???
+
+What is this, The Dwarves found a huge gemstone. People are gonna want that.  
