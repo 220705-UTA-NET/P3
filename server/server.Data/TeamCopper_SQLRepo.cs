@@ -137,7 +137,7 @@ namespace server.Data
             await connection.OpenAsync();
 
             string cmd = "SELECT customer_id, first_name, last_name, username, phone " +
-                           " FROM [project3].[Customer] " +
+                           " FROM [project3].[Support] " +
                            " WHERE email = @email;";
 
             using SqlCommand command = new(cmd, connection);
@@ -168,7 +168,7 @@ namespace server.Data
             await connection.OpenAsync();
 
             string cmd = "SELECT customer_id, first_name, last_name, email, phone " +
-                           " FROM [project3].[Customer] " +
+                           " FROM [project3].[Support] " +
                            " WHERE username = @username;";
 
             using SqlCommand command = new(cmd, connection);
@@ -192,7 +192,7 @@ namespace server.Data
             return support;
         }
 
-        public async Task<Support> SupportLogInAsync(string username, string password)
+        public async Task<Support> supportLogInAsync(string username, string password)
         {
             Support support = new Support();
 
@@ -201,7 +201,7 @@ namespace server.Data
 
             await connection.OpenAsync();
 
-            string cmd = @"SELECT customer_id, username, password FROM [project3].[Customer] WHERE username = @username AND password = @password;";
+            string cmd = @"SELECT customer_id, username, password FROM [project3].[Support] WHERE username = @username AND password = @password;";
 
             SqlCommand command = new SqlCommand(cmd, connection);
 
@@ -227,7 +227,7 @@ namespace server.Data
 
             await connection.OpenAsync();
 
-            string cmd = "INSERT INTO [project3].[Customer] (first_name, last_name, username, email, phone, password) " +
+            string cmd = "INSERT INTO [project3].[Support] (first_name, last_name, username, email, phone, password) " +
                             "VALUES( @first_name, @last_name, @username, @email, @phone, @password);";
 
             using SqlCommand command = new(cmd, connection);
