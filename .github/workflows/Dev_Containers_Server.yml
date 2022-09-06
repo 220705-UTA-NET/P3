@@ -40,7 +40,16 @@ jobs:
           context: ./server/
           file: ./server/Dockerfile
           push: true
-          tags: ${{ secrets.DEV_DOCKER_HUB_USERNAME }}/p3_server:latest
+          tags: ${{ secrets.DEV_DOCKER_HUB_USERNAME }}/p3_server:${{ secrets.BUILD_NUMBER }} ${{ secrets.DEV_DOCKER_HUB_USERNAME }}/p3_server:latest
+          
+      -
+        name: Update Minor version
+        uses: hmanzur/actions-set-secret@v2.0.0
+        with:
+          name: 'BUILD_NUMBER'
+          value: $((${{ secrets.BUILD_NUMBER }}+1))
+          repository: EriksonGM/MasterReport
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}   
           
           
         
