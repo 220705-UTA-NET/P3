@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+// import { Component, OnInit } from '@angular/core';
 
-@Component({
-  selector: 'app-deposit',
-  templateUrl: './deposit.component.html',
-  styleUrls: ['./deposit.component.css']
-})
-export class DepositComponent implements OnInit {
-  var postResult: String;
+// @Component({
+//   selector: 'app-deposit',
+//   templateUrl: './deposit.component.html',
+//   styleUrls: ['./deposit.component.css']
+// })
+// export class DepositComponent implements OnInit {
+//   var postResult: String;
 
-  constructor() { } constructor(private http: HttpClient) { }
+//   constructor() { } 
+//   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {
-  }
+//   ngOnInit(): void {
+//   }
 
   // Hau: modify above methods as required (look at search-book.comp.ts)
 
@@ -32,4 +33,4 @@ export class DepositComponent implements OnInit {
 
 
   // }
-}
+

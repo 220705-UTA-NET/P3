@@ -1,17 +1,22 @@
 Here are your transactions:
 
 <div class="container">
+    <ol>
+        <div *ngFor="let item of myTransactions | paginate: { itemsPerPage: pageSize, currentPage: page }">
+            <li>Transaction at: {{item.time}}</li>
+            <ul>
+                <li>Transaction ID: {{item.transaction_id}}</li>
+                <li>Account ID: {{item.account_id}}</li>
+                <li>Amount:{{item.amount}}</li>
+                <li>Transaction Notes:{{item.transaction_notes}} </li>
+                <li>Transaction Type: {{item.transaction_type}}</li>
+                <li>Completed: {{item.completion_status}}</li>
+            </ul>
+        </div>
+    </ol>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
 
-    <div *ngFor="let item of myTransactions" class="myTransactions" style="margin-bottom: 50px;">
-        <li>Transaction ID: {{item.transaction_id}}</li>
-        <li>Account ID: {{item.account_id}}</li>
-        <li>Time: {{item.time}}</li>
-        <li>Amount:{{item.amount}}</li>
-        <li>Transaction Notes:{{item.transaction_notes}} </li>
-        <li>Transaction Type: {{item.transaction_type}}</li>
-        <li>Completd: {{item.completion_status}}</li>
 </div>
-
 
 <!-- transaction_id:string; 
 account_id:string;
