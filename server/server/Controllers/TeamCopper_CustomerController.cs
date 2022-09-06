@@ -24,123 +24,123 @@ namespace server.Controllers
             _repo = repo;
         }
 
-//        [HttpGet("/Login")]
-//        public async Task<ActionResult<Dictionary<string, string>>> LogIn()
-//        {
+        [HttpGet("/Login")]
+        public async Task<ActionResult<Dictionary<string, string>>> LogIn()
+        {
 
-//            Console.WriteLine("Method triggered");
-//            Customer customer;
-//            try
-//            {
-//                string Info = Request.Headers.Authorization;
+            Console.WriteLine("Method triggered");
+            Customer customer;
+            try
+            {
+                string Info = Request.Headers.Authorization;
 
-//                string EString = Info.Split(' ')[1];
-
-
-//                byte[] data = Convert.FromBase64String(EString);
-//                string DString = Encoding.UTF8.GetString(data);
-
-//                string[] cred = DString.Split(':');
-
-//                foreach (string s in cred)
-//                {
-//                    Console.WriteLine("string " + s);
-//                }
-
-//                customer = await _repo.customerLogInAsync(cred[0], cred[1]);
-//                if (customer.CustomerId != 0)
-//                {
-//                    var claims = new[]
-//{
-//                    new Claim(JwtRegisteredClaimNames.Sub, $"secrety secret")
-//                };
-
-//                    var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
-//                    var key = new SymmetricSecurityKey(secretBytes);
-//                    var algorithm = SecurityAlgorithms.HmacSha256;
-
-//                    var signingCredentials = new SigningCredentials(key, algorithm);
-//                    var token = new JwtSecurityToken(
-//                        JWTConstants.Issuer,
-//                        JWTConstants.Audience,
-//                        claims,
-//                        DateTime.Now,
-//                        DateTime.Now.AddHours(1),
-//                        signingCredentials
-//                        );
-//                    var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
-//                    Dictionary<string, string> response = new Dictionary<string, string>();
-//                    response.Add("Access-Token", tokenJson);
+                string EString = Info.Split(' ')[1];
 
 
-//                    return response;
-//                }
-//                else
-//                {
-//                    _logger.LogError("User unable to be signed in");
-//                    return StatusCode(401);
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                _logger.LogError(e, e.Message);
-//                return StatusCode(500);
-//            }
+                byte[] data = Convert.FromBase64String(EString);
+                string DString = Encoding.UTF8.GetString(data);
 
-//        }
+                string[] cred = DString.Split(':');
 
-//        [HttpPost("/Register")]
-//        public async Task<ActionResult<Dictionary<string, string>>> Register()
-//        {
-//            Customer customer;
-//            try
-//            {
-//                string Info = Request.Headers.Authorization;
-//                string EString = Info.Split(' ')[1];
+                foreach (string s in cred)
+                {
+                    Console.WriteLine("string " + s);
+                }
 
-//                byte[] data = Convert.FromBase64String(EString);
-//                string DString = Encoding.UTF8.GetString(data);
+                customer = await _repo.customerLogInAsync(cred[0], cred[1]);
+                if (customer.CustomerId != 0)
+                {
+                    var claims = new[]
+{
+                    new Claim(JwtRegisteredClaimNames.Sub, $"secrety secret")
+                };
 
-//                string[] cred = DString.Split(':');
+                    var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
+                    var key = new SymmetricSecurityKey(secretBytes);
+                    var algorithm = SecurityAlgorithms.HmacSha256;
 
-//                using StreamReader reader = new StreamReader(Request.Body);
-//                string json = await reader.ReadToEndAsync();
+                    var signingCredentials = new SigningCredentials(key, algorithm);
+                    var token = new JwtSecurityToken(
+                        JWTConstants.Issuer,
+                        JWTConstants.Audience,
+                        claims,
+                        DateTime.Now,
+                        DateTime.Now.AddHours(1),
+                        signingCredentials
+                        );
+                    var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
+                    Dictionary<string, string> response = new Dictionary<string, string>();
+                    response.Add("Access-Token", tokenJson);
 
-//                JsonObject person = (JsonObject)JsonSerializer.Deserialize(json, typeof(JsonObject));
-//                customer = await _repo.registerCustomerAsync(person["FirstName"].ToString(), person["LastName"].ToString(), cred[0],
-//                    person["Email"].ToString(), person["Phone"].ToString(), cred[1]);
-//                var claims = new[]
-//                    {
-//                        new Claim(JwtRegisteredClaimNames.Sub, $"secrety secret")
-//                    };
 
-//                var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
-//                var key = new SymmetricSecurityKey(secretBytes);
-//                var algorithm = SecurityAlgorithms.HmacSha256;
+                    return response;
+                }
+                else
+                {
+                    _logger.LogError("User unable to be signed in");
+                    return StatusCode(401);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500);
+            }
 
-//                var signingCredentials = new SigningCredentials(key, algorithm);
-//                var token = new JwtSecurityToken(
-//                    JWTConstants.Issuer,
-//                    JWTConstants.Audience,
-//                    claims,
-//                    DateTime.Now,
-//                    // For now, the token will last for a day. Once refresh tokens are included, this will be shorten down.
-//                    DateTime.Now.AddDays(1),
-//                    signingCredentials
-//                    );
-//                var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
-//                Dictionary<string, string> response = new Dictionary<string, string>();
-//                response.Add("Access-Token", tokenJson);
+        }
 
-//                return response;
+        [HttpPost("/Register")]
+        public async Task<ActionResult<Dictionary<string, string>>> Register()
+        {
+            Customer customer;
+            try
+            {
+                string Info = Request.Headers.Authorization;
+                string EString = Info.Split(' ')[1];
 
-//            }
-//            catch (Exception e)
-//            {
-//                _logger.LogError(e, e.Message);
-//                return StatusCode(500);
-//            }
-//        }
+                byte[] data = Convert.FromBase64String(EString);
+                string DString = Encoding.UTF8.GetString(data);
+
+                string[] cred = DString.Split(':');
+
+                using StreamReader reader = new StreamReader(Request.Body);
+                string json = await reader.ReadToEndAsync();
+
+                JsonObject person = (JsonObject)JsonSerializer.Deserialize(json, typeof(JsonObject));
+                customer = await _repo.registerCustomerAsync(person["FirstName"].ToString(), person["LastName"].ToString(), cred[0],
+                    person["Email"].ToString(), person["Phone"].ToString(), cred[1]);
+                var claims = new[]
+                    {
+                        new Claim(JwtRegisteredClaimNames.Sub, $"secrety secret")
+                    };
+
+                var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
+                var key = new SymmetricSecurityKey(secretBytes);
+                var algorithm = SecurityAlgorithms.HmacSha256;
+
+                var signingCredentials = new SigningCredentials(key, algorithm);
+                var token = new JwtSecurityToken(
+                    JWTConstants.Issuer,
+                    JWTConstants.Audience,
+                    claims,
+                    DateTime.Now,
+                    // For now, the token will last for a day. Once refresh tokens are included, this will be shorten down.
+                    DateTime.Now.AddDays(1),
+                    signingCredentials
+                    );
+                var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
+                Dictionary<string, string> response = new Dictionary<string, string>();
+                response.Add("Access-Token", tokenJson);
+
+                return response;
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return StatusCode(500);
+            }
+        }
         [HttpGet("/Test")]
         [Authorize]
         public string Test()
