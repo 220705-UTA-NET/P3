@@ -6,7 +6,7 @@ import { ChatMessage } from '../models/ChatDTO';
 
 describe('ChatService', () => {
   let service: ChatService;
-  let httpMock: HttpTestingController;
+  // let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

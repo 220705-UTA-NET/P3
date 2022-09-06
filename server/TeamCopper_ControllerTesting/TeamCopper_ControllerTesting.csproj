@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -22,10 +22,9 @@
     </PackageReference>
   </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\server\server.csproj" />
-		<ProjectReference Include="..\server_Database\server_Database.csproj" />
-		<ProjectReference Include="..\server_DMODEL\server_DMODEL.csproj" />
-	</ItemGroup>  	
+  <ItemGroup>
+    <ProjectReference Include="..\server.Data\server.Data.csproj" />
+    <ProjectReference Include="..\server\server.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -1,5 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+<<<<<<< HEAD
 import { FormControl, NgForm, FormsModule } from '@angular/forms';
+=======
+import { FormControl, NgForm } from '@angular/forms';
+>>>>>>> 3b296d6626973e253ad10b04d0fe562639ffac84
 import { ChatService } from "../services/chat.service";
 import { ChatMessage, OpenTicket } from '../models/ChatDTO';
 
@@ -53,7 +57,6 @@ export class ChatboxComponent implements OnInit {
   }
 
   messageInput = new FormControl('');
-  inputForm: any = {};
 
   // for tracking how many messages have been sent in a short time period, to help prevent bombarding our server
   spamFilterTracker = {

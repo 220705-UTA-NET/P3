@@ -18,9 +18,7 @@ describe('ChatboxComponent', () => {
 
     fixture = TestBed.createComponent(ChatboxComponent);
     component = fixture.componentInstance;
-
     httpTestingController = TestBed.inject(HttpTestingController);
-
     fixture.detectChanges();
   });
 

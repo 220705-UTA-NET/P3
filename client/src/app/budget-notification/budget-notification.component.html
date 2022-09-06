@@ -1,0 +1,16 @@
+<div *ngIf="childAccounts.length > 0" class="container">
+  <div class="title">
+    <h4>Budget Notice</h4>
+    <a (click)="closeNotification()">
+      <i class="gg-close"></i>
+    </a>
+  </div>
+  <p>One or more of your budget amounts is almost met!</p>
+
+  <div class="top-box">
+    <div *ngFor="let acc of childAccounts" class="budget-box">
+      <h6>Account: {{ acc.accId }}</h6>
+      <p>${{ acc.remaining }} of ${{ acc.lim }} remaining.</p>
+    </div>
+  </div>
+</div>

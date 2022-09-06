@@ -49,7 +49,7 @@ export class ChatService {
     this._hubConnection.invoke("OpenTicket", this.privateRoomKey, initialMessage)
 
     // save initial message to db
-    this.saveChatMessage(initialMessage);
+    // this.saveChatMessage(initialMessage); comment
   }
 
   // TECH ONLY -----------------------------------------------------------------
@@ -159,7 +159,6 @@ export class ChatService {
     })
 
     this.connectedToHub = true;
-
     // BOTH: starts listening for hub coorespondance
     this._hubConnection.start()
       .then(() => console.log("connection started"))
