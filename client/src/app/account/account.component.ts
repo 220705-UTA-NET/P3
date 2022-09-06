@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -16,23 +16,25 @@ export interface Account {
   styleUrls: ['./account.component.css']
 })
 export class AccountComponent {
+  @Input() customerId! : number;
 
   constructor(private http: HttpClient) { 
     let login = localStorage.getItem('customer') as string;
     let customer = JSON.parse(login);
 
     if(customer === null){
-      this.getAccounts(1);
+      this.customerId = 1;
+      this.getAccounts();
     }else{
-      this.getAccounts(customer.id);
+      this.getAccounts();
     }
   }
 
   accounts: Account[] = [];
 
-  getAccounts(value: any) {
+  getAccounts() {
     this.http.get(`https://localhost:7249/accounts`, {
-      params: new HttpParams().set('customerId', value),
+      params: new HttpParams().set('customerId', this.customerId),
       observe: "response",
       responseType: "json"
     }).subscribe((result: any) => {
@@ -43,10 +45,9 @@ export class AccountComponent {
 
   }
 
-  addAccount(customerId: number){
-    console.log(customerId);
+  addAccount(){
     let headers = new HttpHeaders({ 'Content-Type' : 'application/json', 'Accept' : 'application/json'});
-    let args = new HttpParams().set('customerId', customerId).set('accountType', 0);
+    let args = new HttpParams().set('customerId', this.customerId).set('accountType', 0);
     this.http.post( `https://localhost:7249/accounts?` + args.toString(), {
       headers: headers
     }).subscribe((result : any) => {

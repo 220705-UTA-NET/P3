@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Transaction } from '../models/transactions';
 import { MyTransactionsService } from '../services/my-transactions.service';
 //import {TransactionResponse} from '../services/my-transactions.service';
@@ -15,7 +15,7 @@ export class MyTransactionsComponent implements OnInit {
   page: number = 1;
 
   myTransactions: Transaction[] = [];
-  accountId = 1; //currently hardcoding customerid = 1
+  @Input() accountId! : number; //currently hardcoding customerid = 1
   private url:string = "https://localhost:7249/API/Transactions/TransactionHistory?INPUT_AuthToken=1&INPUT_AccountNumber="; 
   //this is the URL to reach the end
   //temp connection string https://localhost:7249/API/Transactions/TransactionHistory?INPUT_AuthToken=1&INPUT_AccountNumber=1
