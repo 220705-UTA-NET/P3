@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col s8 offset-s2">
+      <div class="card">
+        <div class="sm-jumbotron center-align">
+          <h3> <strong>Misty Mountain Financial</strong> </h3>
+          <h5><strong>Log into Online Banking</strong></h5>
+        </div>
+  
+        <form class="col s12 white" #UserRegistrationForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">        
+        
+          <div class="container">
+            <input type="text" class="validate" id="email" name="email" required>
+            <!-- #email="ngModel" [(ngModel)]="user.email" -->
+            <label data-error="Required Field">Email Address</label>
+  
+            <input type="password" class="validate" id="password" name="password" required minlength="4">
+            
+            <label>Password</label>
+          </div>
+          <!-- <div class="input-field col s6">
+            <input type="password" class="validate" name="password" required minlength="4">
+            
+            <label >Password</label>
+          </div> -->
+          <!-- #password="ngModel" [(ngModel)]="user.password" -->
+          <div class ="buttons">
+            <div class="action_btn">
+              <button name="submit" class="action_btn-submit1" type="submit" value="Login">🔒Login</button>
+              <!-- <button name="submit" class="action_btn-submit" type="submit" value="reset">Forgot Password?</button> -->
+              <a style="color: black; margin-top:10px; padding-left: 20px; font-size: 15px;" routerLink="/reset"><strong><u>Forgot Password?</u></strong> </a>
+            </div>
+          </div>
+          <a style="color: rgb(255, 98, 0); margin-left: 620px; font-size: 15px;"><strong>New to Online Banking?</strong> </a>
+        </form>
+        
+        <a style="color: black; margin-left:613px; padding-left: 20px; font-size: 12px;" routerLink="/register"><u>Register</u> </a>
+        <button (click)="supportLogin()">Support Login</button>
+  
+      </div>
+    </div>
+  </div>
+  
+  

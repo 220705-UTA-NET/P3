@@ -2,7 +2,7 @@ name: Ping the front-end with Sonar
 on:
   push:
     branches:
-      - master
+      - dev
   pull_request:
     types: [opened, synchronize, reopened]
     
@@ -24,3 +24,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_CLIENT }}
+          

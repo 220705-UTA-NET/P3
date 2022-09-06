@@ -4,15 +4,20 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\server_Database\server_Database.csproj" />
-    <ProjectReference Include="..\server_DMODEL\server_DMODEL.csproj" />
+    <ProjectReference Include="..\server.Data\server.Data.csproj" />
+    <ProjectReference Include="..\server.Model\server.Model.csproj" />
+	<ProjectReference Include="..\server_Database\server_Database.csproj" />
+	<ProjectReference Include="..\server_DMODEL\server_DMODEL.csproj" />
   </ItemGroup>
 
 </Project>
