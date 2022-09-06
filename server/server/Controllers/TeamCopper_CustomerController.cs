@@ -24,7 +24,7 @@ namespace server.Controllers
             _repo = repo;
         }
 
-        [HttpGet("/Login")]
+        [HttpGet("/Login/Customer")]
         public async Task<ActionResult<Dictionary<string, string>>> LogIn()
         {
             Customer customer;
@@ -70,7 +70,8 @@ namespace server.Controllers
                     Dictionary<string, string> response = new Dictionary<string, string>();
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Customer");
-
+                    response.Add("CustomerId", customer.CustomerId.ToString());
+                    response.Add("CustomerName", customer.UserName);
 
                     return response;
                 }
@@ -88,7 +89,7 @@ namespace server.Controllers
 
         }
 
-        [HttpPost("/Register")]
+        [HttpPost("/Register/Customer")]
         public async Task<ActionResult<Dictionary<string, string>>> Register()
         {
             Customer customer;
@@ -131,6 +132,8 @@ namespace server.Controllers
                 Dictionary<string, string> response = new Dictionary<string, string>();
                 response.Add("Access-Token", tokenJson);
                 response.Add("Role", "Customer");
+                response.Add("CustomerId", customer.CustomerId.ToString());
+                response.Add("CustomerName", customer.UserName);
 
                 return response;
 

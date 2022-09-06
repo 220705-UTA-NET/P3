@@ -71,6 +71,8 @@ namespace server.Controllers
                     Dictionary<string, string> response = new Dictionary<string, string>();
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Support");
+                    response.Add("SupportId", support.SupportId.ToString());
+                    response.Add("CustomerName", support.UserName);
 
 
                     return response;
@@ -132,6 +134,8 @@ namespace server.Controllers
                 Dictionary<string, string> response = new Dictionary<string, string>();
                 response.Add("Access-Token", tokenJson);
                 response.Add("Role", "Support");
+                response.Add("SupportId", support.SupportId.ToString());
+                response.Add("SupportName", support.UserName);
 
                 return response;
 

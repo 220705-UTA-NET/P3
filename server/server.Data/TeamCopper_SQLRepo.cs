@@ -136,7 +136,7 @@ namespace server.Data
 
             await connection.OpenAsync();
 
-            string cmd = "SELECT customer_id, first_name, last_name, username, phone " +
+            string cmd = "SELECT support_id, first_name, last_name, username, phone " +
                            " FROM [project3].[Support] " +
                            " WHERE email = @email;";
 
@@ -167,7 +167,7 @@ namespace server.Data
 
             await connection.OpenAsync();
 
-            string cmd = "SELECT customer_id, first_name, last_name, email, phone " +
+            string cmd = "SELECT support_id, first_name, last_name, email, phone " +
                            " FROM [project3].[Support] " +
                            " WHERE username = @username;";
 
@@ -201,7 +201,7 @@ namespace server.Data
 
             await connection.OpenAsync();
 
-            string cmd = @"SELECT customer_id, username, password FROM [project3].[Support] WHERE username = @username AND password = @password;";
+            string cmd = @"SELECT support_id, username, password FROM [project3].[Support] WHERE username = @username AND password = @password;";
 
             SqlCommand command = new SqlCommand(cmd, connection);
 

@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
-// string? DB_connectionString = Environment.GetEnvironmentVariable("MYSQLCONNSTR_CONN");
+
 // Add services to the container.
 
 builder.Services.AddControllers();
