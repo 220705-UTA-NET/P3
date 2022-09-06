@@ -1,6 +1,4 @@
-﻿using Server_DataModels;
-
-namespace server.DTOs
+﻿namespace server.DTOs
 {
     public class DTO_TRANSACTION_RequestCreate
     {

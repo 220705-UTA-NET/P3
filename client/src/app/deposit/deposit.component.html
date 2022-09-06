@@ -1,0 +1,26 @@
+
+<p>Please enter information</p>
+<div class="stuff">
+    <form [formGroup]="depositForm">
+        <div>
+          <label for="accountId">
+            Account ID:
+          </label>
+          <input id="accountId" type="text"  formControlName="accountId">
+        </div>
+        <!-- remove the Account ID div above if Accounts can be populated from the Accounts Team. -->
+        <div>
+          <label for="amount">
+            Amount:
+          </label>
+          <input id="amount" type="text" formControlName="amount">
+        </div>
+        <button class="button" (click)="onSubmit()">Deposit</button>
+    </form>
+    <br/>
+    <div class="container2">
+      <div *ngFor="let item of response" class="response" style="margin-bottom: 50px;">
+        {{ response }}
+      </div>
+    </div>
+</div>

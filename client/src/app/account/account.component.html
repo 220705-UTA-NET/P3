@@ -9,7 +9,7 @@
         </mat-expansion-panel-header>
         <p style="text-align: center; font-size: large;">Balance:</p> 
         <p style="text-align: center; font-size:xx-large;">${{account.balance}}</p>
-        <!-- <transactions [childNameForId]="account.accountId"></transactions> -->
+        <app-my-transactions></app-my-transactions>
       </mat-expansion-panel>
     </mat-accordion>
   <button class="footer" (click)="addAccount(1)">Add Account</button>

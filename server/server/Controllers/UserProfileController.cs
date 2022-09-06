@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Server_DataModels;
-using server_Database;
+using server.Model;
 using server.DTOs;
 using System.Text.Json;
 

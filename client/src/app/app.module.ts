@@ -22,6 +22,13 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LandingComponent } from './landing/landing.component';
 import { FooterComponent } from './footer/footer.component';
 import { UserPasswordDialogComponent } from './user-password-dialog/user-password-dialog.component';
+import { TopComponent } from './top/top.component';
+import { SendMoneyComponent } from './send-money/send-money.component';
+import { RequestMoneyComponent } from './request-money/request-money.component';
+import { MyTransactionsComponent } from './my-transactions/my-transactions.component';
+import { DepositComponent } from './deposit/deposit.component';
+import { WithdrawalComponent } from './withdrawal/withdrawal.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -38,7 +45,13 @@ import { UserPasswordDialogComponent } from './user-password-dialog/user-passwor
     HeaderComponent,
     LandingComponent,
     FooterComponent,
-    UserPasswordDialogComponent
+    UserPasswordDialogComponent,
+    TopComponent,
+    SendMoneyComponent,
+    RequestMoneyComponent,
+    MyTransactionsComponent,
+    DepositComponent,
+    WithdrawalComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +61,8 @@ import { UserPasswordDialogComponent } from './user-password-dialog/user-passwor
     ReactiveFormsModule,
     RouterModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxPaginationModule
   ],
   providers: [
     {provide: MatDialogRef, useValue: {}},

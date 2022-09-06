@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
-using server_Database;
-using Server_DataModels;
+using server.Model;
 
 namespace server.Controllers
 {

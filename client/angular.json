@@ -23,8 +23,12 @@
               "src/assets"
             ],
             "styles": [
+<<<<<<< HEAD
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css"
+=======
+              "src/styles.scss"
+>>>>>>> dee9feb80150b60602532d15be820322a5181a32
             ],
             "scripts": []
           },
