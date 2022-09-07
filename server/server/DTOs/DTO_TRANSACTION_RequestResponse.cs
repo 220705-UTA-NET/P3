@@ -1,4 +1,4 @@
-﻿using Server_DataModels;
+﻿using server.Model;
 
 namespace server.DTOs
 {
@@ -13,6 +13,7 @@ namespace server.DTOs
         public DTO_TRANSACTION_RequestResponse() 
         {
             RequestData = new DMODEL_Request();
+            RequestData.request_notes = "";
         }
         public DTO_TRANSACTION_RequestResponse(bool ApprovedTransaction, int SelectedAccountID, DMODEL_Request RequestData)
         {

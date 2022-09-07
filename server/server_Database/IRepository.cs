@@ -48,6 +48,11 @@ namespace server_Database
         //          OR
         //      If unable to update balence of account -> return false
 
+        Task<DMODEL_Customer> GetCustomerAsync(int id);
+        Task UpdateCustomerAsync(int id, string firstName, string lastName, string email, string phoneNumber, string password);
+        Task<IEnumerable<DMODEL_Account>> GetCustomerAccountsAsync(int id);
+
+        Task<DMODEL_Account> AddAccountAsync(int customerId, int accountType);
         Task<List<DMODEL_Request>> TRANSACTION_SQL_ASYNC_GetOutstandingRequest(int INPUT_CustomerNumber);
         // FUNCTION:
         //      Gets the outstanding requests for the customer

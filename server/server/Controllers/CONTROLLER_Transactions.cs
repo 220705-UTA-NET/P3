@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.DTOs;
-using server_Database;
-using Server_DataModels;
+using server.Data;
+using server.Model;
 
 namespace server.Controllers
 {
@@ -11,12 +11,12 @@ namespace server.Controllers
     public class CONTROLLER_Transactions : ControllerBase
     {
         // FIELDS
-        private readonly IRepository API_PROP_IRepository;
+        private readonly TRANSACTION_IRepository API_PROP_IRepository;
         private readonly ILogger<CONTROLLER_Transactions> API_PROP_Logger;
         private readonly int BASE_BankAccountID;
 
         // CONSTRUCTORS
-        public CONTROLLER_Transactions(IRepository INPUT_IRepository, ILogger<CONTROLLER_Transactions> INPUT_Logger)
+        public CONTROLLER_Transactions(TRANSACTION_IRepository INPUT_IRepository, ILogger<CONTROLLER_Transactions> INPUT_Logger)
         {
             this.API_PROP_IRepository = INPUT_IRepository;
             this.API_PROP_Logger = INPUT_Logger;
@@ -26,12 +26,8 @@ namespace server.Controllers
         // ===================================== METHODS ====================================================================================================
         [HttpGet]
         [Route("TransactionHistory")]
-
-        public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AuthToken, int INPUT_AccountNumber)
+        public async Task<DTO_TRANSACTION_TransactionHistory> TRANSACTION_MAIN_ASYNC_GetTransactionHistory(int INPUT_AccountNumber)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
             DTO_TRANSACTION_TransactionHistory OUTPUT_DTO = new DTO_TRANSACTION_TransactionHistory();
 
             List<DMODEL_Transaction> TEMP_LIST_TransactionHistory = new List<DMODEL_Transaction>();
@@ -42,11 +38,13 @@ namespace server.Controllers
             {
 
                 OUTPUT_DTO.NumberOfTransactions = 0;
+                OUTPUT_DTO.AccountBalance = 0;
                 OUTPUT_DTO.LIST_DMODEL_Transactions = new List<DMODEL_Transaction>();
             }
             else
             {
                 OUTPUT_DTO.NumberOfTransactions = TEMP_LIST_TransactionHistory.Count;
+                OUTPUT_DTO.AccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_AccountNumber);
                 OUTPUT_DTO.LIST_DMODEL_Transactions = TEMP_LIST_TransactionHistory;
             }
 
@@ -56,13 +54,8 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpPost]
         [Route("Deposit")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_DepositMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Deposit)
+        public async Task<DTO_TRANSACTION_TransactionResponse> TRANSACTION_MAIN_ASYNC_DepositMoney([FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Deposit)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
-            // Transfer Money from Implicit Bank Reserve to Account
-
             int STATUS_Deposit;
             STATUS_Deposit = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(BASE_BankAccountID, INPUT_DTO_Deposit.AccountID, INPUT_DTO_Deposit.ChangeAmount);
 
@@ -70,22 +63,20 @@ namespace server.Controllers
             if (STATUS_Deposit == 1)
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Deposit.AccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT", true);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Deposit.AccountID, false);
-                return STATUS_Deposit;
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Deposit.ChangeAmount, "DEPOSIT into Account: " + INPUT_DTO_Deposit.AccountID, false);
             }
 
-            return STATUS_Deposit;
+            DTO_TRANSACTION_TransactionResponse OUTPUT_DTO = new DTO_TRANSACTION_TransactionResponse();
+            OUTPUT_DTO.StatusCode = STATUS_Deposit;
+            OUTPUT_DTO.AccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_DTO_Deposit.AccountID);
+            return OUTPUT_DTO;
         }
 
         // =================================================================================================================================================
         [HttpPost]
         [Route("Withdraw")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_WithdrawMoney(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Withdraw)
+        public async Task<DTO_TRANSACTION_TransactionResponse> TRANSACTION_MAIN_ASYNC_WithdrawMoney([FromBody] DTO_TRANSACTION_DepositWithdraw INPUT_DTO_Withdraw)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
-            // Transfer Money from Account to Implicit Bank Reserve 
 
             int STATUS_Withdraw;
             STATUS_Withdraw = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_Withdraw.AccountID, BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount);
@@ -93,30 +84,53 @@ namespace server.Controllers
             //Successfuy Deposit
             if (STATUS_Withdraw == 1)
             {
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT", true);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Withdraw.AccountID, false);
-                return STATUS_Withdraw;
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "WITHDRAW", false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "WITHDRAW from Account: " + INPUT_DTO_Withdraw.AccountID, true);
             }
 
-            return STATUS_Withdraw;
+            DTO_TRANSACTION_TransactionResponse OUTPUT_DTO = new DTO_TRANSACTION_TransactionResponse();
+            OUTPUT_DTO.StatusCode = STATUS_Withdraw;
+            OUTPUT_DTO.AccountBalance = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetAccountBalance(INPUT_DTO_Withdraw.AccountID);
+            return OUTPUT_DTO;
         }
 
         // =================================================================================================================================================
         [HttpPost]
         [Route("RequestCreate")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_MakeNewRequest(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_RequestCreate INPUT_DTO_RequestCreate)
+        public async Task<int> TRANSACTION_MAIN_ASYNC_MakeNewRequest([FromBody] DTO_TRANSACTION_RequestCreate INPUT_DTO_RequestCreate)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
+            // Parse and Validate CustomerEmail->CustomerID
+            if (INPUT_DTO_RequestCreate.reciever_email == "")
+            {
+                return -2;
+            }
+            int WORK_CustomerID = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_GetCustomerIDFromEmail(INPUT_DTO_RequestCreate.reciever_email);
 
-            // Transfer Money from Account to Implicit Bank Reserve 
+            if (WORK_CustomerID == -1)
+            {
+                return -2;
+            }
 
-            bool STATUS_RequetCreate;
+            // Create Request Notes
+            // NOTE: request_type (true = send money, false = request money)
+            string WORK_RequestNotes;
+            if( INPUT_DTO_RequestCreate.request_type == true)
+            {
+                WORK_RequestNotes = "Sending Money From: " + INPUT_DTO_RequestCreate.reciever_email + " Notes: " + INPUT_DTO_RequestCreate.request_notes;
+            }
+            else
+            {
+                WORK_RequestNotes = "Requesting Money From: " + INPUT_DTO_RequestCreate.reciever_email + " Notes: " + INPUT_DTO_RequestCreate.request_notes;
+            }
 
-            STATUS_RequetCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(INPUT_DTO_RequestCreate.request_from, INPUT_DTO_RequestCreate.org_account, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, INPUT_DTO_RequestCreate.request_note);
+            // Insert Request
+            bool STATUS_RequestCreate;
+
+
+            STATUS_RequestCreate = await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewRequest(WORK_CustomerID, INPUT_DTO_RequestCreate.org_acct, INPUT_DTO_RequestCreate.amount, INPUT_DTO_RequestCreate.request_type, WORK_RequestNotes);
 
             // Basic Returns Until Error Codes Can Be Designated
-            if (STATUS_RequetCreate == true)
+            if (STATUS_RequestCreate == true)
             {
                 return 1;
             }
@@ -129,11 +143,8 @@ namespace server.Controllers
         // =================================================================================================================================================
         [HttpGet]
         [Route("RequestOutstanding")]
-        public async Task<DTO_TRANSACTION_RequestOutstanding> TRANSACTION_MAIN_ASYNC_GetOutstandingRequest(int INPUT_AuthToken, int INPUT_CustomerID)
+        public async Task<DTO_TRANSACTION_RequestOutstanding> TRANSACTION_MAIN_ASYNC_GetOutstandingRequest(int INPUT_CustomerID)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
             DTO_TRANSACTION_RequestOutstanding OUTPUT_DTO = new DTO_TRANSACTION_RequestOutstanding();
 
             List<DMODEL_Request> TEMP_LIST_OutstandingRequest = new List<DMODEL_Request>();
@@ -152,34 +163,39 @@ namespace server.Controllers
             }
 
             return OUTPUT_DTO;
+
         }
 
         // =================================================================================================================================================
 
         [HttpPost]
         [Route("RequestResponse")]
-        public async Task<int> TRANSACTION_MAIN_ASYNC_UseRequestResponse(int INPUT_AuthToken, [FromBody] DTO_TRANSACTION_RequestResponse INPUT_DTO_RequestResponse)
+        public async Task<int> TRANSACTION_MAIN_ASYNC_UseRequestResponse([FromBody] DTO_TRANSACTION_RequestResponse INPUT_DTO_RequestResponse)
         {
-            // Authenticate User
-            //NEEDS IMPLEMENTING WHEN LOGIN FEATURES ARE DONE
-
             // If User Choices to Decline Transfer
             if (INPUT_DTO_RequestResponse.ApprovedTransaction == false)
             {
                 await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);
-                return -1;
+                return 2;
             }
 
             // IF User Approved Transfer
             // NOTE: request_type (true = send money, false = request money)
             int STATUS_Request;
+            string Response_Message = "" + INPUT_DTO_RequestResponse.RequestData.request_notes;
             if (INPUT_DTO_RequestResponse.RequestData.request_type == true)
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.amount);        
+
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, Response_Message, false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.request_from, INPUT_DTO_RequestResponse.RequestData.amount, Response_Message, true);
             }
             else
             {
-                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_account, INPUT_DTO_RequestResponse.RequestData.amount);
+                STATUS_Request = await TRANSACTION_LOGIC_ASYNC_MoneyTransfer(INPUT_DTO_RequestResponse.SelectedAccountID, INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount);
+
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.org_acct, INPUT_DTO_RequestResponse.RequestData.amount, Response_Message, true);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_RequestResponse.RequestData.request_from, INPUT_DTO_RequestResponse.RequestData.amount, Response_Message, false);
             }
 
             await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_DeleteOutstandingRequest(INPUT_DTO_RequestResponse.RequestData.request_id);
@@ -306,5 +322,6 @@ namespace server.Controllers
                 return -1;
             }
         }
+
     }
 }

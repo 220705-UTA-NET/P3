@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Transaction } from "../Models/transactions";
+import { Transaction } from "../models/transactions";
 import { Observable } from "rxjs";
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,6 @@ export class MyTransactionsService {
   constructor(private http:HttpClient) { }
 getMyTransactions(url:string): Observable<TransactionResponse>{
     console.log("Ran GET request");
-    console. log(this.http.get<TransactionResponse>(url));
     return this.http.get<TransactionResponse>(url);
   }
 }

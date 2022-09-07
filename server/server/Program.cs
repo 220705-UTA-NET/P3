@@ -1,17 +1,21 @@
 using System;
 using server.Hubs;
 using server.Data;
-using server_Database;
-using server.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using server.Model;
+
 using Microsoft.Extensions.DependencyInjection;
 
 
+
+// builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
 var builder = WebApplication.CreateBuilder(args);
+// Backend_Bronze
+//string? DB_connectionString = Environment.GetEnvironmentVariable("CONN", EnvironmentVariableTarget.User);
 string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
+
 
 // Add services to the container.
 
@@ -31,8 +35,13 @@ builder.Services.AddSingleton<Brass_IRepository>(sp => new Brass_SQLRepository(D
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddSingleton<Bronze_IRepository>(sp => new Bronze_SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<Bronze_SQLRepository>>()));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// JWT gernerator
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -52,7 +61,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddSingleton<IBudgetRepository>(sp => new SQLBudgetRepository(DB_connectionString));
 
-builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
+builder.Services.AddSingleton<TRANSACTION_IRepository>(sp => new TRANSACTION_SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<TRANSACTION_SQLRepository>>()));
 string MyAllowAllOrgins = "_myAllowAllOrigins";
 
 builder.Services.AddSingleton<TeamCopper_IRepo>(sp => new TeamCopper_SQLRepo(DB_connectionString, sp.GetRequiredService<ILogger<TeamCopper_SQLRepo>>()));
@@ -66,8 +75,6 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
     });
 });
-
-
 
 var app = builder.Build();
 

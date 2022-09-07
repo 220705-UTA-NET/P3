@@ -12,6 +12,7 @@
         </div>
       </div>
     </div>
+
   </div>
   <div class="svg-border-rounded text-white">
     <!-- Rounded SVG Border-->
@@ -26,9 +27,11 @@
       ></path>
     </svg>
   </div>
+  <!-- dont know if we are still using this -->
   <app-budget-notification
     *ngIf="displayNotice"
     [childAccounts]="accounts"
     (noteOpen)="closeNotice()"
   ></app-budget-notification>
 </header>
+

@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="header"><h1 style="color: white;">Banking Account</h1></div>
+    <mat-accordion class="sub-container">
+      <mat-expansion-panel *ngFor="let account of accounts">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Account #{{account.accountId}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p style="text-align: center; font-size: large;">Balance:</p> 
+        <p style="text-align: center; font-size:xx-large;">${{account.balance}}</p>
+        <app-my-transactions [accountId]="account.accountId" (updateAccount)="account.balance + $event"></app-my-transactions>
+      </mat-expansion-panel>
+    </mat-accordion>
+  <button class="footer" (click)="addAccount()">Add Account</button>
+</div>

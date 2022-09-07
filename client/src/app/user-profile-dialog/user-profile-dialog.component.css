@@ -1,0 +1,21 @@
+.dialog{
+    display: flex; 
+    flex-direction: column
+}
+
+mat-form-field{
+  margin: 6px;
+}
+
+.errorMessage {  
+  text-align: center; 
+  background-color: red;
+  opacity: .5; 
+  color: white ; 
+}
+
+.button {
+  width: 50px;
+  background-color: #72a4c2; 
+  color: white;
+}

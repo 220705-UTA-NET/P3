@@ -24,6 +24,8 @@ namespace server.Controllers
             _repo = repo;
         }
 
+
+        //[HttpGet("/login/customer")] was in bronze
         [HttpGet("/Login/Customer")]
         public async Task<ActionResult<Dictionary<string, string>>> LogIn()
         {
@@ -71,7 +73,10 @@ namespace server.Controllers
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Customer");
                     response.Add("CustomerId", customer.CustomerId.ToString());
+
+                    //response.Add("CustomerUserName", customer.UserName);//was in bronze
                     response.Add("CustomerName", customer.UserName);
+
 
                     return response;
                 }
@@ -89,6 +94,8 @@ namespace server.Controllers
 
         }
 
+
+        //[HttpPost("/register/customer")] //was in bronze
         [HttpPost("/Register/Customer")]
         public async Task<ActionResult<Dictionary<string, string>>> Register()
         {
@@ -133,7 +140,10 @@ namespace server.Controllers
                 response.Add("Access-Token", tokenJson);
                 response.Add("Role", "Customer");
                 response.Add("CustomerId", customer.CustomerId.ToString());
+
+                //response.Add("CustomerUserName", customer.UserName);//was in bronze
                 response.Add("CustomerName", customer.UserName);
+
 
                 return response;
 

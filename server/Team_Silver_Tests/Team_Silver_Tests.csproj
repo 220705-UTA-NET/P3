@@ -24,8 +24,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\server\server.csproj" />
-		<ProjectReference Include="..\server_Database\server_Database.csproj" />
-		<ProjectReference Include="..\server_DMODEL\server_DMODEL.csproj" />
 	</ItemGroup>  	
 
 </Project>

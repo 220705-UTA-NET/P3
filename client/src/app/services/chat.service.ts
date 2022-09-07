@@ -162,7 +162,7 @@ export class ChatService {
     // BOTH: starts listening for hub coorespondance
     this._hubConnection.start()
       .then(() => console.log("connection started"))
-      .catch((err) => console.log("error receiving connection", err))
+      .catch((err: any) => console.log("error receiving connection", err))
   }
 
   // api calls
