@@ -40,7 +40,7 @@ import { RegisterComponent } from './Copper_Components/register/register.compone
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
