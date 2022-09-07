@@ -15,7 +15,7 @@ const httpOptions = {
 })
 export class CustomerService {
 
-  private apiUrl = 'https://localhost:7249/login/customer';
+  public apiUrl = 'https://localhost:7249/login/customer';
   private data: any = [];
 
   constructor(private http: HttpClient) { }
