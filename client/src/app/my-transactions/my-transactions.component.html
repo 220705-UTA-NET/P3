@@ -1,8 +1,8 @@
 <div style="display: flex; flex-direction: row;">
     <div style="margin-right: 30%; margin-left: 10%;">
-        <app-withdrawal [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)"></app-withdrawal>
+        <app-withdrawal [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)" (updateBalance)="updateBalance($event)"></app-withdrawal>
     </div>
-    <app-deposit [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)"></app-deposit>
+    <app-deposit [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)" (updateBalance)="updateBalance($event)"></app-deposit>
 </div>
 <div class="container">
     <ol>

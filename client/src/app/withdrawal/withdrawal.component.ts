@@ -12,6 +12,7 @@ export class WithdrawalComponent implements OnInit {
   response: any;
   @Input() accountNumber!: number;
   @Output() newTransaction = new EventEmitter<any>();
+  @Output() updateBalance = new EventEmitter<number>();
 //accountId: any; this is not yet available, will need to be integrated with Accounts Team.
 
 withdrawalForm = this.formBuilder.group({
@@ -47,6 +48,7 @@ withdrawalForm = this.formBuilder.group({
     }
     // this.withdrawalForm.reset();
     this.newTransaction.emit();
+    this.updateBalance.emit(Number(amount));
   }
 
 }

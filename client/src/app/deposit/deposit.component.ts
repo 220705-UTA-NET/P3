@@ -13,6 +13,7 @@ export class DepositComponent implements OnInit {
 
   @Input() accountNumber! : number;
   @Output() newTransaction = new EventEmitter<number>();
+  @Output() updateBalance = new EventEmitter<number>();
 
   depositForm = this.formBuilder.group({
     amount: ''
@@ -44,7 +45,8 @@ export class DepositComponent implements OnInit {
     }
 
     //this.depositForm.reset();
-    this.newTransaction.emit(amount);
+    this.newTransaction.emit();
+    this.updateBalance.emit(Number(amount));
   }
 
 }

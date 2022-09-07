@@ -17,7 +17,7 @@ export class MyTransactionsComponent implements OnInit {
 
   public myTransactions!: Transaction[];
   @Input() accountId! : number; //currently hardcoding customerid = 1
-  @Output() updateBalance = new EventEmitter<any>();
+  @Output() updateAccount = new EventEmitter<number>();
 
   private url:string = "https://localhost:7249/API/Transactions/TransactionHistory?INPUT_AuthToken=1&INPUT_AccountNumber="; 
   //this is the URL to reach the end
@@ -39,6 +39,10 @@ export class MyTransactionsComponent implements OnInit {
     // transaction_notes:"deposit check#1",
     // transaction_type:"deposit",
     // completion_status:"complete"});
+  }
+
+  updateBalance(number: number){
+    this.updateAccount.emit(number);
   }
   
 
