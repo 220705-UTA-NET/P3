@@ -12,7 +12,7 @@ export class DepositComponent implements OnInit {
   response: any;
 
   @Input() accountNumber! : number;
-  @Output() newTransaction = new EventEmitter<any>();
+  @Output() newTransaction = new EventEmitter<number>();
 
   depositForm = this.formBuilder.group({
     amount: ''
@@ -28,11 +28,13 @@ export class DepositComponent implements OnInit {
     let amount = formData['amount'];
 
     let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
+
     if (accountId != null && amount != null) {
       let args = new HttpParams().set('accountId', accountId).set('amount', amount);
       let url = "https://localhost:7249/API/Transactions/Deposit"; //make sure we have the correct URL here.
       console.log("Data for posting = " + args.toString());
       console.log("Will post to: " + url);
+
       this.http.post(url, {accountId: this.accountNumber, changeAmount: amount}, {
         headers: headers
       }).subscribe((result: any) => {
@@ -40,8 +42,9 @@ export class DepositComponent implements OnInit {
         // this.response = result;
       })
     }
+
     //this.depositForm.reset();
-    this.newTransaction.emit();
+    this.newTransaction.emit(amount);
   }
 
 }

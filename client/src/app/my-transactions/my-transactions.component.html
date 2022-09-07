@@ -7,7 +7,7 @@
 <div class="container">
     <ol>
         <div>
-            <mat-card *ngFor="let item of myTransactions | paginate: { itemsPerPage: pageSize, currentPage: page}; ngTrackBy: myTransactions;">
+            <mat-card *ngFor="let item of myTransactions | paginate: { itemsPerPage: pageSize, currentPage: page}; ngTrackBy: item;">
                 <div>
                     <mat-card-title style="display: flex; flex-direction: row;flex-wrap: nowrap;justify-content: space-between;">
                         <span style="font-size: large;" >Transaction #{{item.transaction_id}}</span>

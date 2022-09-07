@@ -15,7 +15,6 @@ export class MyTransactionsService {
   constructor(private http:HttpClient) { }
 getMyTransactions(url:string): Observable<TransactionResponse>{
     console.log("Ran GET request");
-    console. log(this.http.get<TransactionResponse>(url));
     return this.http.get<TransactionResponse>(url);
   }
 }
