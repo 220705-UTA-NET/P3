@@ -21,12 +21,12 @@ namespace server.Controllers
         }
 
         [HttpGet("/userprofile")]
-        public async Task<ActionResult<Customer>> GetUserProfile(int customerId)
+        public async Task<ActionResult<server.DTOs.Customer>> GetUserProfile(int customerId)
         {
             try
             {
                 DMODEL_Customer data = await _repository.GetCustomerAsync(customerId);
-                Customer customer = new (data.id, data.firstName, data.lastName, data.email, data.phoneNumber, data.password);
+                server.DTOs.Customer customer = new (data.id, data.firstName, data.lastName, data.email, data.phoneNumber, data.password);
                 _logger.LogInformation($"Successfully executed GetCustomerAsync for Customer #{customerId}");
                 Response.Headers.AccessControlAllowOrigin = "*";
                 return customer;
@@ -49,7 +49,7 @@ namespace server.Controllers
         }
 
         [HttpPut("/userprofile")]
-        public async Task<ActionResult> ModifyUserProfile([FromBody]Customer customer)
+        public async Task<ActionResult> ModifyUserProfile([FromBody] server.DTOs.Customer customer)
         {
             try
             {
