@@ -92,8 +92,8 @@ namespace server.Controllers
             //Successfuy Deposit
             if (STATUS_Withdraw == 1)
             {
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT", true);
-                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "DEPOSIT for Account: " + INPUT_DTO_Withdraw.AccountID, false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(INPUT_DTO_Withdraw.AccountID, INPUT_DTO_Withdraw.ChangeAmount, "WITHDRAW", false);
+                await API_PROP_IRepository.TRANSACTION_SQL_ASYNC_InsertNewTransaction(BASE_BankAccountID, INPUT_DTO_Withdraw.ChangeAmount, "WITHDRAW for Account: " + INPUT_DTO_Withdraw.AccountID, false);
                 return STATUS_Withdraw;
             }
 

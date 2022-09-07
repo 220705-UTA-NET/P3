@@ -40,7 +40,7 @@ export class DepositComponent implements OnInit {
         // this.response = result;
       })
     }
-    this.depositForm.reset();
+    //this.depositForm.reset();
     this.newTransaction.emit();
   }
 

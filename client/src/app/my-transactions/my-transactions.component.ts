@@ -27,14 +27,8 @@ export class MyTransactionsComponent implements OnInit {
 
   getTransactions(accountId : number){
     this.myTransactionService.getMyTransactions(this.url + accountId).subscribe(val => {
-      console.log("I'm here now, hurray !!!")
       this.myTransactions = val.lisT_DMODEL_Transactions;
     });
-
-    this.updateBalance.emit();
-    // for(let i = 0; i < this.myTransactions.length; i++){
-    //   this.myTransactions[i].time = 
-    // }
   }
   
 

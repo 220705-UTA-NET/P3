@@ -5,9 +5,9 @@
     <app-deposit [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)"></app-deposit>
 </div>
 <div class="container">
-    <ol id="transaction-list-{{accountId}}">
-        <div *ngFor="let item of myTransactions | paginate: { itemsPerPage: pageSize, currentPage: page}; ngTrackBy: item;">
-            <mat-card>
+    <ol>
+        <div>
+            <mat-card *ngFor="let item of myTransactions | paginate: { itemsPerPage: pageSize, currentPage: page}; ngTrackBy: myTransactions;">
                 <div>
                     <mat-card-title style="display: flex; flex-direction: row;flex-wrap: nowrap;justify-content: space-between;">
                         <span style="font-size: large;" >Transaction #{{item.transaction_id}}</span>
