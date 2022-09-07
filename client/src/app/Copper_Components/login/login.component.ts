@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthConfigService, AuthService } from '@auth0/auth0-angular';
 
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
@@ -21,7 +20,7 @@ export class LoginComponent implements OnInit {
   customer!: Customer;
 
 
-  constructor(private router: Router, private CustomerService: CustomerService, public auth: AuthService) {
+  constructor(private router: Router, private CustomerService: CustomerService) {
     // if user does not have login token, re-route them to login
     const checkTokenPresent: AccessToken = JSON.parse(localStorage.getItem("customer") || '{}');
     if (!checkTokenPresent['Access-Token']) {
