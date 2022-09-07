@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input} from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -11,6 +11,7 @@ export class WithdrawalComponent implements OnInit {
 
   response: any;
   @Input() accountNumber!: number;
+  @Output() newTransaction = new EventEmitter<any>();
 //accountId: any; this is not yet available, will need to be integrated with Accounts Team.
 
 withdrawalForm = this.formBuilder.group({
@@ -25,6 +26,7 @@ withdrawalForm = this.formBuilder.group({
 
   ngOnInit(): void {
   }
+
   onSubmit(): void {
     let formData = this.withdrawalForm.value;
     let accountId = this.accountNumber;
@@ -44,6 +46,7 @@ withdrawalForm = this.formBuilder.group({
       })
     }
     this.withdrawalForm.reset();
+    this.newTransaction.emit();
   }
 
 }

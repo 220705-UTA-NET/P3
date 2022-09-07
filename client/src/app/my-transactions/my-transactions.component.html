@@ -1,6 +1,6 @@
 <div style="display: flex; flex-direction: row;">
     <div style="margin-right: 30%; margin-left: 10%;">
-        <app-withdrawal [accountNumber]="accountId"></app-withdrawal>
+        <app-withdrawal [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)"></app-withdrawal>
     </div>
     <app-deposit [accountNumber]="accountId"></app-deposit>
 </div>

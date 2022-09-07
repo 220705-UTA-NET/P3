@@ -58,7 +58,13 @@ namespace server.Data
                     int TEMP_account_id = DB_reader.GetInt32(1);
                     DateTime TEMP_time = DB_reader.GetDateTime(2);
                     double TEMP_amount = DB_reader.GetDouble(3);
-                    string? TEMP_transaction_notes = DB_reader.GetString(4);
+
+                    string? TEMP_transaction_notes = "";
+                    if (!DB_reader.IsDBNull(4))
+                    {
+                        TEMP_transaction_notes = DB_reader.GetString(4);
+                    }
+                    
                     bool TEMP_type = DB_reader.GetBoolean(5);
                     bool TEMP_completion_status = DB_reader.GetBoolean(6);
 
