@@ -40,11 +40,6 @@ namespace server.Controllers
 
                 string[] cred = DString.Split(':');
 
-                foreach (string s in cred)
-                {
-                    Console.WriteLine("string " + s);
-                }
-
                 customer = await _repo.customerLogInAsync(cred[0], cred[1]);
                 if (customer.CustomerId != 0)
                 {
@@ -71,14 +66,14 @@ namespace server.Controllers
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Customer");
                     response.Add("CustomerId", customer.CustomerId.ToString());
-                    response.Add("CustomerUserName", customer.UserName);
+                    response.Add("CustomerName", customer.FirstName + " " + customer.LastName);
 
 
                     return response;
                 }
                 else
                 {
-                    _logger.LogError("User unable to be signed in");
+                    _logger.LogError("User does not exist in database");
                     return StatusCode(401);
                 }
             }
@@ -126,7 +121,7 @@ namespace server.Controllers
                     claims,
                     DateTime.Now,
                     // For now, the token will last for a day. Once refresh tokens are included, this will be shorten down.
-                    DateTime.Now.AddDays(1),
+                    DateTime.Now.AddHours(1),
                     signingCredentials
                     );
                 var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
@@ -134,7 +129,7 @@ namespace server.Controllers
                 response.Add("Access-Token", tokenJson);
                 response.Add("Role", "Customer");
                 response.Add("CustomerId", customer.CustomerId.ToString());
-                response.Add("CustomerUserName", customer.UserName);
+                response.Add("CustomerName", customer.FirstName + " " + customer.LastName);
 
                 return response;
 

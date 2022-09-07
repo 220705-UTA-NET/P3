@@ -31,7 +31,7 @@ builder.Services.AddSingleton<Brass_IRepository>(sp => new Brass_SQLRepository(D
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// JWT gernerator
+// JWT generator
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
