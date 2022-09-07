@@ -1,4 +1,6 @@
-﻿namespace server.DTOs
+﻿using server.Model;
+
+namespace server.DTOs
 {
     public class DTO_TRANSACTION_DepositWithdraw
     {
