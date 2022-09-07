@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +43,7 @@ import { RegisterComponent } from './Copper_Components/register/register.compone
 import { AuthModule } from '@auth0/auth0-angular';
 import { BudgetNotificationComponent } from './budget-notification/budget-notification.component';
 import { BudgetNotifyService } from './budget-notify.service';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 
 @NgModule({
@@ -87,7 +88,8 @@ import { BudgetNotifyService } from './budget-notify.service';
       clientId: 'wFseXaNCNWXgvAxWNYecaiZCjTIL5N1C'
     })
   ],
-  providers: [{provide: MatDialogRef, useValue: {}},
+  providers: [{provide:HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: MatDialogRef, useValue: {}},
     {provide: MAT_DIALOG_DATA, useValue: {}},
     BudgetNotifyService, ChatService],
 
