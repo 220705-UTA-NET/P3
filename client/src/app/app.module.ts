@@ -29,6 +29,8 @@ import { MyTransactionsComponent } from './my-transactions/my-transactions.compo
 import { DepositComponent } from './deposit/deposit.component';
 import { WithdrawalComponent } from './withdrawal/withdrawal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { LoginComponent } from './Copper_Components/login/login.component';
+import { RegisterComponent } from './Copper_Components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RequestMoneyComponent,
     MyTransactionsComponent,
     DepositComponent,
-    WithdrawalComponent
+    WithdrawalComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

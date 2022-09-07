@@ -1,6 +1,10 @@
 using System;
 using server.Hubs;
 using server.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using server.Model;
 
 
 // builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
@@ -29,10 +33,31 @@ builder.Services.AddSingleton<Bronze_IRepository>(sp => new Bronze_SQLRepository
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// JWT gernerator
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer("Bearer", options =>
+{
+    var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
+    var key = new SymmetricSecurityKey(secretBytes);
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = JWTConstants.Issuer,
+        ValidAudience = JWTConstants.Audience,
+        IssuerSigningKey = key
+    };
+});
+
 builder.Services.AddSingleton<IBudgetRepository>(sp => new SQLBudgetRepository(DB_connectionString));
 
 builder.Services.AddSingleton<TRANSACTION_IRepository>(sp => new TRANSACTION_SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<TRANSACTION_SQLRepository>>()));
 string MyAllowAllOrgins = "_myAllowAllOrigins";
+
+builder.Services.AddSingleton<TeamCopper_IRepo>(sp => new TeamCopper_SQLRepo(DB_connectionString, sp.GetRequiredService<ILogger<TeamCopper_SQLRepo>>()));
 
 builder.Services.AddCors(options =>
 {

@@ -6,14 +6,19 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
 import { BudgetListComponent } from './budget-calculator/budget-list/budget-list.component';
 import { AddBudgetComponent } from './budget-calculator/add-budget/add-budget.component';
+import { LoginComponent } from './Copper_Components/login/login.component';
+import { RegisterComponent } from './Copper_Components/register/register.component';
+
 const routes: Routes = [
-  {path:'', component:BudgetListComponent},
+  {path:'', component:HeaderComponent},
   {path:'budget', component:BudgetListComponent},
   {path:'budget/addnew', component:AddBudgetComponent},
   {path: "chatbox", component: ChatboxComponent},
   { path: 'customer', component: UserProfileComponent},
   { path: 'accounts', component: AccountComponent },
-  { path: '' , component:  HeaderComponent}
+  { path: '' , component:  HeaderComponent},
+  { path: 'register', component:RegisterComponent},
+  { path: 'login', component:LoginComponent}
 
 ]
 
