@@ -15,8 +15,8 @@ namespace server.Data
         Task<Customer> registerCustomerAsync(string FirstName, string LastName, string UserName, string Email, string Phone, string Password);
         Task<Support> getSupportByEmail(string email);
         Task<Support> getSupportByUserName(string username);
-        Task<Support> SupportLogInAsync(string username, string password);
-        Task<Support> registerSupportAsync(string FirstName, string LastName, string UserName, string Email, string Phone, string Password);
+        Task<Support> supportLogInAsync(string username, string password);
+        // Task<Support> registerSupportAsync(string FirstName, string LastName, string UserName, string Email, string Phone, string Password);
         
     }
 }
