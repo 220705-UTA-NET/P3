@@ -87,12 +87,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("CorsPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("CorsPolicy");
-
 app.MapControllers();
-app.UseCors(MyAllowAllOrgins);
+//app.UseCors(MyAllowAllOrgins);
 
 app.MapHub<ChatHub>("/chatsocket");
 
