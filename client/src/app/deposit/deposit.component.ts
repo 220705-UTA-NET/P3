@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input} from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { isNgTemplate } from '@angular/compiler';
@@ -10,7 +10,9 @@ import { isNgTemplate } from '@angular/compiler';
 })
 export class DepositComponent implements OnInit {
   response: any;
+
   @Input() accountNumber! : number;
+  @Output() newTransaction = new EventEmitter<any>();
 
   depositForm = this.formBuilder.group({
     amount: ''
@@ -28,17 +30,18 @@ export class DepositComponent implements OnInit {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Accept': 'application/json' });
     if (accountId != null && amount != null) {
       let args = new HttpParams().set('accountId', accountId).set('amount', amount);
-      let url = "https://localhost:7249/API/Transactions/Deposit?"; //make sure we have the correct URL here.
+      let url = "https://localhost:7249/API/Transactions/Deposit"; //make sure we have the correct URL here.
       console.log("Data for posting = " + args.toString());
       console.log("Will post to: " + url);
-      this.http.post(url + args.toString(), {
+      this.http.post(url, {accountId: this.accountNumber, changeAmount: amount}, {
         headers: headers
       }).subscribe((result: any) => {
         console.log(result);
-        this.response = result;
+        // this.response = result;
       })
     }
     this.depositForm.reset();
+    this.newTransaction.emit();
   }
 
 }

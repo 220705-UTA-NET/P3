@@ -36,7 +36,7 @@ export class UserProfileComponent {
     this.customer = JSON.parse(login);
 
     if(this.customer === null){
-      this.getCustomer(1);
+      this.getCustomer(2);
     }else{
       this.getCustomer(this.customer.id);
     }

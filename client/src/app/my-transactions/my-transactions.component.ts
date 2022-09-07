@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import { Transaction } from '../models/transactions';
 import { MyTransactionsService } from '../services/my-transactions.service';
 //import {TransactionResponse} from '../services/my-transactions.service';
@@ -16,6 +16,7 @@ export class MyTransactionsComponent implements OnInit {
 
   public myTransactions!: Transaction[];
   @Input() accountId! : number; //currently hardcoding customerid = 1
+  @Output() updateBalance = new EventEmitter<any>();
 
   private url:string = "https://localhost:7249/API/Transactions/TransactionHistory?INPUT_AuthToken=1&INPUT_AccountNumber="; 
   //this is the URL to reach the end
@@ -26,8 +27,14 @@ export class MyTransactionsComponent implements OnInit {
 
   getTransactions(accountId : number){
     this.myTransactionService.getMyTransactions(this.url + accountId).subscribe(val => {
+      console.log("I'm here now, hurray !!!")
       this.myTransactions = val.lisT_DMODEL_Transactions;
     });
+
+    this.updateBalance.emit();
+    // for(let i = 0; i < this.myTransactions.length; i++){
+    //   this.myTransactions[i].time = 
+    // }
   }
   
 

@@ -24,7 +24,7 @@ export class AccountComponent {
     let customer = JSON.parse(login);
 
     if(customer === null){
-      this.customerId = 1;
+      this.customerId = 2;
       this.getAccounts();
     }else{
       this.getAccounts();
@@ -60,13 +60,9 @@ export class AccountComponent {
   toggleInputField(name: string){
     document.getElementById(name)?.classList.toggle("show");
   }
-  
-  withdraw(){
-    console.log(0 - this.amount);
-  }
 
-  deposit(){
-    console.log(this.amount);
+  updateBalances(){
+    this.getAccounts();
   }
 
 

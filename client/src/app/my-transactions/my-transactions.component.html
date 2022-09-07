@@ -2,21 +2,21 @@
     <div style="margin-right: 30%; margin-left: 10%;">
         <app-withdrawal [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)"></app-withdrawal>
     </div>
-    <app-deposit [accountNumber]="accountId"></app-deposit>
+    <app-deposit [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)"></app-deposit>
 </div>
 <div class="container">
-    <ol>
-        <div *ngFor="let item of myTransactions | paginate: { itemsPerPage: pageSize, currentPage: page }">
+    <ol id="transaction-list-{{accountId}}">
+        <div *ngFor="let item of myTransactions | paginate: { itemsPerPage: pageSize, currentPage: page}; ngTrackBy: item;">
             <mat-card>
                 <div>
                     <mat-card-title style="display: flex; flex-direction: row;flex-wrap: nowrap;justify-content: space-between;">
                         <span style="font-size: large;" >Transaction #{{item.transaction_id}}</span>
-                        <span style="font-size: large;" >{{item.time}}</span>
+                        <span style="font-size: large;" >{{item.time | date:'fullDate'}}</span>
                     </mat-card-title>
                 </div>
                 <div style="display: flex; flex-direction: row;justify-content: space-between;">
                     <mat-card-content>{{item.transaction_notes}}</mat-card-content>
-                    <span [ngStyle]="{'color': (item.transaction_type=='withdraw') ? 'red' : 'green'}" style="font-size: large;">{{item.amount}}</span>
+                    <span [ngStyle]="{'color': (item.transaction_type) ? 'green' : 'red'}" style="font-size: large;">{{item.amount}}</span>
                 </div>
             </mat-card>
         </div>
