@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserProfileComponent} from './user-profile/user-profile.component';
@@ -13,14 +14,18 @@ import { UserProfileDialogComponent } from './user-profile-dialog/user-profile-d
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccountComponent } from './account/account.component';
 import { ChatboxComponent } from './chatbox/chatbox.component';
-import { ChatBoxComponent } from './chat-box/chat-box.component';
+
+ import { ChatBoxComponent } from './chat-box/chat-box.component';
+import { FormsModule } from '@angular/forms';
 import { BudgetListComponent } from './budget-calculator/budget-list/budget-list.component';
 import { BudgetItemComponent } from './budget-calculator/budget-item/budget-item.component';
+
 import { AddBudgetComponent } from './budget-calculator/add-budget/add-budget.component';
 import { HeaderComponent } from './header/header.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LandingComponent } from './landing/landing.component';
 import { FooterComponent } from './footer/footer.component';
+
 import { UserPasswordDialogComponent } from './user-password-dialog/user-password-dialog.component';
 import { TopComponent } from './top/top.component';
 import { SendMoneyComponent } from './send-money/send-money.component';
@@ -32,6 +37,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { LoginComponent } from './Copper_Components/login/login.component';
 import { RegisterComponent } from './Copper_Components/register/register.component';
 
+import { ChatService } from './services/chat.service';
+import { LoginComponent } from './Copper_Components/login/login.component';
+import { RegisterComponent } from './Copper_Components/register/register.component';
+import { AuthModule } from '@auth0/auth0-angular';
+import { BudgetNotificationComponent } from './budget-notification/budget-notification.component';
+import { BudgetNotifyService } from './budget-notify.service';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +52,6 @@ import { RegisterComponent } from './Copper_Components/register/register.compone
     UserProfileDialogComponent,
     AccountComponent,
     ChatboxComponent,
-    ChatBoxComponent,
     AddBudgetComponent,
     BudgetListComponent,
     BudgetItemComponent,
@@ -55,7 +67,9 @@ import { RegisterComponent } from './Copper_Components/register/register.compone
     DepositComponent,
     WithdrawalComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    BudgetNotificationComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -66,12 +80,18 @@ import { RegisterComponent } from './Copper_Components/register/register.compone
     RouterModule,
     MaterialModule,
     BrowserAnimationsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    HttpClientTestingModule,
+    AuthModule.forRoot({
+      domain: 'dev-ti49ksgx.us.auth0.com',
+      clientId: 'wFseXaNCNWXgvAxWNYecaiZCjTIL5N1C'
+    })
   ],
-  providers: [
-    {provide: MatDialogRef, useValue: {}},
-    {provide: MAT_DIALOG_DATA, useValue: {}}
-  ],
+  providers: [{provide: MatDialogRef, useValue: {}},
+    {provide: MAT_DIALOG_DATA, useValue: {}},
+    BudgetNotifyService, ChatService],
+
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
+

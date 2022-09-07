@@ -227,8 +227,10 @@ namespace server.Data
 
         //    await connection.OpenAsync();
 
+
         //    string cmd = "INSERT INTO [project3].[Support] (first_name, last_name, username, email, phone, password) " +
         //                    "VALUES( @first_name, @last_name, @username, @email, @phone, @password);";
+
 
         //    using SqlCommand command = new(cmd, connection);
 

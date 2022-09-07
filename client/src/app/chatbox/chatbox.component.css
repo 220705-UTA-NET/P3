@@ -3,12 +3,13 @@
     right: 40px;
     bottom: 20px;
     width: 300px;
-    height: 35px;
-    max-width: 85vw;
-    box-shadow: 0px 5px 35px 9px #ccc;
+    /* height: 35px; */
+    height: 50px;
+    box-shadow: 0px 2px 3px 4px 5px 7px 10px 13px rgba(0, 0, 0, 0.1);
     font-family: 'Arial';
     font-weight: bold;
     background: rgb(242, 105, 38);
+    background: radial-gradient(ellipse, rgb(255, 152, 83) 30%, rgba(242,105,38,1) 90%);
     border-top-left-radius: 1px;
     border-top-right-radius: 1px;
     color: white;
@@ -23,17 +24,18 @@
     right: 40px;
     bottom: 20px;
     width: 300px;
-    max-width: 85vw;
     max-height: 100vh;
     border-radius: 5px;
     /* box-shadow: 0px 5px 35px 9px #464a92; */
-    box-shadow: 0px 5px 35px 9px #ccc;
+    box-shadow: 0px 2px 3px 4px 5px 7px 10px 13px rgba(0, 0, 0, 0.1);
 }
 .chat-box-header {
     font-family: 'Arial';
     font-weight: bold;
     background: rgb(242, 105, 38);
-    height: 35px;
+    background: radial-gradient(ellipse, rgb(255, 152, 83) 30%, rgba(242,105,38,1) 90%);
+    /* height: 35px; */
+    height: 50px;
     border-top-left-radius: 1px;
     border-top-right-radius: 1px;
     color: white;
@@ -96,14 +98,18 @@
 }
 .chat-contents {
     padding: 15px;
-    height: 300px;
+    /* height: 300px; */
+    height: 334px;
     overflow-y: scroll;
 }
 #chat-input {
     background: #f4f7f9;
-    width: 78%;
+    font: 13px Arial;
+    letter-spacing: 0.3px;
+    width: 100%;
     position: relative;
-    height: 40px;
+    /* height: 40px; */
+    height: 55px;
     padding-top: 10px;
     padding-right: 50px;
     padding-bottom: 10px;
@@ -120,7 +126,8 @@
 }
 .chat-submit {
     position: absolute;
-    bottom: 13px;
+    /* bottom: 13px; */
+    bottom: 10px;
     right: 10px;
     background: transparent;
     box-shadow: none;
@@ -197,12 +204,14 @@
     right: 360px;
     bottom: 20px;
     width: 400px;
-    height: 35px;
+    /* height: 35px; */
+    height: 50px;
     max-width: 85vw;
-    box-shadow: 0px 5px 35px 9px #ccc;
+    box-shadow: 0px 2px 3px 4px 5px 7px 10px 13px rgba(0, 0, 0, 0.1);
     font-family: 'Arial';
     font-weight: bold;
     background: rgb(242, 105, 38);
+    background: radial-gradient(ellipse, rgb(255, 152, 83) 30%, rgba(242,105,38,1) 90%);
     border-top-left-radius: 1px;
     border-top-right-radius: 1px;
     color: white;
@@ -222,7 +231,7 @@
     max-height: 100vh;
     border-radius: 5px;
     /* box-shadow: 0px 5px 35px 9px #464a92; */
-    box-shadow: 0px 5px 35px 9px #ccc;
+    box-shadow: 0px 2px 3px 4px 5px 7px 10px 13px rgba(0, 0, 0, 0.1);
 }
 
 .ticket-contents {
@@ -258,4 +267,9 @@
     padding-bottom: 10px;
     float: center;
     text-align: center;
+}
+
+.chat-wrap {
+  position:absolute;
+  z-index: 1;
 }

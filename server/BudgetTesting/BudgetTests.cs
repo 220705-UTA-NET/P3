@@ -22,7 +22,7 @@ namespace BudgetTesting
             Console.WriteLine("Null return test started.");
 
             //creating Mock IRepo
-            Mock<IRepository> mockRepo = new();
+            Mock<IBudgetRepository> mockRepo = new();
 
             //Fake call to the repo
             mockRepo.Setup(repo => repo.GetAllBudgetsFromCustomerAsync(customerid)).ReturnsAsync(budgets);

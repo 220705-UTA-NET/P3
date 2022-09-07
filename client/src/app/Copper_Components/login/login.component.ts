@@ -104,8 +104,10 @@ export class LoginComponent implements OnInit {
 
   supportLogin()
   {
+
     console.log("Changed to support")
     this.CustomerService.apiUrl = "https://localhost:7249/login/support"
+
   }
 
 }

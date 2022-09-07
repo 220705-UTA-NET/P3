@@ -6,10 +6,17 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using server.Model;
 
+using Microsoft.Extensions.DependencyInjection;
+
+
 
 // builder.Services.AddSingleton<IRepository>(sp => new SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
 var builder = WebApplication.CreateBuilder(args);
-string? DB_connectionString = Environment.GetEnvironmentVariable("CONN", EnvironmentVariableTarget.User);
+// Backend_Bronze
+//string? DB_connectionString = Environment.GetEnvironmentVariable("CONN", EnvironmentVariableTarget.User);
+string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();

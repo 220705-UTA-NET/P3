@@ -72,7 +72,11 @@ namespace server.Controllers
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Support");
                     response.Add("SupportId", support.SupportId.ToString());
-                    response.Add("SupportUserName", support.UserName);
+
+                    //response.Add("SupportUserName", support.UserName);//was in bronze
+
+                    response.Add("CustomerName", support.UserName);//was in copper
+
 
 
                     return response;
@@ -90,6 +94,7 @@ namespace server.Controllers
             }
 
         }
+
 
         //[HttpPost("/register/support")]
         //public async Task<ActionResult<Dictionary<string, string>>> Register()
@@ -146,5 +151,6 @@ namespace server.Controllers
         //        return StatusCode(500);
         //    }
         //}
+
     }
 }

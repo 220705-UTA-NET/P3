@@ -5,6 +5,10 @@ VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server", "server\server.csproj", "{3C09B70E-A46C-4731-BC75-09967A4B0071}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server_DMODEL", "server_DMODEL\server_DMODEL.csproj", "{79050694-F803-4A85-9D96-DCC937CA2925}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server_Database", "server_Database\server_Database.csproj", "{B26B1D3B-D7BC-41AE-8FC4-6A7B8B00DF55}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.Data", "server.Data\server.Data.csproj", "{F444AA16-18C2-4568-B73C-59A9545A88CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "server.Model", "server.Model\server.Model.csproj", "{746AFF25-DDC4-4D09-9795-50E6A7B289AF}"

@@ -36,6 +36,7 @@ namespace server.Controllers
             // Checks if returned list is a dummy list
             if (TEMP_LIST_TransactionHistory[0].transaction_id == -1)
             {
+
                 OUTPUT_DTO.NumberOfTransactions = 0;
                 OUTPUT_DTO.AccountBalance = 0;
                 OUTPUT_DTO.LIST_DMODEL_Transactions = new List<DMODEL_Transaction>();
@@ -166,6 +167,7 @@ namespace server.Controllers
         }
 
         // =================================================================================================================================================
+
         [HttpPost]
         [Route("RequestResponse")]
         public async Task<int> TRANSACTION_MAIN_ASYNC_UseRequestResponse([FromBody] DTO_TRANSACTION_RequestResponse INPUT_DTO_RequestResponse)
