@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Customer } from '../models/customer.authorization';
 import { AccessToken } from '../models/customer.authorization';
+import { ChatMessage } from '../models/ChatDTO';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -56,6 +57,13 @@ export class CustomerService {
   resetPassword(password: string): Observable<string> {
     const url = `${this.apiUrl}/resetpassword`;
     return this.http.put<string>(url, password, httpOptions);
+  }
+
+  public loginChecker = new BehaviorSubject<boolean>(false);
+
+  checkLoggedIn(status: boolean){
+    console.log("checkLoggedIn recieved " + status);
+    this.loginChecker.next(status);
   }
 
 }

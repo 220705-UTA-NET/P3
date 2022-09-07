@@ -1,14 +1,14 @@
 <!-- testing only, TECH will automatically fire joinTechSupport on init -->
-<h1>Testing chatbox functionality</h1>
-<button type="button" (click)="joinTechSupport()">Join tech support channel</button>
+<!-- <h1>Testing chatbox functionality</h1>
+<button type="button" (click)="joinTechSupport()">Join tech support channel</button> -->
 <!-- above is testing only -->
-
-<div *ngFor="let ticket of tickets">
+<!-- <div *ngFor="let ticket of tickets">
     <button *ngIf="ticket.open" type="button" (click)="initializeSupportConnection($event)" id="{{ticket.chatRoomId}}" [attr.data-user]="ticket.user">{{ticket.message}}</button>
     <button *ngIf="ticket.open" (click)="closeTicket(ticket, ticket.user)">Close ticket</button>
-</div>
+</div> -->
 
 <!-- CODE STARTS: chat box insert-->
+<div class="chat-wrap">
 <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
 <div *ngIf = "ticketMinimized && isSupport">
     <div class = "ticket-box-opener">
@@ -56,7 +56,7 @@
 <div *ngIf = "!minimized">
     <div class="chat-box" style="display:block;"> <!--display block or none-->
         <div class="chat-box-header">
-            <div class="room-name">Ticket: QAZrySw21235SD2312412</div><i class="material-icons chat-box-top" (click)="minimizerClick()">close</i> <!--click should change display of chat-->
+            <div class="room-name">{{user}}</div><i class="material-icons chat-box-top" (click)="minimizerClick()">close</i> <!--click should change display of chat-->
         </div>
 
         <div class="chat-box-body">

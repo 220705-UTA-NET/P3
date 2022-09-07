@@ -32,7 +32,7 @@ export class ChatService {
     }
 
     // save message to db
-    this.saveChatMessage(chat);
+    //this.saveChatMessage(chat);
   }
 
   // USER ONLY -----------------------------------------------------------------

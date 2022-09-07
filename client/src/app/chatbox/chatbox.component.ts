@@ -1,13 +1,18 @@
-import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Injectable} from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { ChatService } from "../services/chat.service";
+import { CustomerService } from "../services/customer.service";
 import { ChatMessage, OpenTicket } from '../models/ChatDTO';
+import { JsonHubProtocol } from '@microsoft/signalr';
 
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.css'],
-  providers: [ChatService]
+  providers: [ChatService, CustomerService]
 })
 
 export class ChatboxComponent implements OnInit {
@@ -18,6 +23,7 @@ export class ChatboxComponent implements OnInit {
   user : string = ''; //Client username goes here
   messages : ChatMessage[] = [];
   tickets: OpenTicket[] = [];
+  isLoggedIn : boolean = false;
   // changed on ticket selection, routes message to correct user for TECH ONLY
   currentActiveTicket: string = this.chatService.currentActiveTicket;
   sendContents : string = ''; //Don't touch this
@@ -26,7 +32,7 @@ export class ChatboxComponent implements OnInit {
   isSupport : boolean = false;
   dateActive : boolean = false;
 
-  constructor(public chatService: ChatService, private cdref: ChangeDetectorRef) { }
+  constructor(public chatService: ChatService, private customerService: CustomerService, private cdref: ChangeDetectorRef) { }
   
   ngAfterContentChecked() {
     this.cdref.detectChanges();
@@ -34,6 +40,7 @@ export class ChatboxComponent implements OnInit {
   ngOnInit(): void {
     // TESTING ONLY; setting username (will be grabbed here from auth once implemented)
     this.user = this.testUsernames[Math.floor(Math.random() * this.testUsernames.length)];
+    this.isLoggedIn = false;
     console.log(this.user);
 
     // subscribe to changes in tickets
@@ -41,11 +48,13 @@ export class ChatboxComponent implements OnInit {
     //subscribe to changes in messages
     this.chatService.messageService.subscribe((result) => this.messages = result);
 
+    this.customerService.loginChecker.subscribe((result) => {this.isLoggedIn = result, console.log("hello")});
+
     // connect to webSocket
     this.chatService.connect()
 
     // fetch all tickets for TECH ONLY
-    this.fetchAllTickets();
+    //this.fetchAllTickets();
   }
 
   messageInput = new FormControl('');
@@ -145,7 +154,7 @@ export class ChatboxComponent implements OnInit {
     // connect tech support to user chat room
     this.chatService.initializeSupportConnection(privateRoomKey, initialMessage);
     // grab the user's ticket's previous message
-    this.fetchUserTicket(event.target.dataset.user);
+    //this.fetchUserTicket(event.target.dataset.user);
   }
 
   //closes ticket
@@ -156,18 +165,32 @@ export class ChatboxComponent implements OnInit {
 
   //Button click function to minimize chat
   public minimizerClick(){
-    if(this.minimized)
-      this.minimized = false;
-    else
-      this.minimized = true;
+    const customer = localStorage.getItem("customer")
+    if(customer){
+      const data = JSON.parse(customer);
+      if(data['Role'] == 'Support')
+      {
+        this.isSupport = true;
+        this.joinTechSupport();
+        this.ticketMinimized = false;
+      }
+
+      if(this.minimized){
+        this.minimized = false;
+      }
+      else{
+        this.minimized = true;
+      }
+    }
   }
 
   //Button click function to minimize support tickets
   public ticketMinimizerClick(){
-    if(this.ticketMinimized)
-      this.ticketMinimized = false;
-    else
-      this.ticketMinimized = true;
+      if(this.ticketMinimized)
+        this.ticketMinimized = false;
+      else{
+        this.ticketMinimized = true;
+      }
   }
   
   public delay = async (ms : number) => new Promise(res => setTimeout(res, ms));
@@ -244,5 +267,10 @@ export class ChatboxComponent implements OnInit {
 
   public fetchUserTicket(username: string) {
     this.chatService.fetchUserTicket(username)
+  }
+
+  public LogIn(){
+    console.log("yay, logged in")
+    this.isLoggedIn = true;
   }
 }
