@@ -7,7 +7,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { BudgetListComponent } from './budget-calculator/budget-list/budget-list.component';
 import { AddBudgetComponent } from './budget-calculator/add-budget/add-budget.component';
 import { LoginComponent } from './Copper_Components/login/login.component';
-import { RegisterComponent } from './Copper_Components/register/register.component';
+//import { RegisterComponent } from './Copper_Components/register/register.component';
 
 const routes: Routes = [
   {path:'', component:HeaderComponent},
@@ -18,7 +18,7 @@ const routes: Routes = [
   UserProfileComponent},
   { path: 'accounts', component: AccountComponent },
   { path: '' , component:  HeaderComponent},
-  { path: 'register', component:RegisterComponent},
+ // { path: 'register', component:RegisterComponent},
   { path: 'login', component:LoginComponent}
 
 ]
