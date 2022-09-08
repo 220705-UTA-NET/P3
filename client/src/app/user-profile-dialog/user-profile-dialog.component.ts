@@ -37,7 +37,7 @@ export class UserProfileDialogComponent implements OnInit {
 
 
   constructor(private fb : FormBuilder,
-              private dialogRef: MatDialogRef<UserProfileDialogComponent>,
+              public dialogRef: MatDialogRef<UserProfileDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data : any) {
                 this.form = this.fb.group({
                   fName: this.fName, 

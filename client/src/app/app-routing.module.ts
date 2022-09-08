@@ -10,13 +10,12 @@ import { LoginComponent } from './Copper_Components/login/login.component';
 //import { RegisterComponent } from './Copper_Components/register/register.component';
 
 const routes: Routes = [
-  {path:'', component:HeaderComponent},
+  {path:'', component:HeaderComponent},//Possible Breakpoint
   {path:'budget', component:BudgetListComponent},
   {path:'budget/addnew', component:AddBudgetComponent},
   {path: "chatbox", component: ChatboxComponent},
-  { path: 'customer', component: 
-  UserProfileComponent},
-  { path: 'accounts', component: AccountComponent },
+  //{ path: 'customer', component: UserProfileComponent},
+  { path: 'accounts', component: UserProfileComponent},
   { path: '' , component:  HeaderComponent},
  // { path: 'register', component:RegisterComponent},
   { path: 'login', component:LoginComponent}

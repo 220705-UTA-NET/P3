@@ -31,7 +31,7 @@ export class UserProfileComponent {
     password: ''
   };
   
-  constructor(private http: HttpClient, private dialog: MatDialog) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
     let login = localStorage.getItem('customer') as string;
     this.customer = JSON.parse(login);
 
