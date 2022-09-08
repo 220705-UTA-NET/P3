@@ -20,13 +20,26 @@ string? DB_connectionString = Environment.GetEnvironmentVariable("CONN");
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
+
+string MyAllowAllOrgins = "_myAllowAllOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowAllOrgins, builder =>
+    {
+        builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+    });
+});
+
+/*builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
     builder =>
     {
         builder.AllowAnyMethod().AllowAnyHeader()
             .AllowAnyOrigin()
             .AllowCredentials();
-    }));
+    }));*/
 
 // string? ConnectionString = Environment.GetEnvironmentVariable("CONN");
 
@@ -95,6 +108,7 @@ app.MapControllers();
 
 app.MapHub<ChatHub>("/chatsocket");
 
+app.UseCors(MyAllowAllOrgins);
 
 app.Run();
 
