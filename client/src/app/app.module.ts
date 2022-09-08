@@ -38,6 +38,8 @@ import { ChatService } from './services/chat.service';
 //import { AuthInterceptor } from './services/auth.interceptor';
 
 
+import { ChatboxComponent } from './chatbox/chatbox.component';
+
 
 @NgModule({
   declarations: [
