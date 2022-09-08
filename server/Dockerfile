@@ -12,7 +12,7 @@ RUN dotnet publish -c Release -o /published ./server.sln
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 as runtime
 
 # Uncomment the line below if running with HTTPS
-# ENV ASPNETCORE_URLS=https://+:443
+ENV ASPNETCORE_URLS=https://+:443
 
 WORKDIR /app
 

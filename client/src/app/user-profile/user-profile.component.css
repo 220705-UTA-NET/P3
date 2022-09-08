@@ -10,8 +10,8 @@
 }
 
 .userprofile {
-/*     
-    flex-direction: column; */
+    
+    flex-direction: column; 
     width: 15%;
     min-width: 300px;
     max-height: 275px;
