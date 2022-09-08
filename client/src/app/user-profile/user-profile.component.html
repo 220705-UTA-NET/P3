@@ -1,0 +1,22 @@
+<div class="flex-container">
+  <div class="flex-child userprofile">
+    <div class="main">
+      <div class="header"><h1 style="color: white;">User Profile</h1></div>
+      <!-- <input #customerID type="number"> -->
+      <!-- <button type="button" (click)="getCustomer(customerID.value)">Submit</button> -->
+      <h1 style="text-align: center; font-size: x-large">{{customer.firstName + " " + customer.lastName}}</h1>
+      <div style="text-align: center; font-size: medium;" *ngIf="customer">
+        <p>Account Number: {{customer.id}}</p>
+        <p>Email: {{customer.email}}</p>
+        <p>Phone Number: {{customer.phoneNumber}}</p>
+      </div>
+      <div style="position: relative; bottom: 0; text-align: center;">
+        <button class="button" (click)="openProfileDialog()">Edit Profile</button>
+        <button class="button" (click)="openPasswordDialog()">Edit Password</button>
+      </div>
+    </div>
+  </div>
+  <div class="flex-child">
+    <app-account [customerId]="customer.id"></app-account>
+  </div>
+</div>

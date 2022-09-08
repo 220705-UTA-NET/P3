@@ -1,0 +1,25 @@
+<div style="display: flex; flex-direction: row;">
+    <div style="margin-right: 30%; margin-left: 10%;">
+        <app-withdrawal [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)" (updateBalance)="updateBalance($event)"></app-withdrawal>
+    </div>
+    <app-deposit [accountNumber]="accountId" (newTransaction)="getTransactions(accountId)" (updateBalance)="updateBalance($event)"></app-deposit>
+</div>
+<div class="container">
+    <ol>
+        <div>
+            <mat-card *ngFor="let item of myTransactions | paginate: { itemsPerPage: pageSize, currentPage: page}; ngTrackBy: item;">
+                <div>
+                    <mat-card-title style="display: flex; flex-direction: row;flex-wrap: nowrap;justify-content: space-between;">
+                        <span style="font-size: large;" >Transaction #{{item.transaction_id}}</span>
+                        <span style="font-size: large;" >{{item.time | date:'fullDate'}}</span>
+                    </mat-card-title>
+                </div>
+                <div style="display: flex; flex-direction: row;justify-content: space-between;">
+                    <mat-card-content>{{item.transaction_notes}}</mat-card-content>
+                    <span [ngStyle]="{'color': (item.transaction_type) ? 'green' : 'red'}" style="font-size: large;">{{item.amount}}</span>
+                </div>
+            </mat-card>
+        </div>
+    </ol>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>

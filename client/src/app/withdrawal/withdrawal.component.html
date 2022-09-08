@@ -1,0 +1,18 @@
+<p>Please enter withdrawal amount</p>
+<div class="stuff">
+    <form [formGroup]="withdrawalForm">
+        <div>
+          <label for="amount">
+            Amount:
+          </label>
+          <input id="amount" type="text" formControlName="amount">
+        </div>
+        <button class="button" (click)="onSubmit()">Withdraw</button>
+    </form>
+    <br/>
+    <div class="container2">
+      <div *ngFor="let item of response" class="response" style="margin-bottom: 50px;">
+        {{ response }}
+      </div>
+    </div>
+</div>

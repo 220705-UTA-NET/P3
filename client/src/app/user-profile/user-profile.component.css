@@ -1,0 +1,51 @@
+
+@import url('..\\..\\styles.css');
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    width: 50%;
+}
+
+.userprofile {
+/*     
+    flex-direction: column; */
+    width: 15%;
+    min-width: 300px;
+    max-height: 275px;
+    background-color: white;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    margin: 0%;
+    box-shadow: 0px 1px 2px rgb(81 74 74);
+}
+
+.main {
+    overflow-y: auto;
+}
+
+.header {
+    text-align: center;
+    background-color: #F26925;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+}
+
+h1, p {
+    color: #474C55;
+}
+
+.button { 
+    margin: 5px; 
+    width: 120px; 
+    background-color: #F26925;
+    color: white; 
+    border-radius: 10px;
+}
+
+
+
