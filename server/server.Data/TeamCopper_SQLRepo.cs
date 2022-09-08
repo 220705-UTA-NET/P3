@@ -86,7 +86,7 @@ namespace server.Data
 
             await connection.OpenAsync();
 
-            string cmd = @"SELECT customer_id, username, password FROM [project3].[Customer] WHERE username = @username AND password = @password;";
+            string cmd = @"SELECT customer_id, username, password, first_name, last_name FROM [project3].[Customer] WHERE username = @username AND password = @password;";
 
             SqlCommand command = new SqlCommand(cmd, connection);
 
@@ -99,7 +99,7 @@ namespace server.Data
 
             if (await reader.ReadAsync())
             {
-                customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+                customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2),reader.GetString(3),reader.GetString(4));
             }
 
             return customer;
@@ -201,7 +201,7 @@ namespace server.Data
 
             await connection.OpenAsync();
 
-            string cmd = @"SELECT support_id, username, password FROM [project3].[Support] WHERE username = @username AND password = @password;";
+            string cmd = @"SELECT support_id, username, password, first_name, last_name FROM [project3].[Support] WHERE username = @username AND password = @password;";
 
             SqlCommand command = new SqlCommand(cmd, connection);
 
@@ -214,7 +214,7 @@ namespace server.Data
 
             if (await reader.ReadAsync())
             {
-                support = new Support(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+                support = new Support(reader.GetInt32(0), reader.GetString(1), reader.GetString(2),reader.GetString(3),reader.GetString(4));
             }
             
             return support;
