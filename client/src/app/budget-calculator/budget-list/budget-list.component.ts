@@ -18,7 +18,10 @@ export class BudgetListComponent implements OnInit {
     this.budgetService.getBudgetList(1).subscribe((response) =>{
       console.log(response);
       this.budgetList = response;
-      this.budgetService.updateLength(this.budgetList.length);
+      if (this.budgetList.length != null)
+      {
+        this.budgetService.updateLength(this.budgetList.length);
+      }
       this.doneLoading = true;
     })
   }

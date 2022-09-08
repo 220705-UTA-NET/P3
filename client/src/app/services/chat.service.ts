@@ -23,7 +23,7 @@ export class ChatService {
   // holds the chatRoomId & initial message for TECH ONLY
   public openTickets: OpenTicket[] = [];
   // is the user a customer or tech support? Determines what user has access to
-  public userRole = "";
+  //public userRole = "";
 
   // how messages are exchanged between tech & user once in a private room
   public sendChat(chat: ChatMessage) {
@@ -34,7 +34,7 @@ export class ChatService {
     }
 
     // save message to db
-    this.saveChatMessage(chat);
+    //this.saveChatMessage(chat);
   }
 
   // USER ONLY -----------------------------------------------------------------
@@ -102,7 +102,7 @@ export class ChatService {
   // establishes connection to websocket / hub, and establishes event listeners
   // the events that should be listened to will depend on USER vs. TECH
   // can check for user status & create different connection methods for each
-  connectedToHub: boolean = false;
+  //connectedToHub: boolean = false;
   public connect() {
     this._hubConnection = new signalR.HubConnectionBuilder()
     // withUrl requires hub connection url
@@ -158,7 +158,7 @@ export class ChatService {
       this.messageService.next(this.messages);
     })
 
-    this.connectedToHub = true;
+    //this.connectedToHub = true;
     // BOTH: starts listening for hub coorespondance
     this._hubConnection.start()
       .then(() => console.log("connection started"))
