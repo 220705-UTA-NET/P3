@@ -13,10 +13,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserProfileDialogComponent } from './user-profile-dialog/user-profile-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccountComponent } from './account/account.component';
-import { ChatboxComponent } from './chatbox/chatbox.component';
 
- import { ChatBoxComponent } from './chat-box/chat-box.component';
-import { FormsModule } from '@angular/forms';
 import { BudgetListComponent } from './budget-calculator/budget-list/budget-list.component';
 import { BudgetItemComponent } from './budget-calculator/budget-item/budget-item.component';
 
@@ -34,12 +31,10 @@ import { MyTransactionsComponent } from './my-transactions/my-transactions.compo
 import { DepositComponent } from './deposit/deposit.component';
 import { WithdrawalComponent } from './withdrawal/withdrawal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { LoginComponent } from './Copper_Components/login/login.component';
 import { RegisterComponent } from './Copper_Components/register/register.component';
 
 import { ChatService } from './services/chat.service';
 import { LoginComponent } from './Copper_Components/login/login.component';
-import { RegisterComponent } from './Copper_Components/register/register.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { BudgetNotificationComponent } from './budget-notification/budget-notification.component';
 import { BudgetNotifyService } from './budget-notify.service';
@@ -52,7 +47,6 @@ import { AuthInterceptor } from './services/auth.interceptor';
     UserProfileComponent,
     UserProfileDialogComponent,
     AccountComponent,
-    ChatboxComponent,
     AddBudgetComponent,
     BudgetListComponent,
     BudgetItemComponent,

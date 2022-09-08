@@ -1,12 +1,12 @@
-﻿namespace Server_DataModels
+﻿namespace server.DTOs
 {
-    public class DMODEL_Account
+    public class Account
     {
         public int AccountId { get; set; }
         public int Type { get; set; }
         public double Balance { get; set; }
         public int CustomerId { get; set;}
-        public DMODEL_Account(int accountid, int type, double balance, int customerid)
+        public Account(int accountid, int type, double balance, int customerid)
         {
             AccountId = accountid;
             Type = type;

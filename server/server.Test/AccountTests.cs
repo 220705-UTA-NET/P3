@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using server.Controllers;
-using Server_DataModels;
-using server_Database;
+using server.Data;
+//using Server_DataModels;
+//using server_Database;
 using server.DTOs;
+using server.Model;
 using System.Text.Json;
 
 namespace server_Test
@@ -12,12 +14,12 @@ namespace server_Test
     public class AccountTests
     {
         private AccountsController _controller;
-        private Mock<IRepository> _repository;
+        private Mock<Bronze_IRepository> _repository;
         private Mock<ILogger<AccountsController>> _logger;
 
         public void SetUp()
         {
-            _repository = new Mock<IRepository>();
+            _repository = new Mock<Bronze_IRepository>();
             _logger = new Mock<ILogger<AccountsController>>();
             _controller = new AccountsController(_repository.Object, _logger.Object);
         }

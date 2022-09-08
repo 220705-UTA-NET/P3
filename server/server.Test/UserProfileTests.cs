@@ -3,22 +3,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using server.Controllers;
-using server_Database;
-using Server_DataModels;
+using server.Data;
+//using server_Database;
+//using Server_DataModels;
 using server.DTOs;
+using server.Model;
 using System.Text.Json;
+using Customer = server.DTOs.Customer;
 
 namespace server_Test
 {
     public class UserProfileTests
     {
         private UserProfileController _controller;
-        private Mock<IRepository> _repository;
+        private Mock<Bronze_IRepository> _repository;
         private Mock<ILogger<UserProfileController>> _logger;
 
         public void SetUp()
         {
-            _repository = new Mock<IRepository>();
+            _repository = new Mock<Bronze_IRepository>();
             _logger = new Mock<ILogger<UserProfileController>>();
             _controller = new UserProfileController(_repository.Object, _logger.Object);
         }

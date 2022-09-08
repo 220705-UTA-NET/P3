@@ -17,7 +17,7 @@ namespace server.Data
         Task<Support> getSupportByUserName(string username);
         Task<Support> supportLogInAsync(string username, string password);
 
-        Task<Support> registerSupportAsync(string FirstName, string LastName, string UserName, string Email, string Phone, string Password);
+        //Task<Support> registerSupportAsync(string FirstName, string LastName, string UserName, string Email, string Phone, string Password);
 
         
     }

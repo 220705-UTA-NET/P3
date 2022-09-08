@@ -1,6 +1,6 @@
-﻿namespace Server_DataModels
+﻿namespace server.DTOs
 {
-    public class DMODEL_Customer
+    public class Customer
     {
         public int id { get; set; }
         public string firstName { get; set; }
@@ -8,7 +8,7 @@
         public string email { get; set; }
         public string phoneNumber { get; set; }
         public string password { get; set; }
-        public DMODEL_Customer(int id, string firstname, string lastname, string email, string phonenumber, string password)
+        public Customer(int id, string firstname, string lastname, string email, string phonenumber, string password)
         {
             this.id = id;
             this.firstName = firstname;
