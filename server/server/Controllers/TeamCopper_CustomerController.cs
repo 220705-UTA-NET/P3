@@ -66,7 +66,7 @@ namespace server.Controllers
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Customer");
                     response.Add("CustomerId", customer.CustomerId.ToString());
-                    response.Add("CustomerName", customer.FirstName + " " + customer.LastName);
+                    response.Add("Name", customer.FirstName + " " + customer.LastName);
 
 
                     return response;

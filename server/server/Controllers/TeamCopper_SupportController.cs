@@ -72,7 +72,7 @@ namespace server.Controllers
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Support");
                     response.Add("SupportId", support.SupportId.ToString());
-                    response.Add("SupportUserName", support.FirstName + " " + support.LastName);
+                    response.Add("Name", support.FirstName + " " + support.LastName);
 
 
                     return response;

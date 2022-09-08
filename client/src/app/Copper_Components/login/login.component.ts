@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit {
         //re-route to home page
         console.log("log in success");
         this.CustomerService.checkLoggedIn(true);
-        //this.router.navigate(["/"]);
+        this.router.navigate(["/"]);
         //chatbox isLoggedIn = true;
       } else {
         // let user know that login failed

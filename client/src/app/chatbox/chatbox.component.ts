@@ -39,7 +39,8 @@ export class ChatboxComponent implements OnInit {
   }
   ngOnInit(): void {
     // TESTING ONLY; setting username (will be grabbed here from auth once implemented)
-    this.user = this.testUsernames[Math.floor(Math.random() * this.testUsernames.length)];
+    //this.user = this.testUsernames[Math.floor(Math.random() * this.testUsernames.length)];
+    this.user = "";
     this.isLoggedIn = false;
     console.log(this.user);
 
@@ -168,11 +169,13 @@ export class ChatboxComponent implements OnInit {
     const customer = localStorage.getItem("customer")
     if(customer){
       const data = JSON.parse(customer);
+      this.user = data['Name'];
       if(data['Role'] == 'Support')
       {
         this.isSupport = true;
         this.joinTechSupport();
         this.ticketMinimized = false;
+        
       }
 
       if(this.minimized){
