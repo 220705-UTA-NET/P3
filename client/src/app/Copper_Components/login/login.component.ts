@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable} from '@angular/core';
 
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
@@ -7,8 +7,13 @@ import { User } from 'src/app/models/user.model';
 import { Customer } from 'src/app/models/customer.authorization';
 import { AccessToken } from 'src/app/models/customer.authorization';
 import { CustomerService } from 'src/app/services/customer.service';
-
+import { ChatboxComponent } from 'src/app/chatbox/chatbox.component';
 import { Buffer } from 'buffer';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-login',
@@ -79,6 +84,7 @@ export class LoginComponent implements OnInit {
         //save token to local storage
         localStorage.setItem('customer', JSON.stringify(customer));
         //re-route to home page
+        this.CustomerService.checkLoggedIn(true);
         this.router.navigate(["/"]);
 
       } else {

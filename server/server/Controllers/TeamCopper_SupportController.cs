@@ -72,11 +72,7 @@ namespace server.Controllers
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Support");
                     response.Add("SupportId", support.SupportId.ToString());
-
-                    //response.Add("SupportUserName", support.UserName);//was in bronze
-
-                    response.Add("CustomerName", support.UserName);//was in copper
-
+                    response.Add("Name", support.FirstName + " " + support.LastName);
 
 
                     return response;
@@ -94,63 +90,5 @@ namespace server.Controllers
             }
 
         }
-
-
-        //[HttpPost("/register/support")]
-        //public async Task<ActionResult<Dictionary<string, string>>> Register()
-        //{
-        //    Support support;
-        //    try
-        //    {
-        //        string Info = Request.Headers.Authorization;
-        //        string EString = Info.Split(' ')[1];
-
-        //        byte[] data = Convert.FromBase64String(EString);
-        //        string DString = Encoding.UTF8.GetString(data);
-
-        //        string[] cred = DString.Split(':');
-
-        //        using StreamReader reader = new StreamReader(Request.Body);
-        //        string json = await reader.ReadToEndAsync();
-
-        //        JsonObject person = (JsonObject)JsonSerializer.Deserialize(json, typeof(JsonObject));
-        //        support = await _repo.registerSupportAsync(person["FirstName"].ToString(), person["LastName"].ToString(), cred[0],
-        //            person["Email"].ToString(), person["Phone"].ToString(), cred[1]);
-        //        var claims = new[]
-        //            {
-        //                new Claim(JwtRegisteredClaimNames.Sub, $"{support.SupportId}")
-        //            };
-
-        //        var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
-        //        var key = new SymmetricSecurityKey(secretBytes);
-        //        var algorithm = SecurityAlgorithms.HmacSha256;
-
-        //        var signingCredentials = new SigningCredentials(key, algorithm);
-        //        var token = new JwtSecurityToken(
-        //            JWTConstants.Issuer,
-        //            JWTConstants.Audience,
-        //            claims,
-        //            DateTime.Now,
-        //            // For now, the token will last for a day. Once refresh tokens are included, this will be shorten down.
-        //            DateTime.Now.AddDays(1),
-        //            signingCredentials
-        //            );
-        //        var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
-        //        Dictionary<string, string> response = new Dictionary<string, string>();
-        //        response.Add("Access-Token", tokenJson);
-        //        response.Add("Role", "Support");
-        //        response.Add("SupportId", support.SupportId.ToString());
-        //        response.Add("SupportUserName", support.UserName);
-
-        //        return response;
-
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _logger.LogError(e, e.Message);
-        //        return StatusCode(500);
-        //    }
-        //}
-
     }
 }

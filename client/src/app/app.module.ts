@@ -40,6 +40,8 @@ import { BudgetNotificationComponent } from './budget-notification/budget-notifi
 import { BudgetNotifyService } from './budget-notify.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 
+import { ChatboxComponent } from './chatbox/chatbox.component';
+
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
     TopComponent,
     SendMoneyComponent,
     RequestMoneyComponent,
+    ChatboxComponent,
     MyTransactionsComponent,
     DepositComponent,
     WithdrawalComponent,
