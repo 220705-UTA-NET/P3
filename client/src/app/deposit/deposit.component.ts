@@ -32,7 +32,7 @@ export class DepositComponent implements OnInit {
 
     if (accountId != null && amount != null) {
       let args = new HttpParams().set('accountId', accountId).set('amount', amount);
-      let url = "https://localhost:7249/API/Transactions/Deposit"; //make sure we have the correct URL here.
+      let url = "https://misty-api-dev.azurewebsites.net/API/Transactions/Deposit"; //make sure we have the correct URL here.
       console.log("Data for posting = " + args.toString());
       console.log("Will post to: " + url);
 

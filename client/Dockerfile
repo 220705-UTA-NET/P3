@@ -1,6 +1,7 @@
 #Stage 1
 FROM node:latest as build-step
 
+
 RUN mkdir -p /app
 
 WORKDIR /app

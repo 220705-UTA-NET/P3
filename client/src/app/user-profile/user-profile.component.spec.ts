@@ -66,7 +66,7 @@ describe('UserProfileComponent', () => {
   it('should make get request', () => {
     component.getCustomer(1);
 
-    const request = controller.expectOne("https://localhost:7249/userprofile?customerId=1");
+    const request = controller.expectOne("https://misty-api-dev.azurewebsites.net/userprofile?customerId=1");
 
     const customer = {
       id: 1,

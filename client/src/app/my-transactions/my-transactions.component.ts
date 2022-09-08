@@ -19,9 +19,9 @@ export class MyTransactionsComponent implements OnInit {
   @Input() accountId! : number; //currently hardcoding customerid = 1
   @Output() updateAccount = new EventEmitter<number>();
 
-  private url:string = "https://localhost:7249/API/Transactions/TransactionHistory?INPUT_AuthToken=1&INPUT_AccountNumber="; 
+  private url:string = "https://misty-api-dev.azurewebsites.net/API/Transactions/TransactionHistory?INPUT_AuthToken=1&INPUT_AccountNumber="; 
   //this is the URL to reach the end
-  //temp connection string https://localhost:7249/API/Transactions/TransactionHistory?INPUT_AuthToken=1&INPUT_AccountNumber=1
+  //temp connection string https://misty-api-dev.azurewebsites.net/API/Transactions/TransactionHistory?INPUT_AuthToken=1&INPUT_AccountNumber=1
   
   constructor(private myTransactionService:MyTransactionsService, private http: HttpClient) {
     this.myTransactions = [];

@@ -106,7 +106,7 @@ export class ChatService {
   public connect() {
     this._hubConnection = new signalR.HubConnectionBuilder()
     // withUrl requires hub connection url
-      .withUrl("https://localhost:7249/chatsocket", {
+      .withUrl("https://misty-api-dev.azurewebsites.net/chatsocket", {
         // cannot access the connectionId in the backend if skipNegation: true
         skipNegotiation: false,
         transport: signalR.HttpTransportType.WebSockets
@@ -169,7 +169,7 @@ export class ChatService {
 
   // get all currently open tickets
   public fetchAllTickets() {
-    return this.http.get("https://localhost:7249/tickets", {
+    return this.http.get("https://misty-api-dev.azurewebsites.net/tickets", {
       // headers: {"Authorization": accessToken},
       observe: "response"
     })
@@ -183,7 +183,7 @@ export class ChatService {
 
   // get particular ticket by username
   public fetchUserTicket(username: string) {
-    return this.http.get(`https://localhost:7249/message/${username}`, {
+    return this.http.get(`https://misty-api-dev.azurewebsites.net/message/${username}`, {
       // headers: {"Authorization": accessToken},
       observe: "response"
     })
@@ -210,7 +210,7 @@ export class ChatService {
   }
 
   public saveChatMessage(newMessage: ChatMessage) {
-    this.http.post("https://localhost:7249/newMessage", newMessage, {
+    this.http.post("https://misty-api-dev.azurewebsites.net/newMessage", newMessage, {
       // headers: {"Authorization": accessToken},
       observe: "response"
     })

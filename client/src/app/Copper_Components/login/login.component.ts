@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit {
   {
 
     console.log("Changed to support")
-    this.CustomerService.apiUrl = "https://localhost:7249/login/support"
+    this.CustomerService.apiUrl = "https://misty-api-dev.azurewebsites.net/login/support"
 
   }
 
