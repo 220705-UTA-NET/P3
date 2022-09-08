@@ -24,6 +24,14 @@ namespace server.Model
             UserName = username;
             Password = password;
         }
+        public Support(int support_id, string username, string password, string firstName, string lastName)
+        {
+            SupportId = support_id;
+            UserName = username;
+            Password = password;
+            FirstName = firstName;
+            LastName = lastName;
+        }
 
         public Support(int support_id, string firstName, string lastName, string userName, string email, string phone)
         {
