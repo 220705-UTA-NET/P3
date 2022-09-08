@@ -24,7 +24,7 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
     builder =>
     {
         builder.AllowAnyMethod().AllowAnyHeader()
-            .WithOrigins("http://localhost:4200")
+            .WithOrigins("https://misty-api-dev2.azurewebsites.net")
             .AllowCredentials();
     }));
 
@@ -61,11 +61,11 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddSingleton<IBudgetRepository>(sp => new SQLBudgetRepository(DB_connectionString));
 
 builder.Services.AddSingleton<TRANSACTION_IRepository>(sp => new TRANSACTION_SQLRepository(DB_connectionString, sp.GetRequiredService<ILogger<TRANSACTION_SQLRepository>>()));
-string MyAllowAllOrgins = "_myAllowAllOrigins";
+//string MyAllowAllOrgins = "_myAllowAllOrigins";
 
 builder.Services.AddSingleton<TeamCopper_IRepo>(sp => new TeamCopper_SQLRepo(DB_connectionString, sp.GetRequiredService<ILogger<TeamCopper_SQLRepo>>()));
 
-builder.Services.AddCors(options =>
+/*builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowAllOrgins, builder =>
     {
@@ -73,7 +73,7 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader()
                 .AllowAnyMethod();
     });
-});
+});*/
 
 var app = builder.Build();
 
@@ -86,7 +86,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("CorsPolicy");
+//app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
