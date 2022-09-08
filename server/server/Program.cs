@@ -24,7 +24,7 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
     builder =>
     {
         builder.AllowAnyMethod().AllowAnyHeader()
-            .WithOrigins("https://misty-api-dev2.azurewebsites.net")
+            .WithOrigins("*")
             .AllowCredentials();
     }));
 
