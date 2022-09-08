@@ -18,17 +18,17 @@ namespace server.Controllers
         private readonly ILogger<TeamCopper_SupportController> _logger;
         private readonly TeamCopper_IRepo _repo;
 
-        public TeamCopper_SupportController(ILogger<TeamCopper_SupportController> logger, TeamCopper_IRepo repo)
+        public TeamCopper_SupportController(TeamCopper_IRepo repo, ILogger<TeamCopper_SupportController> logger)
         {
             _logger = logger;
             _repo = repo;
         }
 
-        [HttpGet("/Login")]
+        [HttpGet("/login/support")]
         public async Task<ActionResult<Dictionary<string, string>>> LogIn()
         {
 
-            Customer customer;
+            Support support;
             try
             {
                 string Info = Request.Headers.Authorization;
@@ -46,12 +46,12 @@ namespace server.Controllers
                     Console.WriteLine("string " + s);
                 }
 
-                customer = await _repo.customerLogInAsync(cred[0], cred[1]);
-                if (customer.CustomerId != 0)
+                support = await _repo.supportLogInAsync(cred[0], cred[1]);
+                if (support.SupportId != 0)
                 {
                     var claims = new[]
 {
-                    new Claim(JwtRegisteredClaimNames.Sub, $"{customer.CustomerId}")
+                    new Claim(JwtRegisteredClaimNames.Sub, $"{support.SupportId}")
                 };
 
                     var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
@@ -71,6 +71,8 @@ namespace server.Controllers
                     Dictionary<string, string> response = new Dictionary<string, string>();
                     response.Add("Access-Token", tokenJson);
                     response.Add("Role", "Support");
+                    response.Add("SupportId", support.SupportId.ToString());
+                    response.Add("SupportUserName", support.FirstName + " " + support.LastName);
 
 
                     return response;
@@ -87,60 +89,6 @@ namespace server.Controllers
                 return StatusCode(500);
             }
 
-        }
-
-        [HttpPost("/Register")]
-        public async Task<ActionResult<Dictionary<string, string>>> Register()
-        {
-            Customer customer;
-            try
-            {
-                string Info = Request.Headers.Authorization;
-                string EString = Info.Split(' ')[1];
-
-                byte[] data = Convert.FromBase64String(EString);
-                string DString = Encoding.UTF8.GetString(data);
-
-                string[] cred = DString.Split(':');
-
-                using StreamReader reader = new StreamReader(Request.Body);
-                string json = await reader.ReadToEndAsync();
-
-                JsonObject person = (JsonObject)JsonSerializer.Deserialize(json, typeof(JsonObject));
-                customer = await _repo.registerCustomerAsync(person["FirstName"].ToString(), person["LastName"].ToString(), cred[0],
-                    person["Email"].ToString(), person["Phone"].ToString(), cred[1]);
-                var claims = new[]
-                    {
-                        new Claim(JwtRegisteredClaimNames.Sub, $"{customer.CustomerId}")
-                    };
-
-                var secretBytes = Encoding.UTF8.GetBytes(JWTConstants.Secret);
-                var key = new SymmetricSecurityKey(secretBytes);
-                var algorithm = SecurityAlgorithms.HmacSha256;
-
-                var signingCredentials = new SigningCredentials(key, algorithm);
-                var token = new JwtSecurityToken(
-                    JWTConstants.Issuer,
-                    JWTConstants.Audience,
-                    claims,
-                    DateTime.Now,
-                    // For now, the token will last for a day. Once refresh tokens are included, this will be shorten down.
-                    DateTime.Now.AddDays(1),
-                    signingCredentials
-                    );
-                var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
-                Dictionary<string, string> response = new Dictionary<string, string>();
-                response.Add("Access-Token", tokenJson);
-                response.Add("Role", "Support");
-
-                return response;
-
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, e.Message);
-                return StatusCode(500);
-            }
         }
     }
 }

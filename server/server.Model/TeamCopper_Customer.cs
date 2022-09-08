@@ -24,7 +24,14 @@ namespace server.Model
             UserName = username;
             Password = password;
         }
-
+        public Customer(int customer_id, string username, string password, string firstName, string lastName)
+        {
+            CustomerId = customer_id;
+            UserName = username;
+            Password = password;
+            FirstName = firstName;
+            LastName = lastName;
+        }
         public Customer(int customer_id, string firstName, string lastName, string userName, string email, string phone)
         {
             CustomerId = customer_id;

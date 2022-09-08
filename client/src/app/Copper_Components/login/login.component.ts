@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   customer!: Customer;
 
 
-  constructor(private router: Router, private CustomerService: CustomerService, public auth: AuthService) {
+  constructor(private router: Router, private CustomerService: CustomerService) {
     // if user does not have login token, re-route them to login
     const checkTokenPresent: AccessToken = JSON.parse(localStorage.getItem("customer") || '{}');
     if (!checkTokenPresent['Access-Token']) {
@@ -106,6 +106,12 @@ export class LoginComponent implements OnInit {
       email: '',
       password: ''
     }
+  }
+
+  supportLogin()
+  {
+    console.log("Changed to support")
+    this.CustomerService.apiUrl = "https://localhost:7249/login/support"
   }
 
 }

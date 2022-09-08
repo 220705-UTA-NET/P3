@@ -11,7 +11,7 @@
           <div class="container">
             <input type="text" class="validate" id="email" name="email" required>
             <!-- #email="ngModel" [(ngModel)]="user.email" -->
-            <label data-error="Required Field">Email Address</label>
+            <label data-error="Required Field">Username</label>
   
             <input type="password" class="validate" id="password" name="password" required minlength="4">
             
@@ -35,7 +35,7 @@
         
         <a style="color: black; margin-left:613px; padding-left: 20px; font-size: 12px;" routerLink="/register"><u>Register</u> </a>
           
-  
+        <button (click)="supportLogin()">Support Login</button>
       </div>
     </div>
   </div>
