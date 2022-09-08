@@ -17,7 +17,7 @@ export class BudgetNotifyService {
 
   makeRequest() {
     return this.http.get<WARNING[]>(
-      'https://localhost:7249/Budget/GetCustomerBudgetsWarning/8' // need to change this to pass the users customer ID as a parameter
+      'https://misty-api-dev.azurewebsites.net/Budget/GetCustomerBudgetsWarning/8' // need to change this to pass the users customer ID as a parameter
     );
   }
 }

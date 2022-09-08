@@ -34,7 +34,7 @@ export class AccountComponent {
   accounts: Account[] = [];
 
   getAccounts() {
-    this.http.get(`https://localhost:7249/accounts`, {
+    this.http.get(`https://misty-api-dev.azurewebsites.net/accounts`, {
       params: new HttpParams().set('customerId', this.customerId),
       observe: "response",
       responseType: "json"
@@ -49,7 +49,7 @@ export class AccountComponent {
   addAccount(){
     let headers = new HttpHeaders({ 'Content-Type' : 'application/json', 'Accept' : 'application/json'});
     let args = new HttpParams().set('customerId', this.customerId).set('accountType', 0);
-    this.http.post( `https://localhost:7249/accounts?` + args.toString(), {
+    this.http.post( `https://misty-api-dev.azurewebsites.net/accounts?` + args.toString(), {
       headers: headers
     }).subscribe((result : any) => {
       console.log(result);

@@ -19,7 +19,7 @@ export class UserPasswordDialogComponent implements OnInit {
   private password : string = this.data.data.password;
 
   constructor(private fb : FormBuilder,
-              private dialogRef: MatDialogRef<UserPasswordDialogComponent>,
+              public dialogRef: MatDialogRef<UserPasswordDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data : any) {
                 this.form = this.fb.group({
                   currentPassword : "",

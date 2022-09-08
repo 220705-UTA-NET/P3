@@ -27,7 +27,7 @@ describe('AccountComponent', () => {
   it('should make get request', () => {
     component.getAccounts(1);
 
-    const request = controller.expectOne("https://localhost:7249/accounts?customerId=1");
+    const request = controller.expectOne("https://misty-api-dev.azurewebsites.net/accounts?customerId=1");
 
     const accounts = [{
       accountId: 1,

@@ -31,7 +31,7 @@ export class UserProfileComponent {
     password: ''
   };
   
-  constructor(private http: HttpClient, private dialog: MatDialog) {
+  constructor(private http: HttpClient, public dialog: MatDialog) {
     let login = localStorage.getItem('customer') as string;
     this.customer = JSON.parse(login);
 
@@ -44,7 +44,7 @@ export class UserProfileComponent {
   
   getCustomer(value: any) {
     const headers = {'Access-Control-Allow-Origin' : '*'};
-    this.http.get(`https://localhost:7249/userprofile`, {
+    this.http.get(`https://misty-api-dev.azurewebsites.net/userprofile`, {
          params: new HttpParams().set('customerId', value),
          observe: "response",
          responseType: "json"
@@ -113,7 +113,7 @@ export class UserProfileComponent {
   submitChanges() {
     console.log(this.customer);
     const headers = new HttpHeaders({ 'Content-Type' : 'application/json', 'Accept' : 'application/json'});
-    this.http.put('https://localhost:7249/userprofile', this.customer, {headers}).subscribe()
+    this.http.put('https://misty-api-dev.azurewebsites.net/userprofile', this.customer, {headers}).subscribe()
   }
 
 }

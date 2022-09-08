@@ -17,7 +17,7 @@ const httpOptions = {
 export class CustomerService {
 
 
-  public apiUrl = 'https://localhost:7249/login/customer';
+  public apiUrl = 'https://misty-api-dev.azurewebsites.net/login/customer';
 
   private data: any = [];
 

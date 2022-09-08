@@ -31,8 +31,8 @@ PUT
 DELETE
 ​/Budget​/DeleteBudget​/{budgetId}
   */
-  private apiURL1 = "https://localhost:7249/Budget/";
-  private apiUrl = "https://localhost:7249/Budget/CustomerBudgets/";
+  private apiURL1 = "https://misty-api-dev.azurewebsites.net/Budget/";
+  private apiUrl = "https://misty-api-dev.azurewebsites.net/Budget/CustomerBudgets/";
   constructor(private http:HttpClient) { }
   getBudgetList(customerId:number): Observable<Budget[]>{
     return this.http.get<Budget[]>(this.apiUrl+customerId);
