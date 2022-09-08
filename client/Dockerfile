@@ -10,6 +10,8 @@ COPY package.json /app
 
 RUN npm install
 
+RUN npx browserslist --update-db
+
 COPY . /app
 
 RUN npm run build --omit=dev
