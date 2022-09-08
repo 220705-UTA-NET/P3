@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { UserProfileDialogComponent } from '../user-profile-dialog/user-profile-dialog.component';
 import { UserPasswordDialogComponent } from '../user-password-dialog/user-password-dialog.component';
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
+//import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 export interface Customer {
   id: number,
