@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.IdentityModel.Tokens;
 using server.Data;
 using server.Model;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace server.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamCopper_CustomerController : ControllerBase
