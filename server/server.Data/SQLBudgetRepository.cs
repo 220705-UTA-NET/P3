@@ -23,7 +23,7 @@ namespace server.Data {
                 connection.Open();
 
                 // query string
-                string queryString = "SELECT * FROM Transactions WHERE time BETWEEN '{budget.StartDate}' AND '10-15-2020';";
+                string queryString = "SELECT * FROM project3.Transaction WHERE time BETWEEN '{budget.StartDate}' AND '10-15-2020';";
 
                 // create the sql command
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -59,7 +59,7 @@ namespace server.Data {
                 connection.Open();
 
                 // start and end dates need to change
-                string queryString = "SELECT SUM(amount) FROM Transactions WHERE time BETWEEN @sd AND @ed AND @account=account_id AND type=0;";
+                string queryString = "SELECT SUM(amount) FROM project3.Transaction WHERE time BETWEEN @sd AND @ed AND @account=account_id AND type=0;";
 
                 // create the sql command
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -91,7 +91,7 @@ namespace server.Data {
                 connection.Open();
 
                 // query string
-                string queryString = "INSERT INTO Budgets(customer_id, account_id, monthly_amount, warning_amount, time) VALUES(@customer, @account, @monthly, @warning, @time);";
+                string queryString = "INSERT INTO project3.Budget(customer_id, account_id, monthly_amount, warning_amount, budget_DateTime) VALUES(@customer, @account, @monthly, @warning, @time);";
 
                 // create the sql command
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -130,7 +130,7 @@ namespace server.Data {
 
 
                 // query string
-                string queryString = "UPDATE Budgets SET monthly_amount=@monthly, warning_amount=@warning, time=@time WHERE budget_id=@budget AND account_id=@account AND customer_id=@customer;";
+                string queryString = "UPDATE project3.Budget SET monthly_amount=@monthly, warning_amount=@warning, budget_DateTime=@time WHERE budget_id=@budget AND account_id=@account AND customer_id=@customer;";
                
 
                 // create the sql command
@@ -168,7 +168,7 @@ namespace server.Data {
 
 
                 // query string
-                string queryString = "DELETE FROM Budgets WHERE budget_id=@budget;";
+                string queryString = "DELETE FROM project3.Budget WHERE budget_id=@budget;";
                 //, @customer=customer_id, @account=account_id, @monthly=monthly_amount, @warning=warning_amount;";
 
                 // create the sql command
@@ -206,7 +206,7 @@ namespace server.Data {
                 connection.Open();
 
                 // query string
-                string queryString = "SELECT * FROM Budgets WHERE @customerId=customer_id;";
+                string queryString = "SELECT * FROM project3.Budget WHERE @customerId=customer_id;";
 
                 // create the sql command
                 SqlCommand command = new SqlCommand(queryString, connection);
@@ -220,9 +220,10 @@ namespace server.Data {
                     int budgetId = reader.GetInt32(0);
                     int custId = reader.GetInt32(1);
                     int account_id = reader.GetInt32(2);
-                    double monthly_amount = reader.GetDouble(3);                             
-                    double warning_amount = reader.GetDouble(4);
-                    DateTime date = reader.GetDateTime(5);
+                    DateTime date = reader.GetDateTime(3);
+                    double monthly_amount = reader.GetDouble(4);
+                    double warning_amount = reader.GetDouble(5);
+                    
 
                     //int budgetId, int customerId, int accountId, double monthlyAmount, double warningAmount
                     budgets.Add(new Budget(budgetId, custId, account_id, monthly_amount, warning_amount, date));
