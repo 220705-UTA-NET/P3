@@ -8,9 +8,12 @@ using System.Text.Json.Nodes;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+
 
 namespace server.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class TeamCopper_CustomerController : ControllerBase
